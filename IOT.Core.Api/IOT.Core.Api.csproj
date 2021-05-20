@@ -15,4 +15,6 @@
     <ProjectReference Include="..\IOT.Core.Repository\IOT.Core.Repository.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

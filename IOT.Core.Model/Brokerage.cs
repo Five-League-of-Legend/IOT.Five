@@ -17,7 +17,6 @@ namespace IOT.Core.Model
         public decimal Income            { get; set; }
         public int  State             { get; set; }
         public DateTime  EndTime           { get; set; }
-        public int  OrderFormStatus   { get; set; }
-        
+        public int  OrderFormStatus   { get; set; }        
     }
 }

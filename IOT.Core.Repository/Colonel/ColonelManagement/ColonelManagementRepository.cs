@@ -17,7 +17,7 @@ namespace IOT.Core.Repository.Colonel.ColonelManagement
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        public int AddUsers(Users a)
+        public int AddUsers(Model.Users a)
         {
             string sql = $"  update Users set ColonelID = {a.ColonelID} where UserId = {a.UserId} ;";
             return DapperHelper.Execute(sql);
@@ -56,7 +56,7 @@ namespace IOT.Core.Repository.Colonel.ColonelManagement
         /// </summary>
         /// <param name="ColonelID">团长ID</param>
         /// <returns></returns>
-        public List<Users> ShowUsers(int ColonelID)
+        public List<Model.Users> ShowUsers(int ColonelID)
         {
             string sql = $" select * from Users where ColonelID = {ColonelID} ";
             return DapperHelper.GetList<Model.Users>(sql);
