@@ -1,4 +1,5 @@
 
+using IOT.Core.IRepository.Activity;
 using IOT.Core.IRepository.Agent;
 using IOT.Core.IRepository.Bargain;
 using IOT.Core.IRepository.Colonel;
@@ -8,11 +9,14 @@ using IOT.Core.IRepository.Colonel.ColonelManagement;
 using IOT.Core.IRepository.Colonel.GroupPurchase;
 using IOT.Core.IRepository.Colonel.Path;
 using IOT.Core.IRepository.CommissionRecord;
+using IOT.Core.IRepository.Live;
 using IOT.Core.IRepository.RoleManage;
 using IOT.Core.IRepository.Roles;
+using IOT.Core.IRepository.SeckillCom;
 using IOT.Core.IRepository.Sett;
 using IOT.Core.IRepository.SVIP;
 using IOT.Core.IRepository.Users;
+using IOT.Core.Repository.Activity;
 using IOT.Core.Repository.Agent;
 using IOT.Core.Repository.Bargain;
 using IOT.Core.Repository.Colonel;
@@ -22,8 +26,10 @@ using IOT.Core.Repository.Colonel.ColonelManagement;
 using IOT.Core.Repository.Colonel.GroupPurchase;
 using IOT.Core.Repository.Colonel.Path;
 using IOT.Core.Repository.CommissionRecord;
+using IOT.Core.Repository.Live;
 using IOT.Core.Repository.RoleManage;
 using IOT.Core.Repository.Roles;
+using IOT.Core.Repository.SeckillCom;
 using IOT.Core.Repository.Sett;
 using IOT.Core.Repository.SVIP;
 using IOT.Core.Repository.Users;
@@ -88,7 +94,10 @@ namespace IOT.Core.Api
 
             //--------------------------------------------------------------------------------------
             //dyt
+            services.AddScoped<IActivityRepository, ActivityRepository>();
+            services.AddScoped<ISeckillComRepository, SeckillComRepository>();
             services.AddScoped<IBargainRepository, BargainRepository>();
+            services.AddScoped<ILiveRepository, LiveRepository>();
             //--------------------------------------------------------------------------------------
 
             services.AddCors(options => 

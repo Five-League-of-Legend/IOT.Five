@@ -20,5 +20,7 @@ namespace IOT.Core.Model
         public int AnchorId      { get; set; }
         public DateTime BeginLiveDate { get; set; }
         public DateTime EndLiveDate   { get; set; }
+        public int IsEnable { get; set; }
+        public string AnchorName { get; set; }
     }
 }
