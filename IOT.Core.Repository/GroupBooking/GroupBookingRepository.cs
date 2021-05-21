@@ -24,17 +24,37 @@ namespace IOT.Core.Repository.GroupBooking
 
         public List<Model.GroupBooking> Query()
         {
-            throw new NotImplementedException();
+            string sql = "SELECT a.*,c.NickName,b.CommodityId,b.CommodityPic,b.Remark,b.ShopPrice FROM GroupBooking a join Commodity b on a.CommodityId=b.CommodityId JOIN Colonel c ON a.ColonelID=c.ColonelID";
+            return DapperHelper.GetList<Model.GroupBooking>(sql);
         }
 
-        public int Uotdate(Model.GroupBooking Model)
+        public List<Model.GroupBooking> QueryList()
         {
-            throw new NotImplementedException();
+            string sql = "SELECT a.*,c.NickName,c.HeadPortrait,b.CommodityName FROM GroupBooking a join Commodity b on a.CommodityId=b.CommodityId JOIN Colonel c ON a.ColonelID=c.ColonelID";
+            return DapperHelper.GetList<Model.GroupBooking>(sql);
+        }
+
+        public int Uptdate(Model.GroupBooking Model)
+        {
+            string sql = $"UPDATE GroupBooking SET ColonelID={Model.ColonelID},CommodityId={Model.CommodityId},GroupBookingName='{Model.GroupBookingName}',GroupBookingRemark='{Model.GroupBookingRemark}',GroupBookingUnit='{Model.GroupBookingUnit}',GroupBookingSdate='{Model.GroupBookingSdate}',GroupBookingZdate='{Model.GroupBookingZdate}',GroupBookingResults={Model.GroupBookingResults},GroupBookingNumber={Model.GroupBookingNumber},GroupBookingSellLimitNum={Model.GroupBookingSellLimitNum},GroupBookingSort={Model.GroupBookingSort},GroupBookingTemplate={Model.GroupBookingTemplate},GroupBookingState={Model.GroupBookingState},GroupBookingPrice={Model.GroupBookingPrice},GroupBookingLimitNum={Model.GroupBookingLimitNum} where GroupBookingID ={Model.GroupBookingID}";
+            return DapperHelper.Execute(sql);
         }
 
         public int UptZt(int bid)
         {
-            throw new NotImplementedException();
+            string sql = "select * FROM groupbooking";
+            List<Model.GroupBooking> lg = DapperHelper.GetList<Model.GroupBooking>(sql);
+            Model.GroupBooking mg = lg.FirstOrDefault(x => x.GroupBookingID.Equals(bid));
+            string sql1 = "";
+            if (mg.GroupBookingState==0)
+            {
+                sql1 = $"UPDATE GroupBooking SET GroupBookingState=GroupBookingState+1 WHERE GroupBookingID={bid}";
+            }
+            else
+            {
+                sql1 = $"UPDATE GroupBooking SET GroupBookingState=GroupBookingState-1 WHERE GroupBookingID={bid}";
+            }
+            return DapperHelper.Execute(sql1);
         }
     }
 }

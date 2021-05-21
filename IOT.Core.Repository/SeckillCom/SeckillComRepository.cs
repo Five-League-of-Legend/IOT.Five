@@ -36,7 +36,7 @@ namespace IOT.Core.Repository.SeckillCom
 
         public int UptZt(int sid)
         {
-            string sql = "select a.*,b.ActivityId,c.CommodityPic,b.ActivityName,b.BeginTime,b.EndTime,c.ShopPrice,NOW() times,c.CommodityName FROM SeckillCom a JOIN Activity b ON a.ActivityId=b.ActivityId JOIN Commodity c ON a.CommodityId=c.CommodityId";
+            string sql = "select * FROM SeckillCom";
             List<Model.Activity> la = DapperHelper.GetList<Model.Activity>(sql);
             Model.Activity aa = la.FirstOrDefault(x => x.ActivityId.Equals(sid));
             string sql1 = "";

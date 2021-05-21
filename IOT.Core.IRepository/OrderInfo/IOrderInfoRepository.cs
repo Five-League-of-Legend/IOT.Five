@@ -9,11 +9,11 @@ namespace IOT.Core.IRepository.OrderInfo
     public interface IOrderInfoRepository
     {
         /// <summary>
-        /// 修改表单
+        /// 修改订单
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        int UptOrderInfo(IOT.Core.Model.Users a);
+        int UptOrderInfo(IOT.Core.Model.OrderInfo a);
 
         /// <summary>
         /// 显示表单
@@ -28,12 +28,25 @@ namespace IOT.Core.IRepository.OrderInfo
         /// <param name="CommodityName">商品名称</param>
         /// <param name="SendWay">自提点</param>
         /// <returns></returns>
-        List<IOT.Core.Model.ViewOrderInfoAndCommodityCommodity> ShowViewOrderInfo(
+        List<IOT.Core.Model.ViewOrderInfoAndCommodity> ShowViewOrderInfo(
             int searchType,string searchContent,
             string sTime,string eTime,int refundStatus,
             int orderState,int userId,string CommodityName,
             int SendWay
             );
+
+        /// <summary>
+        /// 统计订单
+        /// </summary>
+        /// <param name="sum">订单数量</param>
+        /// <param name="payment">待付款</param>
+        /// <param name="deliver">待发货</param>
+        /// <param name="evaluate">待评价</param>
+        /// <param name="safeguard">维权中</param>
+        /// <param name="today">今日下单量</param>
+        /// <param name="figure">今日订单金额</param>
+        /// <returns></returns>
+        string StatisticsOrder();
 
 
     }

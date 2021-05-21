@@ -35,6 +35,26 @@ namespace IOT.Core.Api.Controllers
         {
             return _specificationRepository.Delete(ids);
         }
+        [HttpGet]
+        [Route("api/UptState")]
+        public List<Model.Specification> UptState(int id)
+        {
+            return _specificationRepository.UptState(id);
+        }
+        [HttpPost]
+        [Route("api/Uptss")]
+        public int Uptss(Model.Specification c)
+        {
+            return _specificationRepository.Uptss(c);
+        }
+        [HttpPost]
+        [Route("api/Deletes")]
+        public int Deletes(string id)
+        {
+
+            return _specificationRepository.Deletes(id);
+
+        }
 
 
 

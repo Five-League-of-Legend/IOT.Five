@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOT.Core.Model
 {
-    public class ViewOrderInfoAndCommodityCommodity
+    public class ViewOrderInfoAndCommodity
     {
         public int Orderid { get; set; }
         public int CommodityId { get; set; }
@@ -30,8 +30,9 @@ namespace IOT.Core.Model
         public string Phone { get; set; }    //买家电话
         public string Address { get; set; }    //买家地址
 
-        
-            
-            
+        public string ColonelName { get; set; } //团长姓名
+        public string Region { get; set; }      //团长小区
+
+
     }
 }

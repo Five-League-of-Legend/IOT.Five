@@ -12,5 +12,8 @@ namespace IOT.Core.IRepository.Specification
         int Insert(Model.Specification Model);
         List<Model.Specification> Query();
         List<Model.Specification> Query(string commspec = "");
+        List<Model.Specification> UptState(int id);
+        int Uptss(Model.Specification c);
+        int Deletes(string id);
     }
 }

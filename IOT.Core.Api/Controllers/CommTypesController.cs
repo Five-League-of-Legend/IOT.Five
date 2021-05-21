@@ -22,10 +22,25 @@ namespace IOT.Core.Api.Controllers
         }
         [Route("api/Show")]
         [HttpGet]
-        public List<IOT.Core.Model.CommType> Show(int tid=0)
+        public IActionResult Show(string tname="", int state=0)
         {
-
-            return _commTypeRepository.Query(tid);
+            var list = _commTypeRepository.Query(tname,state);
+            if (!string.IsNullOrEmpty(tname))
+            {
+                list = list.Where(x => x.TName.Contains(tname)).ToList();
+            }
+            if (state!=0)
+            {
+                list = list.Where(x => x.State.Equals(state)).ToList();
+            }
+            return Ok(list);
+           
+        }
+        [Route("api/Bang")]
+        [HttpGet]
+        public List<Model.CommType> Bang(int ParentId)
+        {
+            return _commTypeRepository.Bang(ParentId);
         }
         [Route("api/Add")]
         [HttpPost]
