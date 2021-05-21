@@ -36,7 +36,7 @@ namespace IOT.Core.Repository.Bargain
 
         public int UptZt(int bid)
         {
-            string sql = "SELECT a.*,b.CommodityName,b.CommodityPic from Bargain a JOIN Commodity b ON a.CommodityId=b.CommodityId";
+            string sql = "select * FROM Bargain";
             List<Model.Bargain> lb = DapperHelper.GetList<Model.Bargain>(sql);
             Model.Bargain ba = lb.FirstOrDefault(x => x.BargainId.Equals(bid));
             string sql1 = "";

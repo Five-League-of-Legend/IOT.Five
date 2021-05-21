@@ -11,7 +11,8 @@ namespace IOT.Core.IRepository.GroupBooking
         int Delete(string ids);
         int Insert(Model.GroupBooking Model);
         List<Model.GroupBooking> Query();
-        int Uotdate(Model.GroupBooking Model);
+        List<Model.GroupBooking> QueryList();
+        int Uptdate(Model.GroupBooking Model);
         int UptZt(int bid);
     }
 }

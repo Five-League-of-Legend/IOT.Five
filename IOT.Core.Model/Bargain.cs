@@ -27,5 +27,6 @@ namespace IOT.Core.Model
         public float BargainSum { get; set; }
         public string CommodityPic { get; set; }
         public string CommodityName { get; set; }
+        public string Remark { get; set; }
     }
 }

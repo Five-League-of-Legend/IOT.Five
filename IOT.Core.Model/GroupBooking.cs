@@ -16,7 +16,7 @@ namespace IOT.Core.Model
         public int CommodityId              { get; set; }
         public string GroupBookingName         { get; set; }
         public string GroupBookingRemark       { get; set; }
-        public int GroupBookingUnit         { get; set; }
+        public string GroupBookingUnit         { get; set; }
         public DateTime GroupBookingSdate        { get; set; }
         public DateTime GroupBookingZdate        { get; set; }
         public int GroupBookingResults      { get; set; }
@@ -27,5 +27,11 @@ namespace IOT.Core.Model
         public int GroupBookingState        { get; set; }
         public decimal GroupBookingPrice        { get; set; }
         public int GroupBookingLimitNum { get; set; }
+        public string NickName { get; set; }
+        public string CommodityName { get; set; }
+        public string HeadPortrait { get; set; }
+        public string CommodityPic { get; set; }
+        public string ShopPrice { get; set; }
+        public string Remark { get; set; }
     }
 }

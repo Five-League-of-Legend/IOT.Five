@@ -46,7 +46,7 @@ namespace IOT.Core.Repository.Live
 
         public int UptZt(int lid)
         {
-            string sql = $"SELECT a.*,b.AnchorName FROM live a join anchor b ON a.anchorId=b.anchorId";
+            string sql = $"select * FROM live";
             List<Model.Live> lv = DapperHelper.GetList<Model.Live>(sql);
             Model.Live ll = lv.FirstOrDefault(x => x.LiveId.Equals(lid));
             string sql1 = "";

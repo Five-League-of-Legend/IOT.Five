@@ -1,5 +1,6 @@
 
 using IOT.Core.IRepository.Activity;
+using IOT.Core.IRepository.GroupBooking;
 using IOT.Core.IRepository.Agent;
 using IOT.Core.IRepository.Bargain;
 using IOT.Core.IRepository.Colonel;
@@ -28,6 +29,7 @@ using IOT.Core.IRepository.Users;
 using IOT.Core.IRepository.Warehouse;
 using IOT.Core.IRepository.Withdrawal;
 using IOT.Core.Repository.Activity;
+using IOT.Core.Repository.GroupBooking;
 using IOT.Core.Repository.Agent;
 using IOT.Core.Repository.Bargain;
 using IOT.Core.Repository.Colonel;
@@ -120,6 +122,7 @@ namespace IOT.Core.Api
             services.AddScoped<ISeckillComRepository, SeckillComRepository>();
             services.AddScoped<IBargainRepository, BargainRepository>();
             services.AddScoped<ILiveRepository, LiveRepository>();
+            services.AddScoped<IGroupBookingRepository, GroupBookingRepository>();
             //--------------------------------------------------------------------------------------
 
             //wpc-----------------------------------------
