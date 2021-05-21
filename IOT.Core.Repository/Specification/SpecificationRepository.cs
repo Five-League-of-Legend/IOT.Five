@@ -35,7 +35,27 @@ namespace IOT.Core.Repository.Specification
 
 
         }
-        
+        public List<Model.Specification> UptState(int id)
+        {
+            string sql = $"select * from Specification where SId ={id}";
+            return DapperHelper.GetList<Model.Specification>(sql);
+        }
+        public int Uptss(Model.Specification c)
+        {
+            string sql = $"update CommType set SpecificationName='{c.SpecificationName}' where SId={c.SId} ";
+            return DapperHelper.Execute(sql);
+        }
+
+        public int Deletes(string id)
+        {
+
+            string sql = $"delete from Specification where SId in ({id})";
+
+            return DapperHelper.Execute(sql);
+
+        }
+
+
 
         public List<Model.Specification> Query()
         {

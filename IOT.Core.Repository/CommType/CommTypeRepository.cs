@@ -32,13 +32,16 @@ namespace IOT.Core.Repository.CommType
             return DapperHelper.Execute(sql);
         }
 
-        public List<Model.CommType> Query(int tid=0)
+        public List<Model.CommType> Bang(int ParentId)
         {
-            string sql = $"select * from CommType";
-            if (tid!=0)
-            {
-                sql += $"  where TId ={tid}";
-            }
+            string sql = $"select * from CommType where ParentId=0";
+           
+            return DapperHelper.GetList<Model.CommType>(sql);
+        }
+        public List<Model.CommType> Query(string ttname,int state)
+        {
+            string sql = $"select * from CommType ";
+           
             return DapperHelper.GetList<Model.CommType>(sql);
         }
         public List<Model.CommType> UptState(int id)
@@ -52,11 +55,8 @@ namespace IOT.Core.Repository.CommType
             return DapperHelper.Execute(sql);
         }
 
-        public List<Model.CommType> Query()
-        {
-            throw new NotImplementedException();
-        }
-
       
+
+    
     }
 }

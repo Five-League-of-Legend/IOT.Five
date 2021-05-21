@@ -8,6 +8,7 @@ using IOT.Core.IRepository.Colonel.ColonelGrade;
 using IOT.Core.IRepository.Colonel.ColonelManagement;
 using IOT.Core.IRepository.Colonel.GroupPurchase;
 using IOT.Core.IRepository.Colonel.Path;
+using IOT.Core.IRepository.Com_Comment;
 using IOT.Core.IRepository.CommissionRecord;
 using IOT.Core.IRepository.CommodityRepository;
 using IOT.Core.IRepository.CommType;
@@ -36,6 +37,7 @@ using IOT.Core.Repository.Colonel.ColonelGrade;
 using IOT.Core.Repository.Colonel.ColonelManagement;
 using IOT.Core.Repository.Colonel.GroupPurchase;
 using IOT.Core.Repository.Colonel.Path;
+using IOT.Core.Repository.Com_Comment;
 using IOT.Core.Repository.CommissionRecord;
 using IOT.Core.Repository.Commodity;
 using IOT.Core.Repository.CommType;
@@ -126,6 +128,7 @@ namespace IOT.Core.Api
             services.AddScoped<ICommodityRepository, CommodityRepository>();
             services.AddScoped<ICommTypeRepository, CommTypeRepository>();
             services.AddScoped<ISpecificationRepository, SpecificationRepository>();
+            services.AddSingleton<ICom_CommentRepository, Com_CommentRepository>();
             //--------------------------------------------
 
             //zx-------------------------------------------------------------------------------------

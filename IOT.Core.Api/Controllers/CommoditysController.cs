@@ -22,13 +22,12 @@ namespace IOT.Core.Api.Controllers
         }
         [Route("/api/Commshow")]
         [HttpGet]
-        public IActionResult Commshow()
+        public IActionResult Commshow(int code=1,int tid=0,string keyname="")
         {
-            var list = _commodityRepository.Query();
+            var list = _commodityRepository.Query(code,tid,keyname);
             return Ok(list
             
-               
-
+        
             );
         }
         [Route("/api/Add")]
