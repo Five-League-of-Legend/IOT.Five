@@ -25,6 +25,7 @@ namespace IOT.Core.Model
         public string ActivityName { get; set; }
         public DateTime BeginTime { get; set; }
         public DateTime EndTime { get; set; }
+        public string Diff { get { return BeginTime.ToString("HH:ss") + "-" + EndTime.ToString("HH:ss"); } }
         public string CommodityPic { get; set; }
         public float ShopPrice { get; set; }
         public DateTime times { get; set; }
