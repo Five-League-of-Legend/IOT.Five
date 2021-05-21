@@ -50,6 +50,17 @@ namespace IOT.Core.Api.Controllers
             });
         }
 
+        //反填
+        [Route("/api/ActivityShowFT")]
+        [HttpGet]
+        public IActionResult ActivityShowFT(int ftid)
+        {
+            //获取全部数据
+            var ls = _activityRepository.Query();
+            Model.Activity aa = ls.FirstOrDefault(x => x.ActivityId.Equals(ftid));
+            return Ok(aa);
+        }
+
         //删除
         [Route("/api/ActivityDel")]
         [HttpDelete]

@@ -43,6 +43,17 @@ namespace IOT.Core.Api.Controllers
                 data = lb.Skip((page - 1) * limit).Take(limit)
             });
         }
+
+        //反填
+        [Route("/api/ShowBargainFT")]
+        [HttpGet]
+        public IActionResult ShowBargainFT(int ftid)
+        {
+            //获取全部数据
+            var ls = _bargainRepository.Query();
+            Model.Bargain aa = ls.FirstOrDefault(x => x.BargainId.Equals(ftid));
+            return Ok(aa);
+        }
         /// <summary>
         /// 显示砍价列表
         /// </summary>

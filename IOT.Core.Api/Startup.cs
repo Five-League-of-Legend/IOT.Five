@@ -1,7 +1,7 @@
 
 using IOT.Core.IRepository.Activity;
+using IOT.Core.IRepository.GroupBooking;
 using IOT.Core.IRepository.Agent;
-using IOT.Core.IRepository.Bargain;
 using IOT.Core.IRepository.Colonel;
 using IOT.Core.IRepository.Colonel.Brokerage;
 using IOT.Core.IRepository.Colonel.ColonelGrade;
@@ -17,6 +17,7 @@ using IOT.Core.IRepository.Live;
 using IOT.Core.IRepository.OutLibrary;
 using IOT.Core.IRepository.PayStore;
 using IOT.Core.IRepository.PutLibrary;
+using IOT.Core.IRepository.OrderInfo;
 using IOT.Core.IRepository.RoleManage;
 using IOT.Core.IRepository.Roles;
 using IOT.Core.IRepository.SeckillCom;
@@ -29,8 +30,8 @@ using IOT.Core.IRepository.Users;
 using IOT.Core.IRepository.Warehouse;
 using IOT.Core.IRepository.Withdrawal;
 using IOT.Core.Repository.Activity;
+using IOT.Core.Repository.GroupBooking;
 using IOT.Core.Repository.Agent;
-using IOT.Core.Repository.Bargain;
 using IOT.Core.Repository.Colonel;
 using IOT.Core.Repository.Colonel.Brokerage;
 using IOT.Core.Repository.Colonel.ColonelGrade;
@@ -39,13 +40,7 @@ using IOT.Core.Repository.Colonel.GroupPurchase;
 using IOT.Core.Repository.Colonel.Path;
 using IOT.Core.Repository.Com_Comment;
 using IOT.Core.Repository.CommissionRecord;
-using IOT.Core.Repository.Commodity;
-using IOT.Core.Repository.CommType;
-using IOT.Core.Repository.Delivery;
-using IOT.Core.Repository.Live;
-using IOT.Core.Repository.OutLibrary;
-using IOT.Core.Repository.PayStore;
-using IOT.Core.Repository.PutLibrary;
+using IOT.Core.Repository.OrderInfo;
 using IOT.Core.Repository.RoleManage;
 using IOT.Core.Repository.Roles;
 using IOT.Core.Repository.SeckillCom;
@@ -59,16 +54,19 @@ using IOT.Core.Repository.Warehouse;
 using IOT.Core.Repository.Withdrawal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using IOT.Core.Repository.Commodity;
+using IOT.Core.Repository.CommType;
+using IOT.Core.Repository.Delivery;
+using IOT.Core.Repository.OutLibrary;
+using IOT.Core.Repository.PayStore;
+using IOT.Core.Repository.PutLibrary;
+using IOT.Core.IRepository.Bargain;
+using IOT.Core.Repository.Bargain;
+using IOT.Core.Repository.Live;
 
 namespace IOT.Core.Api
 {
@@ -99,6 +97,11 @@ namespace IOT.Core.Api
             services.AddSingleton<IGroupPurchaseRepository, GroupPurchaseRepository>();
             services.AddSingleton<IPathRepository, PathRepository>();
             services.AddSingleton<IBrokerageRepository, BrokerageRepository>();
+            services.AddSingleton<IOrderInfoRepository, OrderInfoRepository>();
+            services.AddSingleton<IOrderCommentRepository, OrderCommentRepository>();
+            services.AddSingleton<IOrderDelivery, OrderDelivery>();
+
+            
             //--------------------------------------------------------------------------------------
 
 
@@ -122,6 +125,7 @@ namespace IOT.Core.Api
             services.AddScoped<ISeckillComRepository, SeckillComRepository>();
             services.AddScoped<IBargainRepository, BargainRepository>();
             services.AddScoped<ILiveRepository, LiveRepository>();
+            services.AddScoped<IGroupBookingRepository, GroupBookingRepository>();
             //--------------------------------------------------------------------------------------
 
             //wpc-----------------------------------------
