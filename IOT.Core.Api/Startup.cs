@@ -56,6 +56,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using IOT.Core.Repository.Commodity;
+using IOT.Core.Repository.CommType;
+using IOT.Core.Repository.Delivery;
+using IOT.Core.Repository.OutLibrary;
+using IOT.Core.Repository.PayStore;
+using IOT.Core.Repository.PutLibrary;
+using IOT.Core.IRepository.Bargain;
+using IOT.Core.Repository.Bargain;
+using IOT.Core.Repository.Live;
 
 namespace IOT.Core.Api
 {
@@ -110,7 +119,11 @@ namespace IOT.Core.Api
 
             //--------------------------------------------------------------------------------------
             //dyt
-
+            services.AddScoped<IActivityRepository, ActivityRepository>();
+            services.AddScoped<ISeckillComRepository, SeckillComRepository>();
+            services.AddScoped<IBargainRepository, BargainRepository>();
+            services.AddScoped<ILiveRepository, LiveRepository>();
+            services.AddScoped<IGroupBookingRepository, GroupBookingRepository>();
             //--------------------------------------------------------------------------------------
 
             //wpc-----------------------------------------
