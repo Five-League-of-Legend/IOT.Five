@@ -1,4 +1,4 @@
-﻿using IOT.Core.Repository.Withdrawal;
+﻿using IOT.Core.IRepository.Withdrawal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,10 +14,10 @@ namespace IOT.Core.Api.Controllers
     {
 
         // 依赖注入
-        private readonly WithdrawalRepository _withdrawal;
-        public WithdrawalController(WithdrawalRepository withdrawal)
+        private readonly IWithdrawalRepository _withdrawalRepository;
+        public WithdrawalController(IWithdrawalRepository withdrawalRepository)
         {
-            _withdrawal = withdrawal;
+            _withdrawalRepository=withdrawalRepository;
         }
 
         // 显示
@@ -25,7 +25,7 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public IActionResult WithdrawalShow()
         {
-            var ls = _withdrawal.ShowIWithdrawal();
+            var ls = _withdrawalRepository.ShowIWithdrawal();
             return Ok(new { msg = "", code = 0, data = ls });
         }
 
