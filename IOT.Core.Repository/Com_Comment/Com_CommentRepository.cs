@@ -27,15 +27,15 @@ namespace IOT.Core.Repository.Com_Comment
             string sql = $"select * from Com_Comment a join Commodity b on a.CommodityId=b.CommodityId join Users c on a.UserId=c.UserId where 1=1";
             if (!string.IsNullOrEmpty(commentcontent))
             { 
-                sql += $" and Com_Comment like '%{commentcontent}%'";
+                sql += $" and CommentContent like '%{commentcontent}%'";
             }
             if (commodityid!=0)
             {
-                sql += $"  where CommodityId ={commodityid}";
+                sql += $"  and CommodityId ={commodityid}";
             }
             if (userid!=0)
             {
-                sql += $"  where UserId ={userid}";
+                sql += $"  and UserId ={userid}";
             }
             return DapperHelper.GetList<Model.Com_Comment>(sql);
         }
