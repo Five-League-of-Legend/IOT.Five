@@ -9,11 +9,14 @@ using IOT.Core.IRepository.Colonel.ColonelManagement;
 using IOT.Core.IRepository.Colonel.GroupPurchase;
 using IOT.Core.IRepository.Colonel.Path;
 using IOT.Core.IRepository.CommissionRecord;
+using IOT.Core.IRepository.CommodityRepository;
+using IOT.Core.IRepository.CommType;
 using IOT.Core.IRepository.Live;
 using IOT.Core.IRepository.RoleManage;
 using IOT.Core.IRepository.Roles;
 using IOT.Core.IRepository.SeckillCom;
 using IOT.Core.IRepository.Sett;
+using IOT.Core.IRepository.Specification;
 using IOT.Core.IRepository.SVIP;
 using IOT.Core.IRepository.Users;
 using IOT.Core.Repository.Activity;
@@ -26,11 +29,14 @@ using IOT.Core.Repository.Colonel.ColonelManagement;
 using IOT.Core.Repository.Colonel.GroupPurchase;
 using IOT.Core.Repository.Colonel.Path;
 using IOT.Core.Repository.CommissionRecord;
+using IOT.Core.Repository.Commodity;
+using IOT.Core.Repository.CommType;
 using IOT.Core.Repository.Live;
 using IOT.Core.Repository.RoleManage;
 using IOT.Core.Repository.Roles;
 using IOT.Core.Repository.SeckillCom;
 using IOT.Core.Repository.Sett;
+using IOT.Core.Repository.Specification;
 using IOT.Core.Repository.SVIP;
 using IOT.Core.Repository.Users;
 using Microsoft.AspNetCore.Builder;
@@ -99,6 +105,13 @@ namespace IOT.Core.Api
             services.AddScoped<IBargainRepository, BargainRepository>();
             services.AddScoped<ILiveRepository, LiveRepository>();
             //--------------------------------------------------------------------------------------
+
+            //wpc-----------------------------------------
+            services.AddScoped<ICommodityRepository, CommodityRepository>();
+            services.AddScoped<ICommTypeRepository, CommTypeRepository>();
+            services.AddScoped<ISpecificationRepository, SpecificationRepository>();
+            //--------------------------------------------
+
 
             services.AddCors(options => 
             options.AddPolicy("cors",
