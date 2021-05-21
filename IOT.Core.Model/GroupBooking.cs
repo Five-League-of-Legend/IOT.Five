@@ -16,7 +16,7 @@ namespace IOT.Core.Model
         public int CommodityId              { get; set; }
         public string GroupBookingName         { get; set; }
         public string GroupBookingRemark       { get; set; }
-        public int GroupBookingUnit         { get; set; }
+        public string GroupBookingUnit         { get; set; }
         public DateTime GroupBookingSdate        { get; set; }
         public DateTime GroupBookingZdate        { get; set; }
         public int GroupBookingResults      { get; set; }

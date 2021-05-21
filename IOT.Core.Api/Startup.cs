@@ -1,6 +1,5 @@
 
 using IOT.Core.IRepository.Agent;
-using IOT.Core.IRepository.Bargain;
 using IOT.Core.IRepository.Colonel;
 using IOT.Core.IRepository.Colonel.Brokerage;
 using IOT.Core.IRepository.Colonel.ColonelGrade;
@@ -8,13 +7,13 @@ using IOT.Core.IRepository.Colonel.ColonelManagement;
 using IOT.Core.IRepository.Colonel.GroupPurchase;
 using IOT.Core.IRepository.Colonel.Path;
 using IOT.Core.IRepository.CommissionRecord;
+using IOT.Core.IRepository.OrderInfo;
 using IOT.Core.IRepository.RoleManage;
 using IOT.Core.IRepository.Roles;
 using IOT.Core.IRepository.Sett;
 using IOT.Core.IRepository.SVIP;
 using IOT.Core.IRepository.Users;
 using IOT.Core.Repository.Agent;
-using IOT.Core.Repository.Bargain;
 using IOT.Core.Repository.Colonel;
 using IOT.Core.Repository.Colonel.Brokerage;
 using IOT.Core.Repository.Colonel.ColonelGrade;
@@ -22,6 +21,7 @@ using IOT.Core.Repository.Colonel.ColonelManagement;
 using IOT.Core.Repository.Colonel.GroupPurchase;
 using IOT.Core.Repository.Colonel.Path;
 using IOT.Core.Repository.CommissionRecord;
+using IOT.Core.Repository.OrderInfo;
 using IOT.Core.Repository.RoleManage;
 using IOT.Core.Repository.Roles;
 using IOT.Core.Repository.Sett;
@@ -29,16 +29,10 @@ using IOT.Core.Repository.SVIP;
 using IOT.Core.Repository.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace IOT.Core.Api
 {
@@ -69,6 +63,11 @@ namespace IOT.Core.Api
             services.AddSingleton<IGroupPurchaseRepository, GroupPurchaseRepository>();
             services.AddSingleton<IPathRepository, PathRepository>();
             services.AddSingleton<IBrokerageRepository, BrokerageRepository>();
+            services.AddSingleton<IOrderInfoRepository, OrderInfoRepository>();
+            services.AddSingleton<IOrderCommentRepository, OrderCommentRepository>();
+            services.AddSingleton<IOrderDelivery, OrderDelivery>();
+
+            
             //--------------------------------------------------------------------------------------
 
 
@@ -88,7 +87,7 @@ namespace IOT.Core.Api
 
             //--------------------------------------------------------------------------------------
             //dyt
-            services.AddScoped<IBargainRepository, BargainRepository>();
+
             //--------------------------------------------------------------------------------------
 
             services.AddCors(options => 
