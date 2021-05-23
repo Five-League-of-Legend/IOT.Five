@@ -41,6 +41,68 @@ namespace IOT.Core.Api.Controllers
             _brokerageRepository = brokerageRepository;
         }
 
+        //================================================================================================
+
+        /// <summary>
+        /// 佣金流水   两表联查
+        /// </summary>
+        /// <param name="status">佣金状态</param>
+        /// <param name="orderFormStatus">订单状态</param>
+        /// <param name="colonel">所属团长</param>
+        /// <param name="orderNumber">订单号</param>
+        /// <returns></returns>  
+        [HttpGet]
+        [Route("/api/GetBrokerages")]
+        public IActionResult GetBrokerages(int status, int orderFormStatus, string colonel, string orderNumber)
+        {
+            List<Model.ViewColonelAndBrokerage> list = _brokerageRepository.GetBrokerages(status, orderFormStatus, colonel, orderNumber);
+
+            return Ok(list);
+        }
+
+
+        /// <summary>
+        /// 删除佣金流水
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/api/DelBrokerage")]
+        public int DelBrokerage(int id)
+        {
+            int i = _brokerageRepository.DelBrokerage(id);
+            return i;
+        }
+
+
+        /// <summary>
+        /// 修改佣金流水
+        /// </summary>
+        /// <param name="brokerage"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("/api/UptBrokerage")]
+        public int UptBrokerage(Model.Brokerage brokerage)
+        {
+            int i = _brokerageRepository.UptBrokerage(brokerage);
+            return i;
+        }
+
+        /// <summary>
+        /// 添加佣金流水
+        /// </summary>
+        /// <param name="brokerage"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("/api/AddBrokerage")]
+        public int AddBrokerage(Model.Brokerage brokerage)
+        {
+            int i = _brokerageRepository.AddBrokerage(brokerage);
+            return i;
+        }
+
+
+
         //-------------------------------------------------------------------------------------------------
         //5.20
 
@@ -108,11 +170,11 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/GetShowPath")]
         public IActionResult GetShowPath(int PathID = -1)
         {
-            List<Model.Path>  paths = _pathRepository.ShowPath(PathID);
+            List<Model.Path> paths = _pathRepository.ShowPath(PathID);
 
             return Ok(paths);
         }
-        
+
         /// <summary>
         /// 添加路线
         /// </summary>
@@ -188,10 +250,12 @@ namespace IOT.Core.Api.Controllers
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [Route("/api/UptColonel_CheckStatus")]
-        public int UptColonel_CheckStatus(Model.ColonelManagement colonelManagement)
+        public int UptColonel_CheckStatus(int cmid, int statu)
         {
+            Model.ColonelManagement colonelManagement = new Model.ColonelManagement() { CMId = cmid, CheckStatus = statu };
+
             int i = _colonelManagementRepository.UptColonel_CheckStatus(colonelManagement);
             return i;
         }
