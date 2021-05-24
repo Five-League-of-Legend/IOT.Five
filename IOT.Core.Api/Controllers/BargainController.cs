@@ -27,7 +27,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/ShowBargain")]
-        public IActionResult ShowBargain(int zt = 2, string keyname = "", int page = 1, int limit = 3)
+        public IActionResult ShowBargain(int zt = 0, string keyname = "", int page = 1, int limit = 3)
         {
             List<Model.Bargain> lb = _bargainRepository.Query();
             lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
