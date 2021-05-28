@@ -1,4 +1,5 @@
-
+using IOT.Core.IRepository.Login;
+using IOT.Core.Repository.Login;
 using IOT.Core.IRepository.Activity;
 using IOT.Core.IRepository.GroupBooking;
 using IOT.Core.IRepository.Agent;
@@ -115,6 +116,7 @@ namespace IOT.Core.Api
             services.AddSingleton<ISVIPRepository, SVIPRepository>();
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IRolesRepository, RolesRepository>();
+            services.AddSingleton<ILoginRepository, LoginRepository>();
             //--------------------------------------------------------------------------------------
 
 

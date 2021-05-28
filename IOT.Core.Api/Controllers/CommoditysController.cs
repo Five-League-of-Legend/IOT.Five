@@ -25,11 +25,21 @@ namespace IOT.Core.Api.Controllers
         public IActionResult Commshow(int code=1,int tid=0,string keyname="")
         {
             var list = _commodityRepository.Query(code,tid,keyname);
-            return Ok(list
-            
+            return Ok(list           
         
             );
         }
+
+        [Route("/api/BindCommshow")]
+        [HttpGet]
+        public IActionResult BindCommshow()
+        {
+            var list = _commodityRepository.BindShowCom();
+            return Ok(list
+
+            );
+        }
+
         [Route("/api/Add")]
         [HttpPost]
         public int Add(Commodity commodity)

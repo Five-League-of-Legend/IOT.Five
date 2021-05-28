@@ -31,11 +31,27 @@ namespace IOT.Core.Repository.Live
 
         public List<Model.Commodity> SelectGoods(int lid)
         {
-            string sql = $"SELECT GoodId FROM live where LiveId ={lid}";
-            object goodid = DapperHelper.Exescalar(sql);
-            string sql1 = $"SELECT * FROM Commodity WHERE CommodityId IN ({goodid})";
-            List<Model.Commodity> lc = DapperHelper.GetList<Model.Commodity>(sql1);
-            return lc;
+            if (lid != 0)
+            {
+                string sql = $"SELECT GoodId FROM live where LiveId ={lid}";
+                object goodid = DapperHelper.Exescalar(sql);
+                if (goodid != null)
+                {
+                    string sql1 = $"SELECT * FROM Commodity WHERE CommodityId IN ({goodid})";
+                    List<Model.Commodity> lc = DapperHelper.GetList<Model.Commodity>(sql1);
+                    return lc;
+                }
+                else
+                {
+                    List<Model.Commodity> lc = new List<Model.Commodity>();
+                    return lc;
+                }
+            }
+            else
+            {
+                List<Model.Commodity> lc = new List<Model.Commodity>();
+                return lc;
+            }
         }
 
         public int UptDate(Model.Live Model)

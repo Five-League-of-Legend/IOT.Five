@@ -11,13 +11,26 @@ namespace IOT.Core.Repository.OrderInfo
 {
     public class OrderCommentRepository : IOrderCommentRepository
     {
+
+
+        /// <summary>
+        /// 删除评论
+        /// </summary>
+        /// <param name="orderComment"></param>
+        /// <returns></returns>
+        public int DelOrderCom(int id)
+        {
+            string sql = $" delete from OrderComment where Commentid = {id} ";
+            return DapperHelper.Execute(sql);
+        }
+
         /// <summary>
         /// 订单管理
         /// </summary>
         /// <returns></returns>
         public List<ViewOrderComAndCom_Com> ShowOrderCom()
         {
-            string sql = " select * from ordercomment a join com_comment b on a.Com_CommentId = b.Com_CommentId" ;
+            string sql = " select a.*,b.*,c.CommodityName,c.CommodityPic from ordercomment a join com_comment b on a.Com_CommentId = b.Com_CommentId join Commodity c on b.CommodityId=c.CommodityId  ";
             return DapperHelper.GetList<ViewOrderComAndCom_Com>(sql);
         }
 

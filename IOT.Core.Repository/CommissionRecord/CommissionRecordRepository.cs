@@ -14,7 +14,7 @@ namespace IOT.Core.Repository.CommissionRecord
 
         public List<Model.CommissionRecord> ShowCommissionRecord()
         {
-            string sql = "select * from CommissionRecord";
+            string sql = "select * from Brokerage";
             return DapperHelper.GetList<Model.CommissionRecord>(sql);
         }
     }

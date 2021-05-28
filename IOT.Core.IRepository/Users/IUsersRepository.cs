@@ -13,7 +13,10 @@ namespace IOT.Core.IRepository.Users
         int AddUsers(IOT.Core.Model.Users a);
 
         //显示
-        List<IOT.Core.Model.Users> ShowUsers();
+        List<IOT.Core.Model.Users> ShowUsers(); 
+
+        //显示审核员
+        List<IOT.Core.Model.Users> ShowUsersWhereColonelID(int cid); 
 
         //删除
         int DelUsers(string id);

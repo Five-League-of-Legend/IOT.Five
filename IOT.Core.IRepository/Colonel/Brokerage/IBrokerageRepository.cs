@@ -32,12 +32,13 @@ namespace IOT.Core.IRepository.Colonel.Brokerage
         /// <summary>
         /// 佣金流水   两表联查
         /// </summary>
-        /// <param name="status">佣金状态</param>
+        /// <param name="time">时间</param>
         /// <param name="orderFormStatus">订单状态</param>
         /// <param name="colonel">所属团长</param>
         /// <param name="orderNumber">订单号</param>
+        /// <param name="brokerageState">佣金状态</param>
         /// <returns></returns>
-        List<Model.ViewColonelAndBrokerage> GetBrokerages(int status,int orderFormStatus,string colonel,string orderNumber);
+        List<Model.ViewColonelAndBrokerage> GetBrokerages(string time, int orderFormStatus,string colonel, string orderNumber, int brokerageState);
     
     }
 }
