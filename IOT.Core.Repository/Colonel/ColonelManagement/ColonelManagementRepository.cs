@@ -84,7 +84,7 @@ namespace IOT.Core.Repository.Colonel.ColonelManagement
         /// <returns></returns>
         public int UptColonel_CheckStatus(Model.ColonelManagement a)
         {
-            string sql = $" update ColonelManagement set CheckStatus='{a.CheckStatus}' where CMId = {a.CMId} ";
+            string sql = $" update ColonelManagement set CheckStatus={a.CheckStatus} where CMId = {a.CMId} ";
             return DapperHelper.Execute(sql);
         }
 
