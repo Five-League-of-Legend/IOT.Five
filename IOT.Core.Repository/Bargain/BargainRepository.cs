@@ -24,7 +24,7 @@ namespace IOT.Core.Repository.Bargain
 
         public List<Model.Bargain> Query()
         {
-            string sql = "SELECT a.*,b.CommodityName,b.CommodityPic from Bargain a JOIN Commodity b ON a.CommodityId=b.CommodityId";
+            string sql = "SELECT a.*,b.CommodityName,b.CommodityPic,b.Remark from Bargain a JOIN Commodity b ON a.CommodityId=b.CommodityId";
             return DapperHelper.GetList<Model.Bargain>(sql);
         }
 
@@ -50,7 +50,8 @@ namespace IOT.Core.Repository.Bargain
             {
                 sql1 = $"UPDATE Bargain SET ActionState=ActionState-1 WHERE BargainId={bid}";
             }
-            return DapperHelper.Execute(sql1);
+            int i = DapperHelper.Execute(sql1);
+            return i;
         }
     }
 }

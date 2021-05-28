@@ -16,5 +16,10 @@ namespace IOT.Core.Model
         public int WarehouseId  { get; set; }
         public int PutLibraryId { get; set; }
         public int OutLibraryId { get; set; }
+        public string WarehouseName { get; set; }
+        public string WarehouseSite { get; set; }
+        public string WarehouseCoordinate { get; set; }
+        public int WarehouseNum { get; set; }
+        public string WarehouseState { get; set; }
     }
 }

@@ -14,7 +14,11 @@ namespace IOT.Core.Repository.PutLibrary
         // 显示
         public List<Model.PutLibrary> ShowPutLibrarye()
         {
-            string sql = "select * from PutLibrary";
+            string sql =
+                "select * from OutLibrary A " +
+                "join PutLibrary B on A.PutLibraryId=B.PutLibraryId " +
+                "join Warehouse C on A.WarehouseId=C.WarehouseId " +
+                "join Commodity D on A.CommodityId=D.CommodityId";
             return DapperHelper.GetList<Model.PutLibrary>(sql);
         }
 

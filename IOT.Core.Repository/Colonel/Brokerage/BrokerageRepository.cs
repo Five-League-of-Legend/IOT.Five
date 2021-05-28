@@ -37,14 +37,37 @@ namespace IOT.Core.Repository.Colonel.Brokerage
         /// <summary>
         /// 佣金流水   两表联查
         /// </summary>
-        /// <param name="status">佣金状态</param>
+        /// <param name="time">时间</param>
         /// <param name="orderFormStatus">订单状态</param>
         /// <param name="colonel">所属团长</param>
         /// <param name="orderNumber">订单号</param>
+        /// <param name="brokerageState">佣金状态</param>
         /// <returns></returns>  
-        public List<ViewColonelAndBrokerage> GetBrokerages(int status, int orderFormStatus, string colonel, string orderNumber)
+        public List<ViewColonelAndBrokerage> GetBrokerages(string time, int orderFormStatus, string colonel, string orderNumber, int brokerageState)
         {
-            string sql = " select * from Brokerages ";
+            string sql = " select * from Brokerage a join colonel b on a.ColonelID=b.ColonelID where 1=1 ";
+
+
+            if (orderFormStatus != 0)
+            {
+                sql += $" and OrderFormStatus = {orderFormStatus} ";
+            }
+
+            if (colonel!="aaa")
+            {
+                sql += $" and ColonelName like '%{colonel}%' ";
+            }
+            if (orderNumber != "aaa")
+            {
+                sql += $" and BId = {orderNumber} ";
+            }
+
+            if (brokerageState != 0)
+            {
+                sql += $" and BrokerageType = {brokerageState} ";
+            }
+
+
             return DapperHelper.GetList<ViewColonelAndBrokerage>(sql);
         }
 

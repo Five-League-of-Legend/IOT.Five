@@ -19,5 +19,12 @@ namespace IOT.Core.IRepository.OrderInfo
         /// </summary>
         /// <returns></returns>
         int UptOrderCom(Model.OrderComment orderComment);
+
+        /// <summary>
+        /// 删除评论
+        /// </summary>
+        /// <param name="orderComment"></param>
+        /// <returns></returns>
+        int DelOrderCom(int id);
     }
 }

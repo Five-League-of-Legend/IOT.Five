@@ -8,6 +8,7 @@ using IOT.Core.IRepository.Activity;
 
 namespace IOT.Core.Api.Controllers
 {
+    //秒杀配置
     [Route("api/[controller]")]
     [ApiController]
     public class ActivityController : ControllerBase
@@ -22,32 +23,46 @@ namespace IOT.Core.Api.Controllers
         //添加
         [Route("/api/ActivityAdd")]
         [HttpPost]
-        public int ActivityAdd(IOT.Core.Model.Activity a)
+        public int ActivityAdd([FromForm]IOT.Core.Model.Activity a)
         {
-            int i = _activityRepository.Insert(a);
-            return i;
+            try
+            {
+                int i = _activityRepository.Insert(a);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         //显示
         [Route("/api/ActivityShow")]
         [HttpGet]
-        public IActionResult ActivityShow(string nm = "", int st = 0, int page = 1, int limit = 3)
+        public IActionResult ActivityShow(string nm = "", int st = -1)
         {
 
             //获取全部数据
-            var ls = _activityRepository.Query();
+            List<Model.Activity> ls = _activityRepository.Query();
+            foreach (var item in ls)
+            {
+                item.stimes = item.BeginTime.ToString("HH:mm");
+                item.ztimes = item.EndTime.ToString("HH:mm");
+            }
             if (!string.IsNullOrEmpty(nm))
             {
                 ls = ls.Where(x => x.ActivityName.Contains(nm)).ToList();
             }
-            ls = ls.Where(x => x.State.Equals(st)).ToList();
-
+            if (st != -1)
+            {
+                ls = ls.Where(x => x.State.Equals(st)).ToList();
+            }
             return Ok(new
             {
-                count = ls.Count(),
                 msg = "",
                 code = 0,
-                data = ls.Skip((page - 1) * limit).Take(limit)
+                data = ls
             });
         }
 
@@ -56,10 +71,18 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public IActionResult ActivityShowFT(int ftid)
         {
-            //获取全部数据
-            var ls = _activityRepository.Query();
-            Model.Activity aa = ls.FirstOrDefault(x => x.ActivityId.Equals(ftid));
-            return Ok(aa);
+            try
+            {
+                //获取全部数据
+                var ls = _activityRepository.Query();
+                Model.Activity aa = ls.FirstOrDefault(x => x.ActivityId.Equals(ftid));
+                return Ok(aa);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         //删除

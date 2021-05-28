@@ -16,5 +16,10 @@ namespace IOT.Core.Model
         public int ColonelID    { get; set; }
         public string DeliveryPath { get; set; }
         public string DeliveryName { get; set; }
+        public string WarehouseName { get; set; }
+        public string WarehouseSite { get; set; }
+        public string WarehouseCoordinate { get; set; }
+        public int WarehouseNum { get; set; }
+        public string WarehouseState { get; set; }
     }
 }

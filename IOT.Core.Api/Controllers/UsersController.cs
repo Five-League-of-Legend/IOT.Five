@@ -35,7 +35,16 @@ namespace IOT.Core.Api.Controllers
             return Ok(new { msg = "", code = 0, data = ls });
         }
 
+        //显示
+        [Route("/api/ShowUsersWhereColonelID")]
+        [HttpGet]
+        public IActionResult ShowUsersWhereColonelID(int cid)
+        {
+            var ls = _usersRepository.ShowUsersWhereColonelID(cid);
+            return Ok(ls);
+        }
 
+        
         //删除
         [Route("/api/UsersDel")]
         [HttpGet]

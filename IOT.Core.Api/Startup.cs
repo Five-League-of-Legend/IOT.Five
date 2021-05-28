@@ -68,6 +68,9 @@ using IOT.Core.Repository.PutLibrary;
 using IOT.Core.IRepository.Bargain;
 using IOT.Core.Repository.Bargain;
 using IOT.Core.Repository.Live;
+using IOT.Core.IRepository.NowRep;
+using IOT.Core.Model;
+using IOT.Core.Repository.NowRep;
 
 namespace IOT.Core.Api
 {
@@ -100,12 +103,8 @@ namespace IOT.Core.Api
             services.AddSingleton<IBrokerageRepository, BrokerageRepository>();
             services.AddSingleton<IOrderInfoRepository, OrderInfoRepository>();
             services.AddSingleton<IOrderCommentRepository, OrderCommentRepository>();
-            services.AddSingleton<IOrderDelivery, OrderDelivery>();
-
-            
+            services.AddSingleton<IOrderDelivery, OrderDelivery>();            
             //--------------------------------------------------------------------------------------
-
-
 
             //--------------------------------------------------------------------------------------
             //zxl
@@ -118,8 +117,6 @@ namespace IOT.Core.Api
             services.AddSingleton<IRolesRepository, RolesRepository>();
             services.AddSingleton<ILoginRepository, LoginRepository>();
             //--------------------------------------------------------------------------------------
-
-
 
             //--------------------------------------------------------------------------------------
             //dyt
@@ -146,8 +143,8 @@ namespace IOT.Core.Api
             services.AddSingleton<IStore_ConfigurationRepository, Store_ConfigurationRepository>();
             services.AddSingleton<IWarehouseRepository, WarehouseRepository>();
             services.AddSingleton<IWithdrawalRepository, WithdrawalRepository>();
+            services.AddSingleton<INowRepRepository, NowRepRepository>();
             //zx-------------------------------------------------------------------------------------
-
 
             services.AddCors(options => 
             options.AddPolicy("cors",

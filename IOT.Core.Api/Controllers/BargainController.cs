@@ -8,6 +8,17 @@ using IOT.Core.IRepository.Bargain;
 
 namespace IOT.Core.Api.Controllers
 {
+    public enum selectpage
+    {
+        全部=1,
+        今天=2,
+        昨天=3,
+        最近七天=4,
+        最近三十天=5,
+        本月=6,
+        本年=7
+    }
+    //砍价
     [Route("api/[controller]")]
     [ApiController]
     public class BargainController : ControllerBase
@@ -27,10 +38,13 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/ShowBargain")]
-        public IActionResult ShowBargain(int zt = 0, string keyname = "", int page = 1, int limit = 3)
+        public IActionResult ShowBargain(int zt = -1, string keyname = "")
         {
             List<Model.Bargain> lb = _bargainRepository.Query();
-            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+            if (zt!=-1)
+            {
+                lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+            } 
             if (!string.IsNullOrEmpty(keyname))
             {
                 lb = lb.Where(x => x.CommodityName.Contains(keyname)).ToList();
@@ -39,8 +53,7 @@ namespace IOT.Core.Api.Controllers
             {
                 msg = "",
                 code = 0,
-                count = lb.Count(),
-                data = lb.Skip((page - 1) * limit).Take(limit)
+                data = lb
             });
         }
 
@@ -64,20 +77,72 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/ShowListBargain")]
-        public IActionResult ShowListBargain(int zt = 0, string sdate = "", int page = 1, int limit = 3)
+        public IActionResult ShowListBargain(int zt = -1, string sdate = "",string zdate="",int page=1)
         {
+            selectpage sp = (selectpage)page;
             List<Model.Bargain> lb = _bargainRepository.Query();
-            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-            if (!string.IsNullOrEmpty(sdate))
+            switch (sp)
             {
-                lb = lb.Where(x => x.BeginDate >= Convert.ToDateTime(sdate)).ToList();
+                case selectpage.全部:
+                    if (zt != -1)
+                    {
+                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(sdate))
+                    {
+                        lb = lb.Where(x => x.BeginDate.Date == Convert.ToDateTime(sdate)).ToList();
+                    }
+                    break;
+                case selectpage.今天:
+                    if (zt != -1)
+                    {
+                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                    }
+                    lb = lb.Where(x => x.BeginDate.Date == Convert.ToDateTime(sdate)).ToList();
+                    break;
+                case selectpage.昨天:
+                    if (zt != -1)
+                    {
+                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                    }
+                    lb = lb.Where(x => x.BeginDate.Date == Convert.ToDateTime(sdate)).ToList();
+                    break;
+                case selectpage.最近七天:
+                    if (zt != -1)
+                    {
+                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                    }
+                    lb = lb.Where(x => x.BeginDate.Date >= Convert.ToDateTime(sdate) & x.EndDate.Date <= Convert.ToDateTime(zdate)).ToList();
+                    break;
+                case selectpage.最近三十天:
+                    if (zt != -1)
+                    {
+                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                    }
+                    lb = lb.Where(x => x.BeginDate.Date >= Convert.ToDateTime(sdate) & x.EndDate.Date <= Convert.ToDateTime(zdate)).ToList();
+                    break;
+                case selectpage.本月:
+                    if (zt != -1)
+                    {
+                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                    }
+                    lb = lb.Where(x => x.BeginDate.Year == Convert.ToDateTime(sdate).Year & x.BeginDate.Month == Convert.ToDateTime(sdate).Month).ToList();
+                    break;
+                case selectpage.本年:
+                    if (zt != -1)
+                    {
+                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                    }
+                    lb = lb.Where(x => x.BeginDate.Year == Convert.ToDateTime(sdate).Year).ToList();
+                    break;
+                default:
+                    break;
             }
             return Ok(new
             {
                 msg = "",
                 code = 0,
-                count = lb.Count(),
-                data = lb.Skip((page - 1) * limit).Take(limit)
+                data = lb
             });
         }
         [HttpPost]
@@ -103,9 +168,9 @@ namespace IOT.Core.Api.Controllers
         }
         [HttpPost]
         [Route("/api/UptZtBargain")]
-        public int UptZtBargain(int bid)
+        public int UptZtBargain(int cid)
         {
-            int i = _bargainRepository.UptZt(bid);
+            int i = _bargainRepository.UptZt(cid);
             return i;
         }
     }

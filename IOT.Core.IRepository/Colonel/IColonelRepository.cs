@@ -9,7 +9,7 @@ namespace IOT.Core.IRepository.Colonel
     public interface IColonelRepository
     {        
         //显示
-        List<IOT.Core.Model.Colonel> ShowColonel();
+        List<IOT.Core.Model.Colonel> ShowColonel(int cid);
 
     }
 }
