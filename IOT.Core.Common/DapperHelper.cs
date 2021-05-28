@@ -20,7 +20,8 @@ namespace IOT.Core.Common
         {
             using (IDbConnection db = new MySqlConnection(ConfigurationManager.Conn))
             {
-                return db.Query<T>(sql).ToList();
+                List<T> list = db.Query<T>(sql).ToList();
+                return list;
             }
         }
         /// <summary>

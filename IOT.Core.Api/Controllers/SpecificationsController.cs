@@ -18,38 +18,39 @@ namespace IOT.Core.Api.Controllers
             _specificationRepository = specificationRepository;
         }
         [HttpGet]
-        [Route("api/Showw")]
-        public List<Model.Specification> Showw(string commspec = "")
+        [Route("/api/SpeciShoww")]
+        public IActionResult SpeciShoww(string commspec = "")
         {
-            return _specificationRepository.Query(commspec);
+            List<Model.Specification> specifications = _specificationRepository.Query(commspec);
+            return Ok(new { code=0,msg="",data= specifications });
         }
         [HttpPost]
-        [Route("api/Insert")]
-        public int Insert(Model.Specification Model)
+        [Route("/api/SpeciInsert")]
+        public int SpeciInsert([FromForm]Model.Specification Model)
         {
             return _specificationRepository.Insert(Model);
         }
         [HttpPost]
-        [Route("api/Delete")]
-        public int Delete(string ids)
+        [Route("/api/SpeciDelete")]
+        public int SpeciDelete(string ids)
         {
             return _specificationRepository.Delete(ids);
         }
         [HttpGet]
-        [Route("api/UptState")]
-        public List<Model.Specification> UptState(int id)
+        [Route("/api/SpeciUptState")]
+        public List<Model.Specification> SpeciUptState(int id)
         {
             return _specificationRepository.UptState(id);
         }
         [HttpPost]
-        [Route("api/Uptss")]
-        public int Uptss(Model.Specification c)
+        [Route("/api/SpeciUptss")]
+        public int SpeciUptss(Model.Specification c)
         {
             return _specificationRepository.Uptss(c);
         }
         [HttpPost]
-        [Route("api/Deletes")]
-        public int Deletes(string id)
+        [Route("/api/SpeciDeletes")]
+        public int SpeciDeletes(string id)
         {
 
             return _specificationRepository.Deletes(id);
