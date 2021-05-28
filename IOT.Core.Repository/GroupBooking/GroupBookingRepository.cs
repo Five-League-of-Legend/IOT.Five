@@ -24,13 +24,13 @@ namespace IOT.Core.Repository.GroupBooking
 
         public List<Model.GroupBooking> Query()
         {
-            string sql = "SELECT a.*,c.NickName,b.CommodityId,b.CommodityPic,b.Remark,b.ShopPrice FROM GroupBooking a join Commodity b on a.CommodityId=b.CommodityId JOIN Colonel c ON a.ColonelID=c.ColonelID";
+            string sql = "SELECT a.*,c.ColonelName,b.CommodityId,b.CommodityPic,b.Remark,b.CommodityName,b.ShopPrice,c.HeadPortrait FROM GroupBooking a join Commodity b on a.CommodityId=b.CommodityId JOIN Colonel c ON a.ColonelID=c.ColonelID";
             return DapperHelper.GetList<Model.GroupBooking>(sql);
         }
 
         public List<Model.GroupBooking> QueryList()
         {
-            string sql = "SELECT a.*,c.NickName,c.HeadPortrait,b.CommodityName FROM GroupBooking a join Commodity b on a.CommodityId=b.CommodityId JOIN Colonel c ON a.ColonelID=c.ColonelID";
+            string sql = "SELECT a.*,c.ColonelName,c.HeadPortrait,b.CommodityName FROM GroupBooking a join Commodity b on a.CommodityId=b.CommodityId JOIN Colonel c ON a.ColonelID=c.ColonelID";
             return DapperHelper.GetList<Model.GroupBooking>(sql);
         }
 

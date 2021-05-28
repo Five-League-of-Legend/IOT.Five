@@ -42,7 +42,7 @@ namespace IOT.Core.Repository.Specification
         }
         public int Uptss(Model.Specification c)
         {
-            string sql = $"update CommType set SpecificationName='{c.SpecificationName}' where SId={c.SId} ";
+            string sql = $"update CommType set SpecificationName='{c.SpecificationName}',CommSpec='{c.CommSpec}',CommProp='{c.CommProp}',SpecificationValue={c.SpecificationValue} where SId in {c.SId} ";
             return DapperHelper.Execute(sql);
         }
 

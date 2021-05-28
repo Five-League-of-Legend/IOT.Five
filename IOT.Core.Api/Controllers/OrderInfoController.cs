@@ -24,7 +24,7 @@ namespace IOT.Core.Api.Controllers
         }
 
         /// <summary>
-        /// 显示表单
+        /// 显示订单
         /// </summary>
         /// <param name="searchType">查找类型 订单号 买家姓名 买家电话</param>
         /// <param name="searchContent">根据类型判断 查询条件</param>
@@ -101,12 +101,27 @@ namespace IOT.Core.Api.Controllers
 
 
         /// <summary>
+        /// 删除评论
+        /// </summary>
+        /// <param name="orderComment"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/api/DelOrderCom")]
+        public int DelOrderCom(int id)
+        {
+            int i = _orderCommentRepository.DelOrderCom(id);
+
+            return i;
+        }
+
+
+        /// <summary>
         /// 修改显示状态
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [Route("/api/UptOrderCom")]
-        public int UptOrderCom(Model.OrderComment orderComment)
+        public int UptOrderCom([FromForm]Model.OrderComment orderComment)
         {
             int i = _orderCommentRepository.UptOrderCom(orderComment);
 

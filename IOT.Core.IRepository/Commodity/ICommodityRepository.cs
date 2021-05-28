@@ -12,6 +12,7 @@ namespace IOT.Core.IRepository.CommodityRepository
         int Delete(string ids);
         int Insert(Model.Commodity Model);
         List<Model.Commodity> Query(int code,int tid,string keyname);
+        List<Model.Commodity> BindShowCom();
         int Uptstate(int id);
         int Uptsstate(int id);
     }

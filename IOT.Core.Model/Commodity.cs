@@ -14,7 +14,7 @@ namespace IOT.Core.Model
         public int CommodityId   { get; set; }
         public string CommodityName { get; set; }
         public string CommodityPic  { get; set; }
-        public string ShopPrice     { get; set; }
+        public double ShopPrice     { get; set; }
         public int ShopNum       { get; set; }
         public int Repertory     { get; set; }
         public int Sort          { get; set; }

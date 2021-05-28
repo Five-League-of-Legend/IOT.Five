@@ -20,7 +20,7 @@ namespace IOT.Core.IRepository.Colonel.Path
         /// </summary>
         /// <param name="PathID">路线ID</param>
         /// <returns></returns>
-        List<Model.Path> ShowPath(int PathID);
+        List<Model.Path> ShowPath(string nm);
 
 
         /// <summary>

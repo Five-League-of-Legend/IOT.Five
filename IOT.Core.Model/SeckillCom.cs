@@ -24,12 +24,14 @@ namespace IOT.Core.Model
         public int LimitNum { get; set; }
         public string ActivityName { get; set; }
         public DateTime BeginTime { get; set; }
+        public string begintimes { get { return BeginTime.ToString("yyyy-MM-dd"); } }
         public DateTime EndTime { get; set; }
+        public string endtimes { get { return EndTime.ToString("yyyy-MM-dd"); } }
         public string Diff { get { return BeginTime.ToString("HH:ss") + "-" + EndTime.ToString("HH:ss"); } }
         public string CommodityPic { get; set; }
         public float ShopPrice { get; set; }
         public DateTime times { get; set; }
         public string CommodityName { get; set; }
-
+        public DateTime CreateDate { get; set; }
     }
 }
