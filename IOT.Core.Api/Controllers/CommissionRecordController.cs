@@ -21,10 +21,16 @@ namespace IOT.Core.Api.Controllers
         //显示
         [Route("/api/CommissionRecordControllerShow")]
         [HttpGet]
-        public IActionResult CommissionRecordControllerShow()
+        public IActionResult CommissionRecordControllerShow(string keyname = "")
         {
             var ls = _commissionRecordRepository.ShowCommissionRecord();
+
+            if (!string.IsNullOrEmpty(keyname))
+            {
+                ls = ls.Where(x => x.SName.Equals(keyname)).ToList();
+            }
             return Ok(new { msg = "", code = 0, data = ls });
+
         }
 
     }

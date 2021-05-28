@@ -33,6 +33,7 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public IActionResult ActivityShow(string nm = "", int st = 0, int page = 1, int limit = 3)
         {
+
             //获取全部数据
             var ls = _activityRepository.Query();
             if (!string.IsNullOrEmpty(nm))

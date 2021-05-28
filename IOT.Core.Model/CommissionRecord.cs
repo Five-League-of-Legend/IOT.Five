@@ -13,6 +13,7 @@ namespace IOT.Core.Model
     {
         public int CommissionRecordId { get; set; }
         public int SId                { get; set; }
+        public string SName { get; set; }
         public float Money              { get; set; }
         public DateTime CreateDate { get; set; }
     }

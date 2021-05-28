@@ -10,6 +10,6 @@ namespace IOT.Core.Model
     {
         public int SId { get; set; }
         public int Money { get; set; }
-        public bool Shen { get; set; }
+        public int Shen { get; set; }
     }
 }

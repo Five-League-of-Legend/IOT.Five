@@ -12,7 +12,7 @@ namespace IOT.Core.Repository.RoleManage
     {
         public int AddRoleManage(Model.RoleManage a)
         {
-            string sql = $"insert into RoleManage values (null,'{a.HobOne}','{a.HobTwo}','{a.HobThree}','{a.Four}')";
+            string sql = $"insert into RoleManage values (null,{a.RMId},'{a.HobOne}','{a.HobTwo}','{a.HobThree}','{a.Four}')";
             return DapperHelper.Execute(sql);
         }
     }

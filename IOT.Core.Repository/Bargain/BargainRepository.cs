@@ -40,13 +40,15 @@ namespace IOT.Core.Repository.Bargain
             List<Model.Bargain> lb = DapperHelper.GetList<Model.Bargain>(sql);
             Model.Bargain ba = lb.FirstOrDefault(x => x.BargainId.Equals(bid));
             string sql1 = "";
+          
+
             if (ba.ActionState == 0)
             {
-                sql1 = $"UPDATE Bargain SET ActionState=ActionState+1 WHERE BargainId=1";
+                sql1 = $"UPDATE Bargain SET ActionState=ActionState+1 WHERE BargainId={bid}";
             }
             else
             {
-                sql1 = $"UPDATE Bargain SET ActionState=ActionState-1 WHERE BargainId=1";
+                sql1 = $"UPDATE Bargain SET ActionState=ActionState-1 WHERE BargainId={bid}";
             }
             return DapperHelper.Execute(sql1);
         }
