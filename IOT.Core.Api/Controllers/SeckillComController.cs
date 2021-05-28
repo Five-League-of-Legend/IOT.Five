@@ -8,6 +8,7 @@ using IOT.Core.IRepository.SeckillCom;
 
 namespace IOT.Core.Api.Controllers
 {
+    //秒杀商品
     [Route("api/[controller]")]
     [ApiController]
     public class SeckillComController : ControllerBase
@@ -31,7 +32,7 @@ namespace IOT.Core.Api.Controllers
         //显示
         [Route("/api/SeckillComShow")]
         [HttpGet]
-        public IActionResult SeckillComShow(string nmid, int st)
+        public IActionResult SeckillComShow(int aid=0,string nmid="", int st=-1)
         {
             var ls = _seckillComRepository.Query();
             //根据姓名id查询
@@ -40,7 +41,14 @@ namespace IOT.Core.Api.Controllers
                 ls = ls.Where(x => x.CommodityId.Equals(nmid) || x.SeckillTitle.Contains(nmid)).ToList();
             }
             //根据状态查询
-            ls = ls.Where(x => x.State.Equals(st)).ToList();
+            if (st!=-1)
+            {
+                ls = ls.Where(x => x.State.Equals(st)).ToList();
+            }
+            if (aid!=0)
+            {
+                ls = ls.Where(x => x.ActivityId.Equals(aid)).ToList();
+            }
             return Ok(new
             {
                 msg = "",

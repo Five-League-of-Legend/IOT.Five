@@ -8,6 +8,7 @@ using IOT.Core.IRepository.Live;
 
 namespace IOT.Core.Api.Controllers
 {
+    //直播
     [Route("api/[controller]")]
     [ApiController]
     public class LiveController : ControllerBase
@@ -19,10 +20,13 @@ namespace IOT.Core.Api.Controllers
         }
         [HttpGet]
         [Route("/api/ShowLiveList")]
-        public IActionResult ShowLiveList(int zt = 0, string keyname = "", int page = 1, int limit = 3)
+        public IActionResult ShowLiveList(int zt = -1, string keyname = "", int page = 1, int limit = 3)
         {
             List<Model.Live> lv = _liveRepository.Query();
-            lv = lv.Where(x => x.IsEnable.Equals(zt)).ToList();
+            if (zt!=-1)
+            {
+                lv = lv.Where(x => x.IsEnable.Equals(zt)).ToList();
+            }
             if (!string.IsNullOrEmpty(keyname))
             {
                 lv = lv.Where(x => x.AnchorName.Contains(keyname)).ToList();
@@ -40,13 +44,20 @@ namespace IOT.Core.Api.Controllers
         public IActionResult SelectLiveList(int lid = 0, int page = 1, int limit = 3)
         {
             List<Model.Commodity> lv = _liveRepository.SelectGoods(lid);
-            return Ok(new
+            if (lv.Count==0)
             {
-                msg = "",
-                code = 0,
-                count = lv.Count(),
-                data = lv.Skip((page - 1) * limit).Take(limit)
-            });
+                return Ok("没有带货商品");
+            }
+            else
+            {
+                return Ok(new
+                {
+                    msg = "",
+                    code = 0,
+                    count = lv.Count(),
+                    data = lv.Skip((page - 1) * limit).Take(limit)
+                });
+            }
         }
         /// <summary>
         /// 创建直播

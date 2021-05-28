@@ -27,7 +27,7 @@ namespace IOT.Core.Model
         public int GroupBookingState        { get; set; }
         public decimal GroupBookingPrice        { get; set; }
         public int GroupBookingLimitNum { get; set; }
-        public string NickName { get; set; }
+        public string ColonelName { get; set; }
         public string CommodityName { get; set; }
         public string HeadPortrait { get; set; }
         public string CommodityPic { get; set; }
