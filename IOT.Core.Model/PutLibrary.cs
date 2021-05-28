@@ -17,5 +17,6 @@ namespace IOT.Core.Model
         public int GoodNum      { get; set; }
         public DateTime PutDate { get; set; }
         public string PutNO { get; set; }
+        public string WarehouseName { get; set; }
     }
 }
