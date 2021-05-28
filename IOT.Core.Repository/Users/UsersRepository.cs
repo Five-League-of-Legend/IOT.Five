@@ -28,6 +28,24 @@ namespace IOT.Core.Repository.Users
             return DapperHelper.GetList<Model.Users>(sql);
         }
 
+
+        /// <summary>
+        /// 查询审核员
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public List<Model.Users> ShowUsersWhereColonelID(int cid)
+        {
+            string sql = $"select * from Users Where 1=1 ";
+
+            if (cid != 9999)
+            {
+                sql += $" and ColonelID = {cid}";
+            }
+
+            return DapperHelper.GetList<Model.Users>(sql);
+        }
+
         public int UptUsers(Model.Users a)
         {
             string sql = $"update set Users  UserName='{a.UserName}', LoginName='{a.LoginName}', LoginPwd='{a.LoginPwd}', Phone='{a.Phone}', Address='{a.Address}', NickName='{a.NickName}', ColonelID={a.ColonelID}, RoleId={a.RoleId}  where UserId={a.UserId}";

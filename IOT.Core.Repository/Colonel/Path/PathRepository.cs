@@ -37,13 +37,13 @@ namespace IOT.Core.Repository.Colonel.Path
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        public List<Model.Path> ShowPath(int PathID)
+        public List<Model.Path> ShowPath(string nm)
         {
             string sql = $" select * from Path ";
 
-            if (PathID != -1)
+            if (nm != "")
             {
-                sql += $" where RathID = {PathID} ";
+                sql += $" where PathName like '%{nm}%' ";
             }
 
             return DapperHelper.GetList<Model.Path>(sql);

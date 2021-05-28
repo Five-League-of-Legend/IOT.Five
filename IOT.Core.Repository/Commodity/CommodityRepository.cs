@@ -23,7 +23,7 @@ namespace IOT.Core.Repository.Commodity
             return DapperHelper.Execute(sql);
         }
 
-        
+
         public int Uptstate(int id)
         {
             var list = DapperHelper.GetList<Model.Commodity>($"select * from Commodity ").ToList();
@@ -58,24 +58,24 @@ namespace IOT.Core.Repository.Commodity
         public List<Model.Commodity> Query(int code, int tid, string keyname)
         {
             string sql = "";
-            if (code==1)
+            if (code == 1)
             {
                 sql = "select * from Commodity where State =1 and DeleteState=0";
             }
-            else if (code==2)
+            else if (code == 2)
             {
                 sql = "select * from Commodity where DeleteState=0";
             }
-            else if (code==3)
+            else if (code == 3)
             {
                 sql = "select * from Commodity where DeleteState=0 and IsSell=1";
             }
-            else if (code==4)
+            else if (code == 4)
             {
                 sql = "select * from Commodity where DeleteState=1";
             }
             List<Model.Commodity> mm = DapperHelper.GetList<Model.Commodity>(sql);
-            if (tid!=0)
+            if (tid != 0)
             {
                 mm = mm.Where(x => x.TId.Equals(tid)).ToList();
             }
@@ -84,6 +84,12 @@ namespace IOT.Core.Repository.Commodity
                 mm = mm.Where(x => x.CommodityName.Contains(keyname)).ToList();
             }
             return mm;
+        }
+
+        public List<Model.Commodity> BindShowCom()
+        {
+            string sql = "select * from Commodity ";
+            return DapperHelper.GetList<Model.Commodity>(sql);
         }
     }
 }

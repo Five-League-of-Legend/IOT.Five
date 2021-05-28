@@ -33,7 +33,7 @@ namespace IOT.Core.Repository.Colonel.ColonelManagement
         {
             //string sql = "  select * from Colonel join ColonelManagement on Colonel.ColonelID in (ColonelManagement.ColonelID) where 1=1  ";
 
-            string sql = @" select a.ColonelID,a.NickName,a.Sex,a.Phone,a.ColonelName,a.MemberNum,a.PColonelId,a.Region,a.Address,a.Coordinates,a.RegisterTime,a.Integral,a.Saleroom,a.DeliveryStatus,a.Cost,a.Alipay,a.BankSite,a.CardName,a.BankCard,a.HeadPortrait,a.CommIds, b.CMId,b.ColonelID,b.ColonelID,b.AapplyTime,b.CheckTime,b.CheckStatus from Colonel a join ColonelManagement b on a.ColonelID in (b.ColonelID) where 1=1";
+            string sql = @" select a.ColonelID,a.Estate,a.NickName,a.Sex,a.Phone,a.ColonelName,a.MemberNum,a.PColonelId,a.Region,a.Address,a.Coordinates,a.RegisterTime,a.Integral,a.Saleroom,a.DeliveryStatus,a.Cost,a.Alipay,a.BankSite,a.CardName,a.BankCard,a.HeadPortrait,a.CommIds, b.CMId,b.ColonelID,b.ColonelID,b.AapplyTime,b.CheckTime,b.CheckStatus,b.CheckName from Colonel a join ColonelManagement b on a.ColonelID in (b.ColonelID) where 1=1";
 
             if (CheckStatus != -1)
             {
@@ -43,7 +43,7 @@ namespace IOT.Core.Repository.Colonel.ColonelManagement
 
             List<Model.ViewColonelAndManager> list = DapperHelper.GetList<Model.ViewColonelAndManager>(sql);
 
-            if (nm != "")
+            if (!string.IsNullOrEmpty(nm))
             {
                 list = list.Where(m => m.ColonelName.Contains(nm)).ToList();
             }

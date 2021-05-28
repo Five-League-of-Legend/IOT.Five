@@ -46,16 +46,22 @@ namespace IOT.Core.Api.Controllers
         /// <summary>
         /// 佣金流水   两表联查
         /// </summary>
-        /// <param name="status">佣金状态</param>
+        /// <param name="time">时间范围</param>
         /// <param name="orderFormStatus">订单状态</param>
         /// <param name="colonel">所属团长</param>
         /// <param name="orderNumber">订单号</param>
+        /// <param name="brokerageState">佣金状态</param>
         /// <returns></returns>  
         [HttpGet]
         [Route("/api/GetBrokerages")]
-        public IActionResult GetBrokerages(int status, int orderFormStatus, string colonel, string orderNumber)
+        public IActionResult GetBrokerages(int orderFormStatus,int brokerageState, string time="", string orderNumber="aaa", string colonel = "aaa")
         {
-            List<Model.ViewColonelAndBrokerage> list = _brokerageRepository.GetBrokerages(status, orderFormStatus, colonel, orderNumber);
+            List<Model.ViewColonelAndBrokerage> list = _brokerageRepository.GetBrokerages(time, orderFormStatus, colonel, orderNumber, brokerageState);
+
+            if (time!="")
+            {
+                list = list.Where(m => m.EndTime >= Convert.ToDateTime(time)).ToList();
+            }
 
             return Ok(list);
         }
@@ -138,7 +144,7 @@ namespace IOT.Core.Api.Controllers
         /// </summary>
         /// <param name="CGId">团长等级Id</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [Route("/api/DelColonelGrade")]
         public int DelColonelGrade(int CGId)
         {
@@ -153,7 +159,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/AddGroupPurchase")]
-        public int AddGroupPurchase(Model.GroupPurchase gp)
+        public int AddGroupPurchase([FromForm]Model.GroupPurchase gp)
         {
             int i = _groupPurchaseRepository.AddGroupPurchase(gp);
             return i;
@@ -168,9 +174,9 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/GetShowPath")]
-        public IActionResult GetShowPath(int PathID = -1)
+        public IActionResult GetShowPath(string nm = "")
         {
-            List<Model.Path> paths = _pathRepository.ShowPath(PathID);
+            List<Model.Path> paths = _pathRepository.ShowPath(nm);
 
             return Ok(paths);
         }
@@ -182,7 +188,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/AddPath")]
-        public int AddPath(Model.Path path)
+        public int AddPath([FromForm]Model.Path path)
         {
             int i = _pathRepository.AddPath(path);
             return i;
@@ -208,7 +214,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/UptPath")]
-        public int UptPath(Model.Path path)
+        public int UptPath([FromForm]Model.Path path)
         {
             int i = _pathRepository.UptPath(path);
             return i;
@@ -224,16 +230,18 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/GetShowColonel")]
-        public IActionResult GetShowColonel()
+        public IActionResult GetShowColonel(int cid)
         {
-            List<Model.Colonel> colonels = _colonelRepository.ShowColonel();
+            List<Model.Colonel> colonels = _colonelRepository.ShowColonel(cid);
 
             return Ok(colonels);
         }
 
         /// <summary>
-        /// 团长审核and管理显示搜索
+        ///  团长审核管理显示搜索
         /// </summary>
+        /// <param name="CheckStatus">审核状态 0 审核中 2 审核不通过 1 审核通过 -1 全部</param> 
+        /// <param name="nm">关键字 团长姓名</param>
         /// <returns></returns>
         [HttpGet]
         [Route("/api/GetShowColonelList")]
@@ -267,7 +275,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/UptColonel")]
-        public int UptColonel(Model.Colonel colonel)
+        public int UptColonel([FromForm]Model.Colonel colonel)
         {
             int i = _colonelManagementRepository.UptColonel(colonel);
             return i;
