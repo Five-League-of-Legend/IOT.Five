@@ -18,7 +18,7 @@ namespace IOT.Core.Repository.SeckillCom
 
         public int Insert(Model.SeckillCom Model)
         {
-            string sql = $"insert into SeckillCom values (null,{Model.ActivityId},{Model.CommodityId},'{Model.SeckillTitle}','{Model.SeckillRemaek}',{Model.SeckillModel},{Model.TackTime},'{Model.ActionDate}',{Model.State},{Model.SeckilPrice},{Model.LimitNum})";
+            string sql = $"insert into SeckillCom values (null,{Model.ActivityId},{Model.CommodityId},'{Model.SeckillTitle}','{Model.SeckillRemaek}',{Model.SeckillModel},{Model.TackTime},'{Model.ActionDate}',{Model.State},{Model.SeckilPrice},{Model.LimitNum},NOW())";
             return DapperHelper.Execute(sql);
         }
 
@@ -37,8 +37,8 @@ namespace IOT.Core.Repository.SeckillCom
         public int UptZt(int sid)
         {
             string sql = "select * FROM SeckillCom";
-            List<Model.Activity> la = DapperHelper.GetList<Model.Activity>(sql);
-            Model.Activity aa = la.FirstOrDefault(x => x.ActivityId.Equals(sid));
+            List<Model.SeckillCom> la = DapperHelper.GetList<Model.SeckillCom>(sql);
+            Model.SeckillCom aa = la.FirstOrDefault(x => x.SeckillComId.Equals(sid));
             string sql1 = "";
             if (aa.State == 0)
             {

@@ -12,5 +12,7 @@ namespace IOT.Core.Model
         public int State { get; set; }
         public DateTime CreateDate { get; set; }
         public int ActivityTime { get; set; }
+        public string stimes { get; set; }
+        public string ztimes { get; set; }
     }
 }
