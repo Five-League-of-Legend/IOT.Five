@@ -23,9 +23,11 @@ namespace IOT.Core.Api.Controllers
         //显示
         [Route("/api/DeliveryShow")]
         [HttpGet]
-        public IActionResult DeliveryShow()
+        public IActionResult DeliveryShow(string wname="")
         {
             var ls = _delivery.ShowDelivery();
+            if (!string.IsNullOrEmpty(wname))
+                ls = ls.Where(os => os.WarehouseName.Contains(wname)).ToList();
             return Ok(new { msg = "", code = 0, data = ls });
         }
 

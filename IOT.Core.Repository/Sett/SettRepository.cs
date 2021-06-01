@@ -12,7 +12,8 @@ namespace IOT.Core.Repository.Sett
     {
         public int AddSett(Model.Sett a)
         {
-            string sql = $"insert into Sett values (null,'{a.Money}', '{(a.Shen?0:1)}')";
+            //string sql = $"INSERT INTO Activity VALUES (NULL,'{Model.ActivityName}','{Model.BeginTime}','{Model.EndTime}','{Model.Slideshow}',{Model.State},NOW(),{Model.ActivityTime});";
+            string sql = $"insert into Sett values (null,{a.Money},{a.Shen})";
             return DapperHelper.Execute(sql);
         }
     }

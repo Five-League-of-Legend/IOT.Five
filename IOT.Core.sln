@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOT.Core.Api", "IOT.Core.Api\IOT.Core.Api.csproj", "{0AC07681-0B18-4A6A-9316-1598AAEA485D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOT.Core.Api", "IOT.Core.Api\IOT.Core.Api.csproj", "{0AC07681-0B18-4A6A-9316-1598AAEA485D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOT.Core.IRepository", "IOT.Core.IRepository\IOT.Core.IRepository.csproj", "{5A003C7A-8F53-492B-AA0A-9AD5F97D6E4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOT.Core.IRepository", "IOT.Core.IRepository\IOT.Core.IRepository.csproj", "{5A003C7A-8F53-492B-AA0A-9AD5F97D6E4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOT.Core.Repository", "IOT.Core.Repository\IOT.Core.Repository.csproj", "{1A354152-3BD1-433E-9AAF-9E2373D517A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOT.Core.Repository", "IOT.Core.Repository\IOT.Core.Repository.csproj", "{1A354152-3BD1-433E-9AAF-9E2373D517A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOT.Core.Common", "IOT.Core.Common\IOT.Core.Common.csproj", "{CF0B937F-C31C-45E8-9635-8BBACBEEFE5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOT.Core.Common", "IOT.Core.Common\IOT.Core.Common.csproj", "{CF0B937F-C31C-45E8-9635-8BBACBEEFE5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOT.Core.Model", "IOT.Core.Model\IOT.Core.Model.csproj", "{D5C83BF6-50C6-422E-99E5-0A2AB499B6CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOT.Core.Model", "IOT.Core.Model\IOT.Core.Model.csproj", "{D5C83BF6-50C6-422E-99E5-0A2AB499B6CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

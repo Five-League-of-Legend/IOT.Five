@@ -13,8 +13,8 @@ namespace IOT.Core.Repository.Agent
     {
         
         public int AddAgent(Model.Agent a)
-        {
-            string sql = $"insert into Agent values (null,'{a.AgentName}', '{a.Icon}', '{a.BCImg}', '{a.BackgroudColor}', '{a.Fans}', {a.AgentState}, {a.One}, {a.Two}, {a.Three},'{a.Explaina}')";
+        {        
+            string sql = $"insert into Agent values (null,'{a.AgentName}','{a.BackgroudColor}','{a.Icon}','{a.BCImg}','{a.Fans}',{a.Consume},{a.Money},'{a.NFans}',{a.Two},{a.Three},{a.One},'{a.Explaina}',{a.AgentState})";
            return DapperHelper.Execute(sql);
         }
 
@@ -27,31 +27,34 @@ namespace IOT.Core.Repository.Agent
         public List<Model.Agent> ShowAgent()
         {
             string sql = "select * from Agent";
-            return DapperHelper.GetList<Model.Agent>(sql);
+            return DapperHelper.GetList<Model.Agent>(sql);  
         }
+       
 
         public int UptAgent(Model.Agent a)
         {
-            string sql = $"update  Agent set values (null,'{a.AgentName}', '{a.Icon}', '{a.BCImg}', '{a.BackgroudColor}', '{a.Fans}', {a.AgentState}, {a.One}, {a.Two}, {a.Three},'{a.Explaina}')";
+            
+            string sql = $"update  Agent set AgentName='{a.AgentName}',BackgroudColor='{a.BackgroudColor}',Icon='{a.Icon}',BCImg='{a.BCImg}',Fans='{a.Fans}',Consume={a.Consume},Money={a.Money},NFans='{a.NFans}',Two={a.Two},Three={a.Three},One={a.One},Explaina='{a.Explaina}',AgentState={a.AgentState}";
+           
             return DapperHelper.Execute(sql);
         }
 
-        public int UptZt(int sid)
+        public int UptZt(int cid)
         {
             string sql = "select * from Agent";
             
             List<Model.Agent> la = DapperHelper.GetList<Model.Agent>(sql);
 
-            Model.Agent aa = la.FirstOrDefault(x => x.AgentId.Equals(sid));
+            Model.Agent aa = la.FirstOrDefault(x => x.AgentId.Equals(cid));
             string sql1 = "";
             if (aa.AgentState == 0)
             {
-                sql1 = $"UPDATE Agent SET AgentState=AgentState+1 where AgentId={sid}";
+                sql1 = $"UPDATE Agent SET AgentState=AgentState+1 where AgentId={cid}";
                 
             }
             else
             {
-                sql1 = $"UPDATE Agent SET AgentState=AgentState-1 where AgentId={sid}";
+                sql1 = $"UPDATE Agent SET AgentState=AgentState-1 where AgentId={cid}";
                
             }
             int i = DapperHelper.Execute(sql1);

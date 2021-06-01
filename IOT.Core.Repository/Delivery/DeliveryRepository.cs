@@ -14,7 +14,7 @@ namespace IOT.Core.Repository.Delivery
         // 显示
         public List<Model.Delivery> ShowDelivery()
         {
-            string sql = "select * from Delivery";
+            string sql = "select * from Delivery A join Warehouse B on A.DeliveryId=B.WarehouseId ";
             return DapperHelper.GetList<Model.Delivery>(sql);
         }
 
@@ -32,5 +32,6 @@ namespace IOT.Core.Repository.Delivery
                  $"DeliveryName='{a.DeliveryName}' where DeliveryId='{a.DeliveryId}' ";
             return DapperHelper.Execute(sql);
         }
+
     }
 }

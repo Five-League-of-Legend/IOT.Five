@@ -12,7 +12,7 @@ namespace IOT.Core.Repository.SVIP
     {
         public int AddSvip(Model.SVIP a)
         {
-            string sql = $"insert into Agent values (null,'{a.SName}', '{a.BackgroudColor}', '{a.Icon}', '{a.BCImg}', {a.Consume}, {a.Commission}, {a.Money},'{a.Rate}', '{a.Explains}')";
+            string sql = $"insert into Svip values (null,'{a.SName}', '{a.BackgroudColor}', '{a.Icon}', '{a.BCImg}', {a.Consume}, {a.Commission}, {a.Money},'{a.Rate}', '{a.Explains}')";
             return DapperHelper.Execute(sql);
         }
     }

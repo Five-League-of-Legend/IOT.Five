@@ -21,21 +21,37 @@ namespace IOT.Core.Api.Controllers
         //显示
         [Route("/api/AgentShow")]
         [HttpGet]
-        public IActionResult AgentShow()
+        public IActionResult AgentShow(string keyname = "")
         {
             var ls = _agentRepository.ShowAgent();
+            if (!string.IsNullOrEmpty(keyname))
+            {
+                ls = ls.Where(x => x.AgentName.Contains(keyname)).ToList();
+            }
+
             return Ok(new { msg = "", code = 0, data = ls });
+
         }
 
 
         //删除
         [Route("/api/AgentDel")]
-        [HttpDelete]
+        [HttpGet]
         public int AgentDel(string id)
         {
             return _agentRepository.DelAgent(id);
         }
 
+        //反填
+        [Route("/api/AgentShowFt")]
+        [HttpGet]
+        public IActionResult ActivityShowFT(int ftid)
+        {
+            //获取全部数据
+            var ls = _agentRepository.ShowAgent();
+            Model.Agent aa = ls.FirstOrDefault(x => x.AgentId.Equals(ftid));
+            return Ok(aa);
+        }
 
         //修改
         [HttpPost]
@@ -47,9 +63,18 @@ namespace IOT.Core.Api.Controllers
         //修改状态
         [HttpPost]
         [Route("/api/AgentUptZt")]
-        public int AgentUptZt(int sid)
+        public int AgentUptZt(int cid)
         {
-            return _agentRepository.UptZt(sid);
+            return _agentRepository.UptZt(cid);
         }
+
+        [HttpPost]
+        [Route("/api/AgentAdd")]
+        public int AgentAdd([FromForm]IOT.Core.Model.Agent a)
+        {
+            int i = _agentRepository.AddAgent(a);
+            return i;
+        }
+        
     }
 }

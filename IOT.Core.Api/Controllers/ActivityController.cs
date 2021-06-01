@@ -42,6 +42,7 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public IActionResult ActivityShow(string nm = "", int st = -1)
         {
+
             //获取全部数据
             List<Model.Activity> ls = _activityRepository.Query();
             foreach (var item in ls)

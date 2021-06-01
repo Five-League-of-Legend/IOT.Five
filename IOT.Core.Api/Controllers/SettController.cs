@@ -23,7 +23,7 @@ namespace IOT.Core.Api.Controllers
         //添加
         [HttpPost]
         [Route("/api/SettAdd")]
-        public int SettAdd(IOT.Core.Model.Sett a)
+        public int SettAdd([FromForm]IOT.Core.Model.Sett a)
         {
             int i = _settRepository.AddSett(a);
             return i;

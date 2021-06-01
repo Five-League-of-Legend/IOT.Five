@@ -23,9 +23,16 @@ namespace IOT.Core.Api.Controllers
         // 显示
         [Route("/api/OutLibraryShow")]
         [HttpGet]
-        public IActionResult OutLibraryShow()
+        public IActionResult OutLibraryShow(string wname ="",string outno="",string times="")
         {
+            string[] arr = times.Split(',');
             var ls = _outLibrary.ShowOutLibrary();
+            if (!string.IsNullOrEmpty(wname))
+                ls = ls.Where(os => os.WarehouseName.Contains(wname)).ToList();
+            if (!string.IsNullOrEmpty(outno))
+                ls = ls.Where(os => os.OutNO.Contains(outno)).ToList();
+            if (!string.IsNullOrEmpty(times))
+                ls = ls.Where(os => os.OutDate >= Convert.ToDateTime(arr[0]) & os.OutDate <= Convert.ToDateTime(arr[1])).ToList();
             return Ok(new { msg = "", code = 0, data = ls });
         }
 

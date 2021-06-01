@@ -12,19 +12,33 @@ namespace IOT.Core.Repository.Users
     {
         public int AddUsers(Model.Users a)
         {
+           //int UserId    { get
+           //string  UserName  {
+           //string LoginName { 
+           //string LoginPwd  { 
+           //string Phone     { 
+           //string Address   { 
+           //int State     { get
+           //string NickName  { 
+           //int ColonelID { get
+           //int RoleId { get; s
+           //string RoleName { g
+            
             string sql = $"insert into Users values (null,'{a.UserName}','{a.LoginName}','{a.LoginPwd}','{a.Phone}','{a.Address}', {a.State},'{a.NickName}', {a.ColonelID}, {a.RoleId})";
             return DapperHelper.Execute(sql);
         }
 
         public int DelUsers(string id)
         {
+            
+
             string sql = $"delete from Users where UserId={id}";
             return DapperHelper.Execute(sql);
         }
 
         public List<Model.Users> ShowUsers()
         {
-            string sql = "select * from Users";
+            string sql = "select * from Users a join Roles b on a.RoleId=b.RoleId";
             return DapperHelper.GetList<Model.Users>(sql);
         }
 
@@ -48,30 +62,33 @@ namespace IOT.Core.Repository.Users
 
         public int UptUsers(Model.Users a)
         {
-            string sql = $"update set Users  UserName='{a.UserName}', LoginName='{a.LoginName}', LoginPwd='{a.LoginPwd}', Phone='{a.Phone}', Address='{a.Address}', NickName='{a.NickName}', ColonelID={a.ColonelID}, RoleId={a.RoleId}  where UserId={a.UserId}";
+            
+            string sql = $"update  Users set  UserName='{a.UserName}', LoginName='{a.LoginName}', LoginPwd='{a.LoginPwd}', Phone='{a.Phone}', Address='{a.Address}',State={a.State}, NickName='{a.NickName}', ColonelID={a.ColonelID}, RoleId={a.RoleId}  where UserId={a.UserId}";
             return DapperHelper.Execute(sql);
         }
 
-        public int UptZt(int sid)
+        public int UptZt(int cid)
         {
             string sql = "select * from Users";
 
             List<Model.Users> la = DapperHelper.GetList<Model.Users>(sql);
 
-            Model.Users aa = la.FirstOrDefault(x => x.UserId.Equals(sid));
+            Model.Users aa = la.FirstOrDefault(x => x.UserId.Equals(cid));
             string sql1 = "";
             if (aa.State == 0)
             {
-                sql1 = $"UPDATE Users SET State=State+1 where UserId={sid}";
+                sql1 = $"UPDATE Users SET State=State+1 where UserId={cid}";
 
             }
             else
             {
-                sql1 = $"UPDATE Users SET State=State-1 where UserId={sid}";
+                sql1 = $"UPDATE Users SET State=State-1 where UserId={cid}";
 
             }
             int i = DapperHelper.Execute(sql1);
             return i;
         }
+
+
     }
 }
