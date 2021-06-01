@@ -17,6 +17,7 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class ColonelController : ControllerBase
     {
+        #region
         private IColonelRepository _colonelRepository;
         private IColonelManagementRepository _colonelManagementRepository;
         private IColonelGradeRepository _colonelGradeRepository;
@@ -41,6 +42,8 @@ namespace IOT.Core.Api.Controllers
             _brokerageRepository = brokerageRepository;
         }
 
+        #endregion
+
         //================================================================================================
 
         /// <summary>
@@ -54,13 +57,13 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>  
         [HttpGet]
         [Route("/api/GetBrokerages")]
-        public IActionResult GetBrokerages(int orderFormStatus,int brokerageState, string time="", string orderNumber="aaa", string colonel = "aaa")
+        public IActionResult GetBrokerages(int orderFormStatus, int brokerageState, string time = "", string orderNumber = "aaa", string colonel = "aaa")
         {
             List<Model.ViewColonelAndBrokerage> list = _brokerageRepository.GetBrokerages(time, orderFormStatus, colonel, orderNumber, brokerageState);
 
-            if (time!="")
+            if (time != "aaa" & time!="" )
             {
-                list = list.Where(m => m.EndTime >= Convert.ToDateTime(time)).ToList();
+                list = list.Where(m => m.EndTime <= Convert.ToDateTime(time)).ToList();
             }
 
             return Ok(list);
@@ -159,7 +162,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/AddGroupPurchase")]
-        public int AddGroupPurchase([FromForm]Model.GroupPurchase gp)
+        public int AddGroupPurchase([FromForm] Model.GroupPurchase gp)
         {
             int i = _groupPurchaseRepository.AddGroupPurchase(gp);
             return i;
@@ -188,7 +191,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/AddPath")]
-        public int AddPath([FromForm]Model.Path path)
+        public int AddPath([FromForm] Model.Path path)
         {
             int i = _pathRepository.AddPath(path);
             return i;
@@ -214,7 +217,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/UptPath")]
-        public int UptPath([FromForm]Model.Path path)
+        public int UptPath([FromForm] Model.Path path)
         {
             int i = _pathRepository.UptPath(path);
             return i;
@@ -275,7 +278,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/UptColonel")]
-        public int UptColonel([FromForm]Model.Colonel colonel)
+        public int UptColonel([FromForm] Model.Colonel colonel)
         {
             int i = _colonelManagementRepository.UptColonel(colonel);
             return i;
@@ -301,9 +304,23 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/AddUsers")]
-        public int AddUsers(Model.Users a)
+        public int AddUsers(int colonelid, string userids)
         {
-            int i = _colonelManagementRepository.AddUsers(a);
+            userids = userids.TrimEnd(',');
+            string[] arr = userids.Split(',');
+
+            Model.Users a = new Model.Users();
+            a.ColonelID = colonelid;
+
+            int i = 0;
+
+            foreach (var item in arr)
+            {
+                a.UserId = Convert.ToInt32(item);
+                i += _colonelManagementRepository.AddUsers(a);
+
+            }
+
             return i;
         }
 

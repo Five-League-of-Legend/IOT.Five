@@ -17,8 +17,17 @@ namespace IOT.Core.Repository.Colonel.Path
         /// <returns></returns>
         public int AddPath(Model.Path a)
         {
-            string sql = $" insert into Path values (null,'{a.PathName}','{a.PName}','{a.Phone}','{a.WarehouseAddress}','{a.LongAndLat}',{a.ColonelNum},{a.State}) ;";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" insert into Path values (null,'{a.PathName}','{a.PName}','{a.Phone}','{a.WarehouseAddress}','{a.LongAndLat}',{a.ColonelNum},{a.State}) ;";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
         }
 
         /// <summary>
@@ -28,8 +37,17 @@ namespace IOT.Core.Repository.Colonel.Path
         /// <returns></returns>
         public int DelPath(int PathID)
         {
-            string sql = $" delete from Path where RathID={PathID}";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" delete from Path where RathID={PathID}";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+    
         }
 
         /// <summary>
@@ -41,12 +59,21 @@ namespace IOT.Core.Repository.Colonel.Path
         {
             string sql = $" select * from Path ";
 
-            if (nm != "")
+            try
             {
-                sql += $" where PathName like '%{nm}%' ";
-            }
+                if (nm != "")
+                {
+                    sql += $" where PathName like '%{nm}%' ";
+                }
 
-            return DapperHelper.GetList<Model.Path>(sql);
+                return DapperHelper.GetList<Model.Path>(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
         }
 
         /// <summary>
@@ -56,8 +83,17 @@ namespace IOT.Core.Repository.Colonel.Path
         /// <returns></returns>
         public int UptPath(Model.Path a)
         {
-            string sql = $" update Path set PathName='{a.PathName}',PName='{a.PName}',Phone='{a.Phone}',WarehouseAddress='{a.WarehouseAddress}',LongAndLat='{a.LongAndLat}',ColonelNum={a.ColonelNum},State={a.State}  where RathID = {a.RathID}  ;";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" update Path set PathName='{a.PathName}',PName='{a.PName}',Phone='{a.Phone}',WarehouseAddress='{a.WarehouseAddress}',LongAndLat='{a.LongAndLat}',ColonelNum={a.ColonelNum},State={a.State}  where RathID = {a.RathID}  ;";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

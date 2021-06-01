@@ -13,8 +13,17 @@ namespace IOT.Core.Repository.Colonel
     {
         public List<Model.Colonel> ShowColonel(int cid)
         {
-            string sql = $" select * from Colonel where colonelId = {cid} ";
-            return DapperHelper.GetList<Model.Colonel>(sql);
+            try
+            {
+                string sql = $" select * from Colonel where colonelId = {cid} ";
+                return DapperHelper.GetList<Model.Colonel>(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
         }
     }
 }

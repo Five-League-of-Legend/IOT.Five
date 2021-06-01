@@ -68,6 +68,8 @@ using IOT.Core.Repository.PutLibrary;
 using IOT.Core.IRepository.Bargain;
 using IOT.Core.Repository.Bargain;
 using IOT.Core.Repository.Live;
+using IOT.Core.IRepository.MiniProgram;
+using IOT.Core.Repository.MiniProgram;
 
 namespace IOT.Core.Api
 {
@@ -101,8 +103,10 @@ namespace IOT.Core.Api
             services.AddSingleton<IOrderInfoRepository, OrderInfoRepository>();
             services.AddSingleton<IOrderCommentRepository, OrderCommentRepository>();
             services.AddSingleton<IOrderDelivery, OrderDelivery>();
+            services.AddSingleton<IMiniProgramRepository, MiniProgramRepository>();
 
             
+
             //--------------------------------------------------------------------------------------
 
 

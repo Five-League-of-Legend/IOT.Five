@@ -25,9 +25,10 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/GetMiniPrograms")]
-        public List<Model.MiniProgram> GetMiniPrograms()
+        public IActionResult GetMiniPrograms()
         {
-            return _miniProgramRepository1.MiniPrograms();
+            var list = _miniProgramRepository1.MiniPrograms();
+            return Ok(list);
         }
 
         /// <summary>

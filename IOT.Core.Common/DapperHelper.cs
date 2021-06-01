@@ -67,7 +67,6 @@ namespace IOT.Core.Common
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
