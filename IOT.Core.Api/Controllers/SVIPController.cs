@@ -23,10 +23,12 @@ namespace IOT.Core.Api.Controllers
         //添加
         [HttpPost]
         [Route("/api/SVIPAdd")]
-        public int SVIPAdd(IOT.Core.Model.SVIP a)
+        public int SVIPAdd([FromForm]IOT.Core.Model.SVIP a)
         {
             int i = _svipRepository.AddSvip(a);
             return i;
         }
+
+
     }
 }

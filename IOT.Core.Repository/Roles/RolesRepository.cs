@@ -12,26 +12,62 @@ namespace IOT.Core.Repository.Roles
     {
         public int AddRoles(Model.Roles a)
         {
-            string sql = $"insert into Roles values (null,'{a.RoleName}')";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $"insert into Roles values (null,'{a.RoleName}')";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public int DelRoles(string id)
         {
-            string sql = $"delete from Roles where RoleId={id}";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $"delete from Roles where RoleId={id}";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         public List<Model.Roles> ShowRoles()
         {
-            string sql = "select * from Roles";
-            return DapperHelper.GetList<Model.Roles>(sql);
+            try
+            {
+                string sql = "select * from Roles";
+                return DapperHelper.GetList<Model.Roles>(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public int UptRoles(Model.Roles a)
         {
-            string sql = $"update  Roles  set  RoleName='{a.RoleName}' where RoleId={a.RoleId})";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $"update  Roles  set  RoleName='{a.RoleName}' where RoleId={a.RoleId})";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

@@ -28,5 +28,8 @@ namespace IOT.Core.Model
         public string CommodityPic { get; set; }
         public string CommodityName { get; set; }
         public string Remark { get; set; }
+        public int Days { get; set; }
+        public int Months { get; set; }
+        public int years { get; set; }
     }
 }

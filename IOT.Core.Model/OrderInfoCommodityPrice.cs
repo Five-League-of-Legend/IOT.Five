@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace IOT.Core.Model
 {
-    public   class     Sett
+   public class OrderInfoCommodityPrice
     {
-        public int SId { get; set; }
-        public int Money { get; set; }
-        public int Shen { get; set; }
+        public decimal OrderPrice { get; set; }
     }
 }

@@ -35,12 +35,29 @@ namespace IOT.Core.Api.Controllers
         /// <param name="userId">用户ID</param>
         /// <param name="CommodityName">商品名称</param>
         /// <param name="SendWay">自提点</param>
+        /// <param name="TimeType">时间类型</param>
+        /// <param name="setimeArr">开始时间和结束时间</param>
         /// <returns></returns>
         [HttpGet]
         [Route("/api/GetShowViewOrderInfo")]
-        public IActionResult GetShowViewOrderInfo(int searchType = -1, string searchContent = "", string sTime = "", string eTime = "", int refundStatus = -1, int orderState = -1, int userId = -1, string CommodityName = "", int SendWay = -1)
+        public IActionResult GetShowViewOrderInfo(int timeType=-1,string setimeArr="",int searchType = -1, string searchContent = "", string sTime = "", string eTime = "", int refundStatus = -1, int orderState = -1, int userId = -1, string CommodityName = "", int SendWay = -1)
         {
             var ls = _orderInfoRepository.ShowViewOrderInfo(searchType, searchContent, sTime, eTime, refundStatus, orderState, userId, CommodityName, SendWay);
+
+            if (timeType!=-1&timeType!=0)
+            {
+                if (setimeArr != "" & setimeArr != null)
+                {
+                    switch (timeType)
+                    {
+                        case 1:
+                            ls = ls.Where(m => m.StartTime == Convert.ToDateTime(setimeArr)).ToList();
+                            break;
+                    }
+                }              
+            }
+            
+
             return Ok(ls);
         }
 
@@ -51,7 +68,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/UptOrderInfo")]
-        public int UptOrderInfo(Model.OrderInfo orderInfo)
+        public int UptOrderInfo([FromForm]Model.OrderInfo orderInfo)
         {
             return _orderInfoRepository.UptOrderInfo(orderInfo);
         }
@@ -71,7 +88,12 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/GetStatisticsOrder")]
         public IActionResult GetStatisticsOrder()
         {
-            string[] arr = _orderInfoRepository.StatisticsOrder().Split(',');
+            string[] ss = _orderInfoRepository.StatisticsOrder().Split('+');
+
+            string[] arr = ss[0].Split(',');
+            string[] arr1 = ss[1].Split(',');
+
+             Array.Reverse(arr1);
 
             return Ok(new
             {
@@ -81,14 +103,19 @@ namespace IOT.Core.Api.Controllers
                 Evaluate = arr[3],
                 Safeguard = arr[4],
                 Today = arr[5],
-                Figure = arr[6]
+                Figure = arr[6],
+                Num1=arr1[0],
+                Num2=arr1[1],
+                Num3=arr1[2],
+                Num4=arr1[3],
+                Num5=arr1[4]
             });
         }
 
 
 
         /// <summary>
-        /// 订单管理
+        /// 评价管理
         /// </summary>
         /// <returns></returns>
         [HttpGet]

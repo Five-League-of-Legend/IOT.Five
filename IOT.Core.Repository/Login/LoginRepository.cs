@@ -18,9 +18,17 @@ namespace IOT.Core.Repository.Login
         /// <returns></returns>
         public object Login(string loginName, string pwd)
         {
+            try
+            {
+                object result = DapperHelper.Exescalar($"select count(1) from Users where LoginName='{loginName}' and LoginPwd='{pwd}'");
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             
-            object result = DapperHelper.Exescalar($"select count(1) from Users where LoginName='{loginName}' and LoginPwd='{pwd}'");
-            return result;
         }
     }
 }

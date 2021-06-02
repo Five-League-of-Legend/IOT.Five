@@ -17,9 +17,18 @@ namespace IOT.Core.Repository.Colonel.GroupPurchase
         /// <returns></returns>
         public int AddGroupPurchase(Model.GroupPurchase gp)
         {
-            string sql = $" insert into GroupPurchase values (null,{gp.IsGroup},'{gp.Notice}','{gp.CloseTime}','{gp.PosterOne}','{gp.PosterTwo}','{gp.PosterThree}','{gp.DespatchMode}','{gp.HeadName}',{gp.CoverageArea},{gp.ServiceCharge},{gp.WithdrawDeposit},{gp.Commission})   ";
+            try
+            {
+                string sql = $" insert into GroupPurchase values (null,{gp.IsGroup},'{gp.Notice}','{gp.CloseTime}','{gp.PosterOne}','{gp.PosterTwo}','{gp.PosterThree}','{gp.DespatchMode}','{gp.HeadName}',{gp.CoverageArea},{gp.ServiceCharge},{gp.WithdrawDeposit},{gp.Commission})   ";
 
-            return DapperHelper.Execute(sql);
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+      
         }
     }
 }
