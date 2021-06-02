@@ -59,8 +59,13 @@ namespace IOT.Core.Api.Controllers
         //修改
         [HttpPost]
         [Route("/api/UsersUpt")]
-        public int UsersUpt(IOT.Core.Model.Users a)
+        public int UsersUpt([FromForm]IOT.Core.Model.Users a)
         {
+            a.Phone = "14712345678";
+            a.Address = "河北廊坊";
+            a.State = 1;
+            a.ColonelID = 1;
+            a.RoleId = 1;
             return _usersRepository.UptUsers(a);
         }
         //修改状态
@@ -68,6 +73,7 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/UsersUptZt")]
         public int UsersUptZt(int cid)
         {
+
             return _usersRepository.UptZt(cid);
         }
 
