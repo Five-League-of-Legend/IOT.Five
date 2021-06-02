@@ -13,7 +13,6 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class CommoditysController : ControllerBase
     {
-       
         private readonly ICommodityRepository _commodityRepository;
        
         public CommoditysController(ICommodityRepository commodityRepository)
@@ -24,39 +23,78 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public IActionResult Commshow(int code=1,int tid=0,string keyname="")
         {
-            var list = _commodityRepository.Query(code,tid,keyname);
-            return Ok(list           
-        
-            );
+            try
+            {
+                var list = _commodityRepository.Query(code, tid, keyname);
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         [Route("/api/BindCommshow")]
         [HttpGet]
         public IActionResult BindCommshow()
         {
-            var list = _commodityRepository.BindShowCom();
-            return Ok(list
+            try
+            {
+                var list = _commodityRepository.BindShowCom();
+                return Ok(list);
+            }
+            catch (Exception)
+            {
 
-            );
+                throw;
+            }
         }
 
         [Route("/api/Add")]
         [HttpPost]
         public int Add(Commodity commodity)
         {
-            return _commodityRepository.Insert(commodity);
+            try
+            {
+                int i = _commodityRepository.Insert(commodity);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [Route("/api/Uptstate")] 
         [HttpPost]
         public int Uptstate(int id)
         {
-            return _commodityRepository.Uptstate(id);
+            try
+            {
+                int i = _commodityRepository.Uptstate(id);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [Route("/api/Uptsstate")]
         [HttpPost]
         public int Uptsstate(int id)
         {
-            return _commodityRepository.Uptsstate(id);
+            try
+            {
+                int i = _commodityRepository.Uptsstate(id);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
 

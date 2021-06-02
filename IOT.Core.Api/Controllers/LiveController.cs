@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.Core.IRepository.Live;
+using NLog;
 
 namespace IOT.Core.Api.Controllers
 {
@@ -13,6 +14,7 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class LiveController : ControllerBase
     {
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly ILiveRepository _liveRepository;
         public LiveController(ILiveRepository liveRepository)
         {
@@ -20,43 +22,57 @@ namespace IOT.Core.Api.Controllers
         }
         [HttpGet]
         [Route("/api/ShowLiveList")]
-        public IActionResult ShowLiveList(int zt = -1, string keyname = "", int page = 1, int limit = 3)
+        public IActionResult ShowLiveList(int zt = -1, string keyname = "")
         {
-            List<Model.Live> lv = _liveRepository.Query();
-            if (zt!=-1)
+            try
             {
-                lv = lv.Where(x => x.IsEnable.Equals(zt)).ToList();
-            }
-            if (!string.IsNullOrEmpty(keyname))
-            {
-                lv = lv.Where(x => x.AnchorName.Contains(keyname)).ToList();
-            }
-            return Ok(new
-            {
-                msg = "",
-                code = 0,
-                count = lv.Count(),
-                data = lv.Skip((page - 1) * limit).Take(limit)
-            });
-        }
-        [HttpGet]
-        [Route("/api/SelectLiveList")]
-        public IActionResult SelectLiveList(int lid = 0, int page = 1, int limit = 3)
-        {
-            List<Model.Commodity> lv = _liveRepository.SelectGoods(lid);
-            if (lv.Count==0)
-            {
-                return Ok("没有带货商品");
-            }
-            else
-            {
+                List<Model.Live> lv = _liveRepository.Query();
+                if (zt != -1)
+                {
+                    lv = lv.Where(x => x.IsEnable.Equals(zt)).ToList();
+                }
+                if (!string.IsNullOrEmpty(keyname))
+                {
+                    lv = lv.Where(x => x.AnchorName.Contains(keyname)).ToList();
+                }
                 return Ok(new
                 {
                     msg = "",
                     code = 0,
-                    count = lv.Count(),
-                    data = lv.Skip((page - 1) * limit).Take(limit)
+                    data = lv
                 });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpGet]
+        [Route("/api/SelectLiveList")]
+        public IActionResult SelectLiveList(int lid = 0)
+        {
+            try
+            {
+                List<Model.Commodity> lv = _liveRepository.SelectGoods(lid);
+                if (lv.Count == 0)
+                {
+                    return Ok("没有带货商品");
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        msg = "",
+                        code = 0,
+                        data = lv
+                    });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
         /// <summary>
@@ -66,31 +82,67 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/AddLiveList")]
-        public int AddLiveList(Model.Live live)
+        public int AddLiveList([FromForm]Model.Live live)
         {
-            int i = _liveRepository.Insert(live);
-            return i;
+            try
+            {
+                logger.Debug($"用户对直播列表进行添加,添加的名称为:{live.LiveTitle}");
+                int i = _liveRepository.Insert(live);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         [Route("/api/DelLiveList")]
         public int DelLiveList(string ids)
         {
-            int i = _liveRepository.Delete(ids);
-            return i;
+            try
+            {
+                logger.Debug($"用户对直播列表进行删除,删除的ID为:{ids}");
+                int i = _liveRepository.Delete(ids);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         [Route("/api/UptLiveList")]
         public int UptLiveList(Model.Live live)
         {
-            int i = _liveRepository.UptDate(live);
-            return i;
+            try
+            {
+                logger.Debug($"用户对直播列表进行修改,修改的ID为:{live.LiveId}");
+                int i = _liveRepository.UptDate(live);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         [Route("/api/UptZtLiveList")]
         public int UptZtLiveList(int lid)
         {
-            int i = _liveRepository.UptZt(lid);
-            return i;
+            try
+            {
+                logger.Debug($"用户对直播列表进行修改状态,修改状态的ID为:{lid}");
+                int i = _liveRepository.UptZt(lid);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
