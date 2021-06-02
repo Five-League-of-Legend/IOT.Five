@@ -17,11 +17,20 @@ namespace IOT.Core.Repository.OrderInfo
         /// <returns></returns>
         public List<ViewOrderUsersCommodity> ShowOrderDelivery()
         {
-            string sql = @"select * from orderinfo a  
+            try
+            {
+                string sql = @"select * from orderinfo a  
                            join users b on a.UserId = b.UserId 
                            join commodity c on a.CommodityId = c.CommodityId ";
 
-            return DapperHelper.GetList<ViewOrderUsersCommodity>(sql);
+                return DapperHelper.GetList<ViewOrderUsersCommodity>(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+      
         }
     }
 }

@@ -17,8 +17,17 @@ namespace IOT.Core.Repository.Colonel.ColonelGrade
         /// <returns></returns>
         public int DelColonelGrade(int CGId)
         {
-            string sql = $" delete from ColonelGrade where CGId = {CGId} ;";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" delete from ColonelGrade where CGId = {CGId} ;";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         /// <summary>
@@ -30,12 +39,21 @@ namespace IOT.Core.Repository.Colonel.ColonelGrade
         {
             string sql = $" select * from ColonelGrade ";
 
-            if (CGId != -1)
+            try
             {
-                sql += $" where CGId={CGId} ";
+                if (CGId != -1)
+                {
+                    sql += $" where CGId={CGId} ";
+                }
+
+                return DapperHelper.GetList<Model.ColonelGrade>(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
-            return DapperHelper.GetList<Model.ColonelGrade>(sql);
         }
 
         /// <summary>
@@ -45,8 +63,17 @@ namespace IOT.Core.Repository.Colonel.ColonelGrade
         /// <returns></returns>
         public int UptColonelGrade(Model.ColonelGrade colonelGrade)
         {
-            string sql = $" update ColonelGrade set CGradeName='{colonelGrade.CGradeName}',GradeExperience='{colonelGrade.GradeExperience}',FirstPY={colonelGrade.FirstPY},AwardRatio='{colonelGrade.AwardRatio}',GradeStatus={colonelGrade.GradeStatus} where CGId = {colonelGrade.CGId} ;";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" update ColonelGrade set CGradeName='{colonelGrade.CGradeName}',GradeExperience='{colonelGrade.GradeExperience}',FirstPY={colonelGrade.FirstPY},AwardRatio='{colonelGrade.AwardRatio}',GradeStatus={colonelGrade.GradeStatus} where CGId = {colonelGrade.CGId} ;";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

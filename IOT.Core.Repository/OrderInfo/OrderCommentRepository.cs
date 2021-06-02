@@ -20,8 +20,17 @@ namespace IOT.Core.Repository.OrderInfo
         /// <returns></returns>
         public int DelOrderCom(int id)
         {
-            string sql = $" delete from OrderComment where Commentid = {id} ";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" delete from OrderComment where Commentid = {id} ";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+       
         }
 
         /// <summary>
@@ -30,8 +39,17 @@ namespace IOT.Core.Repository.OrderInfo
         /// <returns></returns>
         public List<ViewOrderComAndCom_Com> ShowOrderCom()
         {
-            string sql = " select a.*,b.*,c.CommodityName,c.CommodityPic from ordercomment a join com_comment b on a.Com_CommentId = b.Com_CommentId join Commodity c on b.CommodityId=c.CommodityId  ";
-            return DapperHelper.GetList<ViewOrderComAndCom_Com>(sql);
+            try
+            {
+                string sql = " select a.*,b.*,c.CommodityName,c.CommodityPic from ordercomment a join com_comment b on a.Com_CommentId = b.Com_CommentId join Commodity c on b.CommodityId=c.CommodityId  ";
+                return DapperHelper.GetList<ViewOrderComAndCom_Com>(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
 
@@ -41,8 +59,17 @@ namespace IOT.Core.Repository.OrderInfo
         /// <returns></returns>
         public int UptOrderCom(OrderComment orderComment)
         {
-            string sql = $" update OrderComment set State=ABS(State-1) where Commentid = {orderComment.Commentid}  ";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" update OrderComment set State=ABS(State-1) where Commentid = {orderComment.Commentid}  ";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+       
         }
     }
 }

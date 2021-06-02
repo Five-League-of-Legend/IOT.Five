@@ -18,8 +18,17 @@ namespace IOT.Core.Repository.Colonel.Brokerage
         /// <returns></returns>
         public int AddBrokerage(Model.Brokerage brokerage)
         {
-            string sql = $" insert into Brokerage values (null,{brokerage.ColonelID},{brokerage.BrokerageType},{brokerage.Income},{brokerage.State},'{brokerage.EndTime}',{brokerage.OrderFormStatus}) ";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" insert into Brokerage values (null,{brokerage.ColonelID},{brokerage.BrokerageType},{brokerage.Income},{brokerage.State},'{brokerage.EndTime}',{brokerage.OrderFormStatus}) ";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
 
@@ -30,8 +39,17 @@ namespace IOT.Core.Repository.Colonel.Brokerage
         /// <returns></returns>
         public int DelBrokerage(int id)
         {
-            string sql = $" delete from Brokerage where BId = {id} ";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" delete from Brokerage where BId = {id} ";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         /// <summary>
@@ -47,28 +65,36 @@ namespace IOT.Core.Repository.Colonel.Brokerage
         {
             string sql = " select * from Brokerage a join colonel b on a.ColonelID=b.ColonelID where 1=1 ";
 
-
-            if (orderFormStatus != 0)
+            try
             {
-                sql += $" and OrderFormStatus = {orderFormStatus} ";
+                if (orderFormStatus != 0)
+                {
+                    sql += $" and OrderFormStatus = {orderFormStatus} ";
+                }
+
+                if (colonel != "aaa")
+                {
+                    sql += $" and ColonelName like '%{colonel}%' ";
+                }
+                if (orderNumber != "aaa")
+                {
+                    sql += $" and BId = {orderNumber} ";
+                }
+
+                if (brokerageState != 0)
+                {
+                    sql += $" and BrokerageType = {brokerageState} ";
+                }
+
+                return DapperHelper.GetList<ViewColonelAndBrokerage>(sql);
+
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
-            if (colonel!="aaa")
-            {
-                sql += $" and ColonelName like '%{colonel}%' ";
-            }
-            if (orderNumber != "aaa")
-            {
-                sql += $" and BId = {orderNumber} ";
-            }
 
-            if (brokerageState != 0)
-            {
-                sql += $" and BrokerageType = {brokerageState} ";
-            }
-
-
-            return DapperHelper.GetList<ViewColonelAndBrokerage>(sql);
         }
 
 
@@ -79,8 +105,17 @@ namespace IOT.Core.Repository.Colonel.Brokerage
         /// <returns></returns>       
         public int UptBrokerage(Model.Brokerage brokerage)
         {
-            string sql = $" update Brokerage set ColonelID={brokerage.ColonelID},BrokerageType={brokerage.BrokerageType},Income={brokerage.Income},State={brokerage.State},EndTime='{brokerage.EndTime}',OrderFormStatus={brokerage.OrderFormStatus} ";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" update Brokerage set ColonelID={brokerage.ColonelID},BrokerageType={brokerage.BrokerageType},Income={brokerage.Income},State={brokerage.State},EndTime='{brokerage.EndTime}',OrderFormStatus={brokerage.OrderFormStatus} ";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

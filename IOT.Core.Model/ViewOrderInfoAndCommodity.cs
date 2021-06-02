@@ -23,6 +23,9 @@ namespace IOT.Core.Model
 
         public string CommodityName { get; set; }//商品名称
         public string CommodityPic { get; set; } //商品图片
+        public string SendAddress { get; set; } //地址
+        public string ShopNum { get; set; } //数量
+
         public string ShopPrice { get; set; }    //销售单价
         public int SId { get; set; }             //规格
 
