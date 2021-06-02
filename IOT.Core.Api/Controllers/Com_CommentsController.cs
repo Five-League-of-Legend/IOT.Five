@@ -39,6 +39,12 @@ namespace IOT.Core.Api.Controllers
         {
             return _com_CommentRepository.Delete(ids);
         }
+        [HttpPost]
+        [Route("/api/Uptssss")]
+        public int Upt(Model.Com_Comment cs)
+        {
+            return _com_CommentRepository.Upt(cs);
+        }
 
 
 

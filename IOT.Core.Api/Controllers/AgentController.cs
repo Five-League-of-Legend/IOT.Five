@@ -56,8 +56,28 @@ namespace IOT.Core.Api.Controllers
         //修改
         [HttpPost]
         [Route("/api/AgentUpt")]
-        public int AgentUpt(IOT.Core.Model.Agent a)
+        public int AgentUpt([FromForm]IOT.Core.Model.Agent a)
         {
+
+            //int    AgentId { get
+            //string AgentName { g
+            //string BackgroudColo
+            //string Icon { get; s
+            //string BCImg { get; 
+            //string Fans { get; s
+            //int    Consume { get
+            //int    Money { get; 
+            //string NFans { get; 
+            //int    Two { get; se
+            //int    Three { get; 
+            //int    One { get; se
+            //string Explaina { ge
+            //int AgentState { get
+            a.Consume = 15;
+            a.Money = 123;
+            a.Fans = "何垚最帅了";
+            a.AgentState = 1;
+            a.NFans = "何垚是个男的";
             return _agentRepository.UptAgent(a);
         }
         //修改状态
