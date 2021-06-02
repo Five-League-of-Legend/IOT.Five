@@ -42,7 +42,7 @@ namespace IOT.Core.Api.Controllers
 
         [Route("/api/Add")]
         [HttpPost]
-        public int Add(Commodity commodity)
+        public int Add([FromForm]Commodity commodity)
         {
             return _commodityRepository.Insert(commodity);
         }
@@ -58,7 +58,12 @@ namespace IOT.Core.Api.Controllers
         {
             return _commodityRepository.Uptsstate(id);
         }
-
+        [Route("/api/Upt")]
+        [HttpPost]
+        public int Upt(Model.Commodity cc)
+        {
+            return _commodityRepository.Upt(cc);
+        }
 
     }
 }

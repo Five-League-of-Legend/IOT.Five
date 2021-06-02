@@ -18,78 +18,128 @@ namespace IOT.Core.Repository.Commodity
 
         public int Insert(Model.Commodity Model)
         {
-            string sql = $"insert into Commodity values(null,'{Model.CommodityName}','{Model.CommodityPic}','{Model.ShopPrice}',{Model.ShopNum},{Model.Repertory},{Model.Sort},0,now(),{Model.TId},'{Model.Remark}',{Model.TemplateId},'{Model.CommodityKey}','{Model.SendAddress}','{Model.Job}',{Model.Integral},{Model.SId},'{Model.Color}','{Model.Size}',0,0,{Model.CostPrice},{Model.ColonelID},{Model.Mid})";
+            try
+            {
+                string sql = $"insert into Commodity values(null,'{Model.CommodityName}','{Model.CommodityPic}','{Model.ShopPrice}',{Model.ShopNum},{Model.Repertory},{Model.Sort},0,now(),{Model.TId},'{Model.Remark}',{Model.TemplateId},'{Model.CommodityKey}','{Model.SendAddress}','{Model.Job}',{Model.Integral},{Model.SId},'{Model.Color}','{Model.Size}',0,0,{Model.CostPrice},{Model.ColonelID},{Model.Mid})";
 
-            return DapperHelper.Execute(sql);
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+         
         }
 
 
         public int Uptstate(int id)
         {
-            var list = DapperHelper.GetList<Model.Commodity>($"select * from Commodity ").ToList();
-            IOT.Core.Model.Commodity commodity = list.FirstOrDefault(m => m.CommodityId == id);
-            if (commodity.DeleteState == 0)
+            try
             {
-                commodity.DeleteState = 1;
-            }
-            else
-            {
-                commodity.DeleteState = 0;
-            }
+                var list = DapperHelper.GetList<Model.Commodity>($"select * from Commodity ").ToList();
+                IOT.Core.Model.Commodity commodity = list.FirstOrDefault(m => m.CommodityId == id);
+                if (commodity.DeleteState == 0)
+                {
+                    commodity.DeleteState = 1;
+                }
+                else
+                {
+                    commodity.DeleteState = 0;
+                }
 
-            string sql = $"update Commodity set DeleteState={commodity.DeleteState} where CommodityId={commodity.CommodityId}";
-            return DapperHelper.Execute(sql);
+                string sql = $"update Commodity set DeleteState={commodity.DeleteState} where CommodityId={commodity.CommodityId}";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
         }
         public int Uptsstate(int id)
         {
-            IOT.Core.Model.Commodity commodity = DapperHelper.GetList<Model.Commodity>($"select * from Commodity where CommodityId={id}").FirstOrDefault();
-            if (commodity.IsSell == 0)
+            try
             {
-                commodity.IsSell = 1;
+                IOT.Core.Model.Commodity commodity = DapperHelper.GetList<Model.Commodity>($"select * from Commodity where CommodityId={id}").FirstOrDefault();
+                if (commodity.IsSell == 0)
+                {
+                    commodity.IsSell = 1;
+                }
+                else
+                {
+                    commodity.IsSell = 0;
+                }
+                string sql = $"update Commodity set IsSell={commodity.IsSell} where CommodityId={commodity.CommodityId}";
+                return DapperHelper.Execute(sql);
             }
-            else
+            catch (Exception)
             {
-                commodity.IsSell = 0;
+
+                throw;
             }
-            string sql = $"update Commodity set IsSell={commodity.IsSell} where CommodityId={commodity.CommodityId}";
-            return DapperHelper.Execute(sql);
+         
         }
 
         public List<Model.Commodity> Query(int code, int tid, string keyname)
         {
-            string sql = "";
-            if (code == 1)
+            try
             {
-                sql = "select * from Commodity where State =1 and DeleteState=0";
+                string sql = "";
+                if (code == 1)
+                {
+                    sql = "select * from Commodity where State =1 and DeleteState=0";
+                }
+                else if (code == 2)
+                {
+                    sql = "select * from Commodity where DeleteState=0";
+                }
+                else if (code == 3)
+                {
+                    sql = "select * from Commodity where DeleteState=0 and IsSell=1";
+                }
+                else if (code == 4)
+                {
+                    sql = "select * from Commodity where DeleteState=1";
+                }
+                List<Model.Commodity> mm = DapperHelper.GetList<Model.Commodity>(sql);
+                if (tid != 0)
+                {
+                    mm = mm.Where(x => x.TId.Equals(tid)).ToList();
+                }
+                if (!string.IsNullOrEmpty(keyname))
+                {
+                    mm = mm.Where(x => x.CommodityName.Contains(keyname)).ToList();
+                }
+                return mm;
             }
-            else if (code == 2)
+            catch (Exception)
             {
-                sql = "select * from Commodity where DeleteState=0";
+
+                throw;
             }
-            else if (code == 3)
-            {
-                sql = "select * from Commodity where DeleteState=0 and IsSell=1";
-            }
-            else if (code == 4)
-            {
-                sql = "select * from Commodity where DeleteState=1";
-            }
-            List<Model.Commodity> mm = DapperHelper.GetList<Model.Commodity>(sql);
-            if (tid != 0)
-            {
-                mm = mm.Where(x => x.TId.Equals(tid)).ToList();
-            }
-            if (!string.IsNullOrEmpty(keyname))
-            {
-                mm = mm.Where(x => x.CommodityName.Contains(keyname)).ToList();
-            }
-            return mm;
+          
         }
 
         public List<Model.Commodity> BindShowCom()
         {
             string sql = "select * from Commodity ";
             return DapperHelper.GetList<Model.Commodity>(sql);
+        }
+        public int Upt(Model.Commodity cc)
+        {
+            try
+            {
+            string sql = $"update Commodity set CommodityName='{cc.CommodityName}',CommodityPic='{cc.CommodityPic}',ShopPrice='{cc.ShopPrice}',ShopNum={cc.ShopNum},Repertory={cc.Repertory},Sort={cc.Sort},State={cc.State},OperationDate='{cc.OperationDate}' where CommodityId={cc.CommodityId}";
+            return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
     }
 }
