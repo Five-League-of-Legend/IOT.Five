@@ -27,34 +27,44 @@ namespace IOT.Core.Repository.OrderInfo
         /// <returns></returns>
         public List<ViewOrderInfoAndCommodity> ShowViewOrderInfo(int searchType, string searchContent, string sTime, string eTime, int refundStatus, int orderState, int userId, string commodityName, int sendWay)
         {
-            string sql = $" select a.*," +
-                $"b.CommodityId,b.CommodityName,b.CommodityPic,b.ShopPrice," +
-                $"c.UserId,c.UserName,c.LoginName,c.Phone,c.Address," +
-                $"d.ColonelName,d.Region " +
-                $"from orderInfo a join commodity b on a.CommodityId = b.CommodityId join users c  on a.UserId = c.UserId join colonel d on c.ColonelID = d.ColonelID where 1 = 1 ";
-
-            if (searchType == 1)//1订单号
+            try
             {
-                if (searchContent != "") { sql += $" and a.Orderid = {searchContent} "; }
+                string sql = $" select a.*," +
+                  $"b.CommodityId,b.CommodityName,b.CommodityPic,b.ShopPrice,b.ShopNum,b.SendAddress," +
+                  $"c.UserId,c.UserName,c.LoginName,c.Phone,c.Address," +
+                  $"d.ColonelName,d.Region " +
+                  $"from orderInfo a join commodity b on a.CommodityId = b.CommodityId join users c  on a.UserId = c.UserId join colonel d on c.ColonelID = d.ColonelID where 1 = 1 ";
+
+                if (searchType == 1)//1订单号
+                {
+                    if (searchContent != "") { sql += $" and a.Orderid = {searchContent} "; }
+                }
+                else if (searchType == 2)//2买家姓名
+                {
+                    if (searchContent != "") { sql += $" and c.UserName like '%{searchContent}%' "; }
+                }
+                else if (searchType == 3)//3买家电话
+                {
+                    if (searchContent != "") { sql += $" and c.Phone = {searchContent} "; }
+                }
+
+                if (sTime != null & sTime != "") { sql += $" and StartTime >= '{sTime}' "; }
+                if (eTime != null & eTime != "") { sql += $" and StartTime <= '{eTime}' "; }
+                //if (refundStatus != -1) { sql += $" and  "; }
+                if (orderState != 0 & orderState != -1) { sql += $" and OrderState = {orderState} "; }
+                if (userId != 0 & userId != -1) { sql += $" and a.UserId = {userId} "; }
+                if (commodityName != null & commodityName != "") { sql += $" and b.CommodityName like '%{commodityName}%' "; }
+                if (sendWay != -1) { sql += $" and a.SendWay = {sendWay} "; }
+
+                return DapperHelper.GetList<ViewOrderInfoAndCommodity>(sql);
+
             }
-            else if (searchType == 2)//2买家姓名
+            catch (Exception)
             {
-                if (searchContent != "") { sql += $" and c.UserName like '%{searchContent}%' "; }
-            }
-            else if (searchType == 3)//3买家电话
-            {
-                if (searchContent != "") { sql += $" and c.Phone = {searchContent} "; }
+
+                throw;
             }
 
-            if (sTime != "") { sql += $" and StartTime >= {sTime} "; }
-            if (eTime != "") { sql += $" and StartTime <= {eTime} "; }
-            //if (refundStatus != -1) { sql += $" and  "; }
-            if (orderState != -1) { sql += $" and OrderState = {orderState} "; }
-            if (userId != -1) { sql += $" and a.UserId = {userId} "; }
-            if (commodityName != "") { sql += $" and b.CommodityName like '%{commodityName}%' "; }
-            if (sendWay != -1) { sql += $" and a.SendWay = {sendWay} "; }
-
-            return DapperHelper.GetList<ViewOrderInfoAndCommodity>(sql);
         }
 
         /// <summary>
@@ -70,17 +80,35 @@ namespace IOT.Core.Repository.OrderInfo
         /// <returns></returns>
         public string StatisticsOrder()
         {
-            int sum = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo "));
-            int payment = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo where orderState = 1 "));
-            int deliver = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo where orderState = 2 "));
-            int evaluate = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo where orderState = 7 "));
-            int safeguard = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo where orderState = 66 "));
-            int today = Convert.ToInt32(DapperHelper.Exescalar(" select COUNT(*) from orderInfo where DATE(StartTime) = CURDATE() "));
-            int figure = Convert.ToInt32(DapperHelper.Exescalar(" select SUM(OrderPrice) from orderInfo where DATE(StartTime) = CURDATE() "));
+            try
+            {
+                int sum = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo "));
+                int payment = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo where orderState = 1 "));
+                int deliver = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo where orderState = 2 "));
+                int evaluate = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo where orderState = 7 "));
+                int safeguard = Convert.ToInt32(DapperHelper.Exescalar(" select count(*) from OrderInfo where orderState = 66 "));
+                int today = Convert.ToInt32(DapperHelper.Exescalar(" select COUNT(*) from orderInfo where DATE(StartTime) = CURDATE() "));
+                int figure = Convert.ToInt32(DapperHelper.Exescalar(" select SUM(OrderPrice) from orderInfo where DATE(StartTime) = CURDATE() "));
+                List<OrderInfoCommodityPrice> list = DapperHelper.GetList<OrderInfoCommodityPrice>("select  OrderPrice from OrderInfo ORDER BY Orderid desc LIMIT 5");
 
-            string ss = sum + "," + payment + "," + deliver + "," + evaluate + "," + safeguard + "," + today + "," + figure;
-            
-            return ss;
+                string strlist = "";
+
+
+                foreach (var item in list)
+                {
+                    strlist += item.OrderPrice + ",";
+                }
+
+                string ss = sum + "," + payment + "," + deliver + "," + evaluate + "," + safeguard + "," + today + "," + figure;
+
+                return ss + "+" + strlist.TrimEnd(',');
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+      
         }
 
 
@@ -91,8 +119,17 @@ namespace IOT.Core.Repository.OrderInfo
         /// <returns></returns>
         public int UptOrderInfo(Model.OrderInfo a)
         {
-            string sql = $" update orderInfo set CommodityId={a.CommodityId},UserId={a.UserId},SendWay={a.SendWay},OrderState={a.OrderState},Remark='{a.Remark}',CommodityPrice={a.CommodityPrice},DistributionCosts={a.DistributionCosts},OrderPrice={a.OrderPrice},CouponPrice={a.CouponPrice},AmountPaid={a.AmountPaid},StartTime='{a.StartTime}' where Orderid = {a.Orderid} ";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $" update orderInfo set CommodityId={a.CommodityId},UserId={a.UserId},SendWay={a.SendWay},OrderState={a.OrderState},Remark='{a.Remark}',CommodityPrice={a.CommodityPrice},DistributionCosts={a.DistributionCosts},OrderPrice={a.OrderPrice},CouponPrice={a.CouponPrice},AmountPaid={a.AmountPaid},StartTime='{a.StartTime}' where Orderid = {a.Orderid} ";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
         }
 
     }

@@ -13,12 +13,16 @@ namespace IOT.Core.Repository.SeckillCom
         public int Delete(string ids)
         {
             string sql = $"delete from SeckillCom where SeckillComId in ({ids})";
+            string sql2 = $"insert into Lognote values (NULL,'删除',NOW(),'SeckillCom秒杀商品表');";
+            DapperHelper.Execute(sql2);
             return DapperHelper.Execute(sql);
         }
 
         public int Insert(Model.SeckillCom Model)
         {
             string sql = $"insert into SeckillCom values (null,{Model.ActivityId},{Model.CommodityId},'{Model.SeckillTitle}','{Model.SeckillRemaek}',{Model.SeckillModel},{Model.TackTime},'{Model.ActionDate}',{Model.State},{Model.SeckilPrice},{Model.LimitNum},NOW())";
+            string sql2 = $"insert into Lognote values (NULL,'添加',NOW(),'SeckillCom秒杀商品表');";
+            DapperHelper.Execute(sql2);
             return DapperHelper.Execute(sql);
         }
 
@@ -30,7 +34,9 @@ namespace IOT.Core.Repository.SeckillCom
 
         public int Uptdate(Model.SeckillCom Model)
         {
-            string sql = $"update SeckillCom set ActivityId={ Model.ActivityId},CommodityId={Model.CommodityId},SeckillTitle='{Model.SeckillTitle}',SeckillRemaek='{Model.SeckillRemaek}',SeckillModel={ Model.SeckillModel},TackTime={ Model.TackTime},ActionDate='{Model.ActionDate}',State={ Model.State}.SeckilPrice={ Model.SeckilPrice},LimitNum={ Model.LimitNum} where SeckillComId={Model.SeckillComId}";
+            string sql = $"update SeckillCom set ActivityId={ Model.ActivityId},CommodityId={Model.CommodityId},SeckillTitle='{Model.SeckillTitle}',SeckillRemaek='{Model.SeckillRemaek}',SeckillModel={ Model.SeckillModel},TackTime={ Model.TackTime},ActionDate='{Model.ActionDate}',State={ Model.State},SeckilPrice={ Model.SeckilPrice},LimitNum={ Model.LimitNum} where SeckillComId={Model.SeckillComId}";
+            string sql2 = $"insert into Lognote values (NULL,'修改',NOW(),'SeckillCom秒杀商品表');";
+            DapperHelper.Execute(sql2);
             return DapperHelper.Execute(sql);
         }
 
@@ -48,6 +54,8 @@ namespace IOT.Core.Repository.SeckillCom
             {
                 sql1 = $"UPDATE SeckillCom SET State=State-1 where SeckillComId={sid}";
             }
+            string sql2 = $"insert into Lognote values (NULL,'修改状态',NOW(),'SeckillCom秒杀商品表');";
+            DapperHelper.Execute(sql2);
             return DapperHelper.Execute(sql1);
         }
     }

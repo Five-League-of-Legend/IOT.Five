@@ -23,7 +23,7 @@ namespace IOT.Core.Api.Controllers
         //添加
         [Route("/api/Login")]
         [HttpPost]
-        public int Login(Model.Users a)
+        public int Login([FromForm]Model.Users a)
         {
             object i = _loginRepository.Login(a.LoginName,a.LoginPwd);
             return Convert.ToInt32(i);

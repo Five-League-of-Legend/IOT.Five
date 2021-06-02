@@ -21,35 +21,80 @@ namespace IOT.Core.Api.Controllers
         //显示
         [Route("/api/AgentShow")]
         [HttpGet]
-        public IActionResult AgentShow()
+        public IActionResult AgentShow(string keyname = "")
         {
             var ls = _agentRepository.ShowAgent();
+            if (!string.IsNullOrEmpty(keyname))
+            {
+                ls = ls.Where(x => x.AgentName.Contains(keyname)).ToList();
+            }
+
             return Ok(new { msg = "", code = 0, data = ls });
+
         }
 
 
         //删除
         [Route("/api/AgentDel")]
-        [HttpDelete]
+        [HttpGet]
         public int AgentDel(string id)
         {
             return _agentRepository.DelAgent(id);
         }
 
+        //反填
+        [Route("/api/AgentShowFt")]
+        [HttpGet]
+        public IActionResult ActivityShowFT(int ftid)
+        {
+            //获取全部数据
+            var ls = _agentRepository.ShowAgent();
+            Model.Agent aa = ls.FirstOrDefault(x => x.AgentId.Equals(ftid));
+            return Ok(aa);
+        }
 
         //修改
         [HttpPost]
         [Route("/api/AgentUpt")]
-        public int AgentUpt(IOT.Core.Model.Agent a)
+        public int AgentUpt([FromForm]IOT.Core.Model.Agent a)
         {
+
+            //int    AgentId { get
+            //string AgentName { g
+            //string BackgroudColo
+            //string Icon { get; s
+            //string BCImg { get; 
+            //string Fans { get; s
+            //int    Consume { get
+            //int    Money { get; 
+            //string NFans { get; 
+            //int    Two { get; se
+            //int    Three { get; 
+            //int    One { get; se
+            //string Explaina { ge
+            //int AgentState { get
+            a.Consume = 15;
+            a.Money = 123;
+            a.Fans = "何垚最帅了";
+            a.AgentState = 1;
+            a.NFans = "何垚是个男的";
             return _agentRepository.UptAgent(a);
         }
         //修改状态
         [HttpPost]
         [Route("/api/AgentUptZt")]
-        public int AgentUptZt(int sid)
+        public int AgentUptZt(int cid)
         {
-            return _agentRepository.UptZt(sid);
+            return _agentRepository.UptZt(cid);
         }
+
+        [HttpPost]
+        [Route("/api/AgentAdd")]
+        public int AgentAdd([FromForm]IOT.Core.Model.Agent a)
+        {
+            int i = _agentRepository.AddAgent(a);
+            return i;
+        }
+        
     }
 }

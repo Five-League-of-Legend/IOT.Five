@@ -8,6 +8,7 @@ namespace IOT.Core.IRepository.Com_Comment
 {
     public interface ICom_CommentRepository
     {
+        int Upt(Model.Com_Comment cs);
         int Delete(string ids);
 
         int Insert(Model.Com_Comment Model);

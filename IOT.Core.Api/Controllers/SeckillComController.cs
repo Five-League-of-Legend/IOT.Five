@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.Core.IRepository.SeckillCom;
+using NLog;
 
 namespace IOT.Core.Api.Controllers
 {
@@ -14,7 +15,7 @@ namespace IOT.Core.Api.Controllers
     public class SeckillComController : ControllerBase
     {
         private readonly ISeckillComRepository _seckillComRepository;
-
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public SeckillComController(ISeckillComRepository seckillComRepository)
         {
             _seckillComRepository = seckillComRepository;
@@ -23,10 +24,19 @@ namespace IOT.Core.Api.Controllers
         //添加
         [Route("/api/SeckillComAdd")]
         [HttpPost]
-        public int SeckillComAdd(IOT.Core.Model.SeckillCom a)
+        public int SeckillComAdd([FromForm]IOT.Core.Model.SeckillCom a)
         {
-            int i = _seckillComRepository.Insert(a);
-            return i;
+            try
+            {
+                logger.Debug($"用户对秒杀商品列表进行添加,添加的名称为:{a.SeckillTitle}");
+                int i = _seckillComRepository.Insert(a);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         //显示
@@ -34,27 +44,35 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public IActionResult SeckillComShow(int aid=0,string nmid="", int st=-1)
         {
-            var ls = _seckillComRepository.Query();
-            //根据姓名id查询
-            if (!string.IsNullOrEmpty(nmid))
+            try
             {
-                ls = ls.Where(x => x.CommodityId.Equals(nmid) || x.SeckillTitle.Contains(nmid)).ToList();
+                var ls = _seckillComRepository.Query();
+                //根据姓名id查询
+                if (!string.IsNullOrEmpty(nmid))
+                {
+                    ls = ls.Where(x => x.CommodityId.Equals(nmid) || x.SeckillTitle.Contains(nmid)).ToList();
+                }
+                //根据状态查询
+                if (st != -1)
+                {
+                    ls = ls.Where(x => x.State.Equals(st)).ToList();
+                }
+                if (aid != 0)
+                {
+                    ls = ls.Where(x => x.ActivityId.Equals(aid)).ToList();
+                }
+                return Ok(new
+                {
+                    msg = "",
+                    code = 0,
+                    data = ls
+                });
             }
-            //根据状态查询
-            if (st!=-1)
+            catch (Exception)
             {
-                ls = ls.Where(x => x.State.Equals(st)).ToList();
+
+                throw;
             }
-            if (aid!=0)
-            {
-                ls = ls.Where(x => x.ActivityId.Equals(aid)).ToList();
-            }
-            return Ok(new
-            {
-                msg = "",
-                code = 0,
-                data = ls
-            });
         }
 
 
@@ -63,23 +81,53 @@ namespace IOT.Core.Api.Controllers
         [HttpDelete]
         public int SeckillComDel(string id)
         {
-            return _seckillComRepository.Delete(id);
+            try
+            {
+                logger.Debug($"用户对秒杀商品列表进行删除,删除的名称为:{id}");
+                int i = _seckillComRepository.Delete(id);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
 
         //修改
         [HttpPost]
         [Route("/api/SeckillComUpt")]
-        public int SeckillComUpt(IOT.Core.Model.SeckillCom a)
+        public int SeckillComUpt([FromForm]IOT.Core.Model.SeckillCom a)
         {
-            return _seckillComRepository.Uptdate(a);
+            try
+            {
+                logger.Debug($"用户对秒杀商品列表进行修改,修改的名称为:{a.SeckillComId}");
+                int i = _seckillComRepository.Uptdate(a);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         //修改状态
         [HttpPost]
         [Route("/api/SeckillComUptZt")]
         public int SeckillComUptZt(int sid)
         {
-            return _seckillComRepository.UptZt(sid);
+            try
+            {
+                logger.Debug($"用户对秒杀商品列表进行修改状态,修改状态的名称为:{sid}");
+                int i = _seckillComRepository.UptZt(sid);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

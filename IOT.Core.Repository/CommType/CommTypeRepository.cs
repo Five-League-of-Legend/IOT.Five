@@ -13,50 +13,108 @@ namespace IOT.Core.Repository.CommType
     {
         public int Delete(string ids)
         {
-            int sss = Convert.ToInt32(DapperHelper.Exescalar($"select count(*) from CommType where ParentId={ids}"));
-            if (sss>0)
+            try
             {
-               string sql = $"delete from CommType where TId in ({ids})"; 
-                return DapperHelper.Execute(sql);
+                int sss = Convert.ToInt32(DapperHelper.Exescalar($"select count(*) from CommType where ParentId={ids}"));
+                if (sss > 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    string sql = $"delete from CommType where TId in ({ids})";
+                    return DapperHelper.Execute(sql);
+                }
             }
-            else
+            catch (Exception)
             {
-                return 0;
+
+                throw;
             }
+          
            
         }
 
         public int Insert(Model.CommType Model)
         {
-            string sql = $"insert into CommType values (null,'{Model.TName}',{Model.Sort},'{Model.TIcon}',{Model.State},{Model.ParentId})";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $"insert into CommType values (null,'{Model.TName}',{Model.Sort},'{Model.TIcon}',{Model.State},{Model.ParentId})";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         public List<Model.CommType> Bang(int ParentId)
         {
-            string sql = $"select * from CommType where ParentId=0";
+            try
+            {
+                string sql = $"select * from CommType where ParentId=0";
+
+                return DapperHelper.GetList<Model.CommType>(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
            
-            return DapperHelper.GetList<Model.CommType>(sql);
         }
         public List<Model.CommType> Query(string ttname,int state)
         {
-            string sql = $"select * from CommType ";
-           
-            return DapperHelper.GetList<Model.CommType>(sql);
+            try
+            {
+                string sql = $"select * from CommType";
+
+                return DapperHelper.GetList<Model.CommType>(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+         
         }
-        public List<Model.CommType> UptState(int id)
+        //public List<Model.CommType> UptState(int id)
+        //{
+        //    string sql = $"select * from CommType where TId ={id}";
+        //    return DapperHelper.GetList<Model.CommType>(sql);
+        //}
+
+        public int UptState(int id)
         {
-            string sql = $"select * from CommType where TId ={id}";
-            return DapperHelper.GetList<Model.CommType>(sql);
+            try
+            {
+                string sql = $"update CommType set State=ABS(State-1) where TId={id} ";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+         
         }
         public int Uptss(Model.CommType c)
         {
-            string sql = $"update CommType set TName='{c.TName}',Sort={c.Sort} where TId={c.TId} ";
-            return DapperHelper.Execute(sql);
+            try
+            {
+                string sql = $"update CommType set TName='{c.TName}',Sort={c.Sort},TIcon='{c.TIcon}',State={c.State},ParentId={c.ParentId} where TId={c.TId} ";
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
         }
 
-      
-
-    
+        
     }
 }
