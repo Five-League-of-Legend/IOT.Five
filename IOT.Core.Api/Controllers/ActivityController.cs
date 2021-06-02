@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.Core.IRepository.Activity;
+using NLog;
 
 namespace IOT.Core.Api.Controllers
 {
@@ -13,6 +14,7 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class ActivityController : ControllerBase
     {
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
         private readonly IActivityRepository _activityRepository;
 
         public ActivityController(IActivityRepository activityRepository)
@@ -27,6 +29,7 @@ namespace IOT.Core.Api.Controllers
         {
             try
             {
+                logger.Debug($"用户对秒杀配置进行添加,添加的配置名称为:{a.ActivityName}");
                 int i = _activityRepository.Insert(a);
                 return i;
             }
@@ -42,28 +45,35 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public IActionResult ActivityShow(string nm = "", int st = -1)
         {
+            try
+            {
+                //获取全部数据
+                List<Model.Activity> ls = _activityRepository.Query();
+                foreach (var item in ls)
+                {
+                    item.stimes = item.BeginTime.ToString("HH:mm");
+                    item.ztimes = item.EndTime.ToString("HH:mm");
+                }
+                if (!string.IsNullOrEmpty(nm))
+                {
+                    ls = ls.Where(x => x.ActivityName.Contains(nm)).ToList();
+                }
+                if (st != -1)
+                {
+                    ls = ls.Where(x => x.State.Equals(st)).ToList();
+                }
+                return Ok(new
+                {
+                    msg = "",
+                    code = 0,
+                    data = ls
+                });
+            }
+            catch (Exception)
+            {
 
-            //获取全部数据
-            List<Model.Activity> ls = _activityRepository.Query();
-            foreach (var item in ls)
-            {
-                item.stimes = item.BeginTime.ToString("HH:mm");
-                item.ztimes = item.EndTime.ToString("HH:mm");
+                throw;
             }
-            if (!string.IsNullOrEmpty(nm))
-            {
-                ls = ls.Where(x => x.ActivityName.Contains(nm)).ToList();
-            }
-            if (st != -1)
-            {
-                ls = ls.Where(x => x.State.Equals(st)).ToList();
-            }
-            return Ok(new
-            {
-                msg = "",
-                code = 0,
-                data = ls
-            });
         }
 
         //反填
@@ -90,16 +100,35 @@ namespace IOT.Core.Api.Controllers
         [HttpDelete]
         public int ActivityDel(string id)
         {
-            return _activityRepository.Delete(id);
+            try
+            {
+                logger.Debug($"用户对秒杀配置进行删除,删除的配置ID为:{id}");
+                return _activityRepository.Delete(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
 
         //修改
         [HttpPost]
         [Route("/api/ActivityUpt")]
-        public int ActivityUpt(IOT.Core.Model.Activity a)
+        public int ActivityUpt([FromForm]IOT.Core.Model.Activity a)
         {
-            return _activityRepository.Uptdate(a);
+            try
+            {
+                logger.Debug($"用户对秒杀配置进行修改,修改的配置ID为:{a.ActivityId}");
+                int i= _activityRepository.Uptdate(a);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         //修改状态
@@ -107,7 +136,16 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/ActivityUptst")]
         public int ActivityUptst(int st)
         {
-            return _activityRepository.UptZt(st);
+            try
+            {
+                logger.Debug($"用户对秒杀配置进行修改状态,修改状态的配置ID为:{st}");
+                return _activityRepository.UptZt(st);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

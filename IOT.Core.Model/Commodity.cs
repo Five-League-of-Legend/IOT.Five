@@ -21,6 +21,7 @@ namespace IOT.Core.Model
         public int State         { get; set; }
         public DateTime OperationDate { get; set; }
         public int TId           { get; set; }
+        public string TName { get; set; }
         public string Remark        { get; set; }
         public int TemplateId    { get; set; }
         public string CommodityKey  { get; set; }

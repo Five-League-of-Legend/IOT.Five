@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.Core.IRepository.Bargain;
+using NLog;
 
 namespace IOT.Core.Api.Controllers
 {
@@ -23,6 +24,7 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class BargainController : ControllerBase
     {
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
         private readonly IBargainRepository _bargainRepository;
         public BargainController(IBargainRepository bargainRepository)
         {
@@ -40,21 +42,29 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/ShowBargain")]
         public IActionResult ShowBargain(int zt = -1, string keyname = "")
         {
-            List<Model.Bargain> lb = _bargainRepository.Query();
-            if (zt!=-1)
+            try
             {
-                lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-            } 
-            if (!string.IsNullOrEmpty(keyname))
-            {
-                lb = lb.Where(x => x.CommodityName.Contains(keyname)).ToList();
+                List<Model.Bargain> lb = _bargainRepository.Query();
+                if (zt != -1)
+                {
+                    lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                }
+                if (!string.IsNullOrEmpty(keyname))
+                {
+                    lb = lb.Where(x => x.CommodityName.Contains(keyname)).ToList();
+                }
+                return Ok(new
+                {
+                    msg = "",
+                    code = 0,
+                    data = lb
+                });
             }
-            return Ok(new
+            catch (Exception)
             {
-                msg = "",
-                code = 0,
-                data = lb
-            });
+
+                throw;
+            }
         }
 
         //反填
@@ -62,10 +72,18 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public IActionResult ShowBargainFT(int ftid)
         {
-            //获取全部数据
-            var ls = _bargainRepository.Query();
-            Model.Bargain aa = ls.FirstOrDefault(x => x.BargainId.Equals(ftid));
-            return Ok(aa);
+            try
+            {
+                //获取全部数据
+                var ls = _bargainRepository.Query();
+                Model.Bargain aa = ls.FirstOrDefault(x => x.BargainId.Equals(ftid));
+                return Ok(aa);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         /// <summary>
         /// 显示砍价列表
@@ -77,101 +95,145 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/ShowListBargain")]
-        public IActionResult ShowListBargain(int zt = -1, string sdate = "",string zdate="",int page=1)
+        public IActionResult ShowListBargain(int zt = -1, string sdate = "",int page=1)
         {
-            selectpage sp = (selectpage)page;
-            List<Model.Bargain> lb = _bargainRepository.Query();
-            switch (sp)
+            try
             {
-                case selectpage.全部:
-                    if (zt != -1)
-                    {
-                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-                    }
-                    if (!string.IsNullOrEmpty(sdate))
-                    {
-                        lb = lb.Where(x => x.BeginDate.Date == Convert.ToDateTime(sdate)).ToList();
-                    }
-                    break;
-                case selectpage.今天:
-                    if (zt != -1)
-                    {
-                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-                    }
-                    lb = lb.Where(x => x.BeginDate.Date == Convert.ToDateTime(sdate)).ToList();
-                    break;
-                case selectpage.昨天:
-                    if (zt != -1)
-                    {
-                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-                    }
-                    lb = lb.Where(x => x.BeginDate.Date == Convert.ToDateTime(sdate)).ToList();
-                    break;
-                case selectpage.最近七天:
-                    if (zt != -1)
-                    {
-                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-                    }
-                    lb = lb.Where(x => x.BeginDate.Date >= Convert.ToDateTime(sdate) & x.EndDate.Date <= Convert.ToDateTime(zdate)).ToList();
-                    break;
-                case selectpage.最近三十天:
-                    if (zt != -1)
-                    {
-                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-                    }
-                    lb = lb.Where(x => x.BeginDate.Date >= Convert.ToDateTime(sdate) & x.EndDate.Date <= Convert.ToDateTime(zdate)).ToList();
-                    break;
-                case selectpage.本月:
-                    if (zt != -1)
-                    {
-                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-                    }
-                    lb = lb.Where(x => x.BeginDate.Year == Convert.ToDateTime(sdate).Year & x.BeginDate.Month == Convert.ToDateTime(sdate).Month).ToList();
-                    break;
-                case selectpage.本年:
-                    if (zt != -1)
-                    {
-                        lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
-                    }
-                    lb = lb.Where(x => x.BeginDate.Year == Convert.ToDateTime(sdate).Year).ToList();
-                    break;
-                default:
-                    break;
+                selectpage sp = (selectpage)page;
+                List<Model.Bargain> lb = _bargainRepository.Query();
+                switch (sp)
+                {
+                    case selectpage.全部:
+                        if (zt != -1)
+                        {
+                            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                        }
+                        if (!string.IsNullOrEmpty(sdate))
+                        {
+                            lb = lb.Where(x => x.BeginDate.Date == Convert.ToDateTime(sdate)).ToList();
+                        }
+                        break;
+                    case selectpage.今天:
+                        if (zt != -1)
+                        {
+                            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                        }
+                        lb = lb.Where(x => x.Days == 0).ToList();
+                        break;
+                    case selectpage.昨天:
+                        if (zt != -1)
+                        {
+                            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                        }
+                        lb = lb.Where(x => x.Days == 1).ToList();
+                        break;
+                    case selectpage.最近七天:
+                        if (zt != -1)
+                        {
+                            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                        }
+                        lb = lb.Where(x => x.Days <= 7).ToList();
+                        break;
+                    case selectpage.最近三十天:
+                        if (zt != -1)
+                        {
+                            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                        }
+                        lb = lb.Where(x => x.Days <= 30).ToList();
+                        break;
+                    case selectpage.本月:
+                        if (zt != -1)
+                        {
+                            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                        }
+                        lb = lb.Where(x => x.years == Convert.ToDateTime(sdate).Year & x.Months == Convert.ToDateTime(sdate).Month).ToList();
+                        break;
+                    case selectpage.本年:
+                        if (zt != -1)
+                        {
+                            lb = lb.Where(x => x.ActionState.Equals(zt)).ToList();
+                        }
+                        lb = lb.Where(x => x.years == Convert.ToDateTime(sdate).Year).ToList();
+                        break;
+                    default:
+                        break;
+                }
+                return Ok(new
+                {
+                    msg = "",
+                    code = 0,
+                    data = lb
+                });
             }
-            return Ok(new
+            catch (Exception)
             {
-                msg = "",
-                code = 0,
-                data = lb
-            });
+
+                throw;
+            }
         }
         [HttpPost]
         [Route("/api/AddBargain")]
-        public int AddBargain(Model.Bargain bargain)
+        public int AddBargain([FromForm] Model.Bargain bargain)
         {
-            int i = _bargainRepository.Insert(bargain);
-            return i;
+            try
+            {
+                logger.Debug($"用户对砍价列表进行添加,添加的名称为:{bargain.BargainName}");
+                int i = _bargainRepository.Insert(bargain);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         [Route("/api/DelBargain")]
         public int DelBargain(string ids)
         {
-            int i = _bargainRepository.Delete(ids);
-            return i;
+            try
+            {
+                logger.Debug($"用户对砍价列表进行删除,删除的名称为:{ids}");
+                int i = _bargainRepository.Delete(ids);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         [Route("/api/UptBargain")]
-        public int UptBargain(Model.Bargain bargain)
+        public int UptBargain([FromForm]Model.Bargain bargain)
         {
-            int i = _bargainRepository.UptDate(bargain);
-            return i;
+            try
+            {
+                logger.Debug($"用户对砍价列表进行修改,修改的ID为:{bargain.BargainId}");
+                int i = _bargainRepository.UptDate(bargain);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         [Route("/api/UptZtBargain")]
         public int UptZtBargain(int cid)
         {
-            int i = _bargainRepository.UptZt(cid);
-            return i;
+            try
+            {
+                logger.Debug($"用户对砍价列表进行修改状态,修改的ID为:{cid}");
+                int i = _bargainRepository.UptZt(cid);
+                return i;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

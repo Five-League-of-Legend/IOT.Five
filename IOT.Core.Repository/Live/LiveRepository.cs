@@ -14,12 +14,16 @@ namespace IOT.Core.Repository.Live
         public int Delete(string ids)
         {
             string sql = $"DELETE FROM live WHERE LiveId in ({ids})";
+            string sql2 = $"insert into Lognote values (NULL,'删除',NOW(),'Live直播表');";
+            DapperHelper.Execute(sql2);
             return DapperHelper.Execute(sql);
         }
 
         public int Insert(Model.Live Model)
         {
             string sql = $"INSERT INTO live VALUES (NULL,'{Model.LiveTitle}','{Model.Remark}','{Model.LiveCover}','{Model.GoodId}',{Model.LiveModel},{Model.AnchorId},'{Model.BeginLiveDate}','{Model.EndLiveDate}',{Model.IsEnable})";
+            string sql2 = $"insert into Lognote values (NULL,'添加',NOW(),'Live直播表');";
+            DapperHelper.Execute(sql2);
             return DapperHelper.Execute(sql);
         }
 
@@ -57,6 +61,8 @@ namespace IOT.Core.Repository.Live
         public int UptDate(Model.Live Model)
         {
             string sql = $"UPDATE Live set LiveTitle='{Model.LiveTitle}',Remark='{Model.Remark}',LiveCover='{Model.LiveCover}',GoodId='{Model.GoodId}',LiveModel={Model.LiveModel},AnchorId={Model.AnchorId},BeginLiveDate='{Model.BeginLiveDate}',EndLiveDate='{Model.EndLiveDate}',IsEnable={Model.IsEnable} WHERE LiveId ={Model.LiveId}";
+            string sql2 = $"insert into Lognote values (NULL,'修改',NOW(),'Live直播表');";
+            DapperHelper.Execute(sql2);
             return DapperHelper.Execute(sql);
         }
 
@@ -74,6 +80,8 @@ namespace IOT.Core.Repository.Live
             {
                 sql1 = $"UPDATE Live SET IsEnable=IsEnable-1 WHERE LiveId ={lid}";
             }
+            string sql2 = $"insert into Lognote values (NULL,'修改状态',NOW(),'Live直播表');";
+            DapperHelper.Execute(sql2);
             return DapperHelper.Execute(sql1);
         }
     }
