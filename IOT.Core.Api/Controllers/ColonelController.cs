@@ -4,8 +4,8 @@ using IOT.Core.IRepository.Colonel.ColonelGrade;
 using IOT.Core.IRepository.Colonel.ColonelManagement;
 using IOT.Core.IRepository.Colonel.GroupPurchase;
 using IOT.Core.IRepository.Colonel.Path;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +44,8 @@ namespace IOT.Core.Api.Controllers
 
         #endregion
 
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
+
         //================================================================================================
 
         /// <summary>
@@ -66,6 +68,8 @@ namespace IOT.Core.Api.Controllers
                 list = list.Where(m => m.EndTime <= Convert.ToDateTime(time)).ToList();
             }
 
+            logger.Debug($"查看佣金流水");
+
             return Ok(list);
         }
 
@@ -80,6 +84,16 @@ namespace IOT.Core.Api.Controllers
         public int DelBrokerage(int id)
         {
             int i = _brokerageRepository.DelBrokerage(id);
+
+            if (i>0)
+            {
+                logger.Debug($"删除佣金流水成功,id为{id}");
+            }
+            else
+            {
+                logger.Debug($"删除佣金流水失败,id为{id}");
+            }
+
             return i;
         }
 
@@ -94,6 +108,16 @@ namespace IOT.Core.Api.Controllers
         public int UptBrokerage(Model.Brokerage brokerage)
         {
             int i = _brokerageRepository.UptBrokerage(brokerage);
+
+            if (i > 0)
+            {
+                logger.Debug($"修改佣金流水成功,id为{brokerage.BId}");
+            }
+            else
+            {
+                logger.Debug($"修改佣金流水失败,id为{brokerage.BId}");
+            }
+
             return i;
         }
 
@@ -107,6 +131,16 @@ namespace IOT.Core.Api.Controllers
         public int AddBrokerage(Model.Brokerage brokerage)
         {
             int i = _brokerageRepository.AddBrokerage(brokerage);
+
+            if (i > 0)
+            {
+                logger.Debug($"添加佣金流水成功,id为{brokerage.BId}");
+            }
+            else
+            {
+                logger.Debug($"添加佣金流水失败,id为{brokerage.BId}");
+            }
+
             return i;
         }
 
@@ -126,6 +160,8 @@ namespace IOT.Core.Api.Controllers
         {
             List<Model.ColonelGrade> colonelGrades = _colonelGradeRepository.ShowColonelGrade(CGId);
 
+            logger.Debug($"显示团长等级");
+
             return Ok(colonelGrades);
         }
 
@@ -139,6 +175,16 @@ namespace IOT.Core.Api.Controllers
         public int UptColonelGrade(Model.ColonelGrade colonelGrade)
         {
             int i = _colonelGradeRepository.UptColonelGrade(colonelGrade);
+
+            if (i > 0)
+            {
+                logger.Debug($"编辑团长等级成功,id为{colonelGrade.CGId}");
+            }
+            else
+            {
+                logger.Debug($"编辑团长等级失败,id为{colonelGrade.CGId}");
+            }
+
             return i;
         }
 
@@ -152,6 +198,16 @@ namespace IOT.Core.Api.Controllers
         public int DelColonelGrade(int CGId)
         {
             int i = _colonelGradeRepository.DelColonelGrade(CGId);
+
+            if (i > 0)
+            {
+                logger.Debug($"删除团长等级成功,id为{CGId}");
+            }
+            else
+            {
+                logger.Debug($"删除团长等级失败,id为{CGId}");
+            }
+
             return i;
         }
 
@@ -165,6 +221,16 @@ namespace IOT.Core.Api.Controllers
         public int AddGroupPurchase([FromForm] Model.GroupPurchase gp)
         {
             int i = _groupPurchaseRepository.AddGroupPurchase(gp);
+
+            if (i > 0)
+            {
+                logger.Debug($"添加团购配置成功,公告为{gp.Notice}");
+            }
+            else
+            {
+                logger.Debug($"添加团购配置失败,公告为{gp.Notice}");
+            }
+
             return i;
         }
 
@@ -181,6 +247,8 @@ namespace IOT.Core.Api.Controllers
         {
             List<Model.Path> paths = _pathRepository.ShowPath(nm);
 
+            logger.Debug($"显示团长路线");
+
             return Ok(paths);
         }
 
@@ -194,6 +262,16 @@ namespace IOT.Core.Api.Controllers
         public int AddPath([FromForm] Model.Path path)
         {
             int i = _pathRepository.AddPath(path);
+
+            if (i > 0)
+            {
+                logger.Debug($"添加路线成功,路线名称为{path.PathName}");
+            }
+            else
+            {
+                logger.Debug($"添加路线失败,路线名称为{path.PathName}");
+            }
+
             return i;
         }
 
@@ -207,6 +285,17 @@ namespace IOT.Core.Api.Controllers
         public int DelPath(int PathID)
         {
             int i = _pathRepository.DelPath(PathID);
+
+
+            if (i > 0)
+            {
+                logger.Debug($"删除路线成功,路线id为{PathID}");
+            }
+            else
+            {
+                logger.Debug($"删除路线失败,路线id为{PathID}");
+            }
+
             return i;
         }
 
@@ -220,6 +309,16 @@ namespace IOT.Core.Api.Controllers
         public int UptPath([FromForm] Model.Path path)
         {
             int i = _pathRepository.UptPath(path);
+
+            if (i > 0)
+            {
+                logger.Debug($"修改路线成功,路线id为{path.RathID}");
+            }
+            else
+            {
+                logger.Debug($"修改路线失败,路线id为{path.RathID}");
+            }
+
             return i;
         }
 
@@ -237,6 +336,8 @@ namespace IOT.Core.Api.Controllers
         {
             List<Model.Colonel> colonels = _colonelRepository.ShowColonel(cid);
 
+            logger.Debug($"显示团长");
+
             return Ok(colonels);
         }
 
@@ -251,6 +352,8 @@ namespace IOT.Core.Api.Controllers
         public IActionResult GetShowColonelList(int CheckStatus = -1, string nm = "")
         {
             List<Model.ViewColonelAndManager> colonels = _colonelManagementRepository.ShowColonelList(CheckStatus, nm);
+
+            logger.Debug($"显示团长审核信息");
 
             return Ok(colonels);
         }
@@ -268,6 +371,16 @@ namespace IOT.Core.Api.Controllers
             Model.ColonelManagement colonelManagement = new Model.ColonelManagement() { CMId = cmid, CheckStatus = statu };
 
             int i = _colonelManagementRepository.UptColonel_CheckStatus(colonelManagement);
+
+            if (i > 0)
+            {
+                logger.Debug($"修改团长审核状态成功,id为{cmid}");
+            }
+            else
+            {
+                logger.Debug($"修改团长审核状态失败,id为{cmid}");
+            }
+
             return i;
         }
 
@@ -281,6 +394,16 @@ namespace IOT.Core.Api.Controllers
         public int UptColonel([FromForm] Model.Colonel colonel)
         {
             int i = _colonelManagementRepository.UptColonel(colonel);
+
+            if (i > 0)
+            {
+                logger.Debug($"修改团长成功,id为{colonel.ColonelID}");
+            }
+            else
+            {
+                logger.Debug($"修改团长失败,id为{colonel.ColonelID}");
+            }
+
             return i;
         }
 
@@ -294,6 +417,17 @@ namespace IOT.Core.Api.Controllers
         public int Upt_Commodity_Colonel(Model.Colonel colonel)
         {
             int i = _colonelManagementRepository.Upt_Commodity_Colonel(colonel);
+
+
+            if (i > 0)
+            {
+                logger.Debug($"修改团长商品成功,id为{colonel.ColonelID}");
+            }
+            else
+            {
+                logger.Debug($"修改团长商品失败,id为{colonel.ColonelID}");
+            }
+
             return i;
         }
 
@@ -321,6 +455,16 @@ namespace IOT.Core.Api.Controllers
 
             }
 
+
+            if (i > 0)
+            {
+                logger.Debug($"添加核销员成功,id为{colonelid},添加的用户id为{userids}");
+            }
+            else
+            {
+                logger.Debug($"添加核销员失败,id为{colonelid},添加的用户id为{userids}");
+            }
+
             return i;
         }
 
@@ -335,6 +479,9 @@ namespace IOT.Core.Api.Controllers
         {
 
             List<Model.Users> users = _colonelManagementRepository.ShowUsers(ColonelID);
+
+            logger.Debug($"显示团长下核销员,团长id为{ColonelID}");
+
 
             return Ok(users);
         }
