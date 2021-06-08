@@ -13,7 +13,8 @@ namespace IOT.Core.Repository.Commodity
     {
         public int Delete(string ids)
         {
-            throw new NotImplementedException();
+            string sql = $"delete from Commodity where CommodityId in ({ids})";
+            return DapperHelper.Execute(sql);
         }
 
         public int Insert(Model.Commodity Model)
@@ -91,15 +92,15 @@ namespace IOT.Core.Repository.Commodity
                 {
                     sql = "select * from Commodity where State =1 and DeleteState=0";
                 }
-                else if (code == 2)
+                 if (code == 2)
                 {
                     sql = "select * from Commodity where DeleteState=0";
                 }
-                else if (code == 3)
+                 if (code == 3)
                 {
                     sql = "select * from Commodity where DeleteState=0 and IsSell=1";
                 }
-                else if (code == 4)
+                 if (code == 4)
                 {
                     sql = "select * from Commodity where DeleteState=1";
                 }
