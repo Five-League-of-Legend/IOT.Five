@@ -5,32 +5,71 @@ using System.Text;
 using System.Threading.Tasks;
 using ServiceStack.Redis;
 
-namespace OA.Core.Common
+namespace IOT.Core.Common
 {
     public class RedisHelper<T>
     {
-        public void Set(string key, List<T> ls)
-        {
-            using (IRedisClient client = new RedisClient("127.0.0.1", 6379)) 
-            {
-                client.Set<List<T>>(key, ls);
-            }
-        }
-        public bool Exe(string key)
-        {
-            using (IRedisClient client = new RedisClient("127.0.0.1", 6379))
-            {
-                var result = client.ContainsKey(key);
-                return result;
-            }
-        }
-        public List<T> Get(string key)
+        /// <summary>
+        /// 存入缓存
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="key"></param>
+        #region 放入缓存
+        public void SetList(List<T> list, string key)
         {
             using (IRedisClient client = new RedisClient("127.0.0.1", 6379))
             {
-                var result = client.Get<List<T>>(key);
-                return result;
+                //存入
+                client.Set<List<T>>(key, list);
             }
         }
+        #endregion
+
+        /// <summary>
+        /// 删除key
+        /// </summary>
+        /// <param name="key"></param>
+        #region 删除key
+        public void DelKey(string key)
+        {
+            using (IRedisClient client = new RedisClient("127.0.0.1", 6379))
+            {
+                //删除
+                client.Remove(key);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// 判断key值是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        #region 判断key是否存在
+        public bool Judge(string key)
+        {
+            using (IRedisClient client = new RedisClient("127.0.0.1", 6379))
+            {
+                //判断是否存在
+                return client.ContainsKey(key);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// 取出缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        #region 取出缓存
+        public List<T> GetList(string key)
+        {
+            using (IRedisClient client = new RedisClient("127.0.0.1", 6379))
+            {
+                //取出
+                return client.Get<List<T>>(key);
+            }
+        } 
+        #endregion
     }
 }

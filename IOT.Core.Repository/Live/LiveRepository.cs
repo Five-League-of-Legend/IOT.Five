@@ -11,6 +11,13 @@ namespace IOT.Core.Repository.Live
 {
     public class LiveRepository : ILiveRepository
     {
+        public List<Model.CommType> Binds()
+        {
+            string sql = "select * from CommType";
+            List<Model.CommType> list = DapperHelper.GetList<Model.CommType>(sql);
+            return list;
+        }
+
         public int Delete(string ids)
         {
             string sql = $"DELETE FROM live WHERE LiveId in ({ids})";
