@@ -132,7 +132,7 @@ namespace IOT.Core.Api.Controllers
         }
 
         //修改状态
-        [HttpPost]
+        [HttpPost]    //哈喽哈喽你们好 我是六刀尊獒 这首另类送给你们  希望你们能够喜欢 
         [Route("/api/ActivityUptst")]
         public int ActivityUptst(int st)
         {

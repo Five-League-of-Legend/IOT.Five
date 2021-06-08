@@ -50,11 +50,15 @@ namespace IOT.Core.Repository.OrderInfo
 
                 if (sTime != null & sTime != "") { sql += $" and StartTime >= '{sTime}' "; }
                 if (eTime != null & eTime != "") { sql += $" and StartTime <= '{eTime}' "; }
-                //if (refundStatus != -1) { sql += $" and  "; }
+                if (refundStatus != -1& refundStatus != 0)
+                {
+                    sql += $" and OrderState = {refundStatus} ";
+                }
                 if (orderState != 0 & orderState != -1) { sql += $" and OrderState = {orderState} "; }
                 if (userId != 0 & userId != -1) { sql += $" and a.UserId = {userId} "; }
                 if (commodityName != null & commodityName != "") { sql += $" and b.CommodityName like '%{commodityName}%' "; }
                 if (sendWay != -1) { sql += $" and a.SendWay = {sendWay} "; }
+               
 
                 return DapperHelper.GetList<ViewOrderInfoAndCommodity>(sql);
 

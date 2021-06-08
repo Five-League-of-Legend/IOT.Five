@@ -14,5 +14,6 @@ namespace IOT.Core.IRepository.Live
         int UptDate(Model.Live Model);
         int UptZt(int lid);
         List<Model.Commodity> SelectGoods(int lid);
+        List<Model.CommType> Binds();
     }
 }
