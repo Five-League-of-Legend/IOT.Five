@@ -98,30 +98,7 @@ namespace IOT.Core.Repository.Colonel.Brokerage
         /// <returns></returns>  
         public List<ViewColonelAndBrokerage> GetBrokerages(string time, int orderFormStatus, string colonel, string orderNumber, int brokerageState)
         {
-            if (Vjoinls == null || Vjoinls.Count == 0)
-            {
-                string sql = " select * from Brokerage a join colonel b on a.ColonelID=b.ColonelID where 1=1 ";
-                Vjoinls = DapperHelper.GetList<ViewColonelAndBrokerage>(sql);
-            }
 
-            if (joinls == null || joinls.Count == 0)
-            {
-                joinls = DapperHelper.GetList<Model.Brokerage>("select * from Brokerage");
-            }
-
-            vrh.Set(vkey,Vjoinls);
-
-            return Vjoinls;
-            //if (Vjoinls == null || Vjoinls.Count == 0)
-            //{
-            //    string sql = " select * from Brokerage a join colonel b on a.ColonelID=b.ColonelID where 1=1 ";
-            //    Vjoinls = DapperHelper.GetList<ViewColonelAndBrokerage>(sql);
-            //}
-
-            //if (joinls == null || joinls.Count == 0)
-            //{
-            //    joinls = DapperHelper.GetList<Model.Brokerage>("select * from Brokerage");
-            //}
 
             //vrh.Set(vkey,Vjoinls);
 
@@ -139,6 +116,38 @@ namespace IOT.Core.Repository.Colonel.Brokerage
             //vrh.Set(vkey,Vjoinls);
 
             //return Vjoinls;
+
+
+            string sql = " select * from Brokerage a join colonel b on a.ColonelID=b.ColonelID where 1=1 ";
+
+            try
+            {
+                if (orderFormStatus != 0)
+                {
+                    sql += $" and OrderFormStatus = {orderFormStatus} ";
+                }
+
+                if (colonel != "aaa")
+                {
+                    sql += $" and ColonelName like '%{colonel}%' ";
+                }
+                if (orderNumber != "aaa")
+                {
+                    sql += $" and BId = {orderNumber} ";
+                }
+
+                if (brokerageState != 0)
+                {
+                    sql += $" and BrokerageType = {brokerageState} ";
+                }
+
+                return DapperHelper.GetList<ViewColonelAndBrokerage>(sql);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
         }
 
