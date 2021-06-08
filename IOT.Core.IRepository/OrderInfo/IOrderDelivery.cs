@@ -14,5 +14,6 @@ namespace IOT.Core.IRepository.OrderInfo
         /// <returns></returns>
         List<Model.ViewOrderUsersCommodity> ShowOrderDelivery();
 
+         int UptOrderPrintStatus(string ids);
     }
 }
