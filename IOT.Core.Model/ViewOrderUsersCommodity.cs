@@ -33,6 +33,7 @@ namespace IOT.Core.Model
 
 
 
+        public string UserId { get; set; }
         public string UserName { get; set; }
         public string LoginName { get; set; }
         public string LoginPwd { get; set; }
@@ -52,5 +53,8 @@ namespace IOT.Core.Model
         public float CouponPrice { get; set; }
         public float AmountPaid { get; set; }
         public DateTime StartTime { get; set; }
+        public int PrintMode { get; set; }
+        public int PrintStatus { get; set; }
+        public int SelTimeStatus { get; set; }
     }
 }
