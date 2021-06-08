@@ -1,5 +1,11 @@
 using IOT.Core.IRepository.Login;
 using IOT.Core.Repository.Login;
+using IOT.Core.IRepository.Menu;
+using IOT.Core.Repository.Menu;
+using IOT.Core.IRepository.Role;
+using IOT.Core.Repository.Role;
+using IOT.Core.IRepository.StaffAuthority;
+using IOT.Core.Repository.StaffAuthority;
 using IOT.Core.IRepository.Activity;
 using IOT.Core.IRepository.GroupBooking;
 using IOT.Core.IRepository.Agent;
@@ -123,6 +129,9 @@ namespace IOT.Core.Api
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IRolesRepository, RolesRepository>();
             services.AddSingleton<ILoginRepository, LoginRepository>();
+            services.AddSingleton<IMenuRepository, MenuRepository>();
+            services.AddSingleton<IRoleRepository, RoleRepository>();
+            services.AddSingleton<IStaffAuthorityRepository, StaffAuthorityRepository>();
             //--------------------------------------------------------------------------------------
 
             //--------------------------------------------------------------------------------------

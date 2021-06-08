@@ -5,19 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.Core.IRepository.Agent;
-
+using NLog;
 namespace IOT.Core.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AgentController : ControllerBase
     {
+
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
         private readonly IAgentRepository _agentRepository;
         public AgentController(IAgentRepository agentRepository)
         {
             _agentRepository = agentRepository;
         }
-
+         
         //显示
         [Route("/api/AgentShow")]
         [HttpGet]
@@ -39,6 +41,9 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public int AgentDel(string id)
         {
+          
+            logger.Debug($"用户对代理商进行删除,删除的配置ID为:{id}");
+          
             return _agentRepository.DelAgent(id);
         }
 
@@ -59,20 +64,9 @@ namespace IOT.Core.Api.Controllers
         public int AgentUpt([FromForm]IOT.Core.Model.Agent a)
         {
 
-            //int    AgentId { get
-            //string AgentName { g
-            //string BackgroudColo
-            //string Icon { get; s
-            //string BCImg { get; 
-            //string Fans { get; s
-            //int    Consume { get
-            //int    Money { get; 
-            //string NFans { get; 
-            //int    Two { get; se
-            //int    Three { get; 
-            //int    One { get; se
-            //string Explaina { ge
-            //int AgentState { get
+          
+            logger.Debug($"用户对代理商进行修改,修改的ID为:{a.AgentId}");
+           
             a.Consume = 15;
             a.Money = 123;
             a.Fans = "何垚最帅了";
@@ -85,6 +79,8 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/AgentUptZt")]
         public int AgentUptZt(int cid)
         {
+            
+            logger.Debug($"用户对代理商进行修改状态,修改状态的ID为:{cid}");
             return _agentRepository.UptZt(cid);
         }
 
@@ -92,6 +88,8 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/AgentAdd")]
         public int AgentAdd([FromForm]IOT.Core.Model.Agent a)
         {
+            logger.Debug($"用户对代理商进行添加,添加的名称为:{a.AgentName}");
+            
             int i = _agentRepository.AddAgent(a);
             return i;
         }
