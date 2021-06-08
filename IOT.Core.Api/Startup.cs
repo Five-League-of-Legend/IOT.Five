@@ -30,6 +30,7 @@ using IOT.Core.IRepository.SVIP;
 using IOT.Core.IRepository.Users;
 using IOT.Core.IRepository.Warehouse;
 using IOT.Core.IRepository.Withdrawal;
+using IOT.Core.IRepository.WorkBench;
 using IOT.Core.Repository.Activity;
 using IOT.Core.Repository.GroupBooking;
 using IOT.Core.Repository.Agent;
@@ -53,6 +54,7 @@ using IOT.Core.Repository.SVIP;
 using IOT.Core.Repository.Users;
 using IOT.Core.Repository.Warehouse;
 using IOT.Core.Repository.Withdrawal;
+using IOT.Core.Repository.WorkBench;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -132,6 +134,7 @@ namespace IOT.Core.Api
             services.AddScoped<IBargainRepository, BargainRepository>();
             services.AddScoped<ILiveRepository, LiveRepository>();
             services.AddScoped<IGroupBookingRepository, GroupBookingRepository>();
+            services.AddScoped<IWorkBenchRepository, WorkBenchRepository>();
             //--------------------------------------------------------------------------------------
 
             //wpc-----------------------------------------

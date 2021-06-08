@@ -69,7 +69,7 @@ namespace IOT.Core.Common
                 //取出
                 return client.Get<List<T>>(key);
             }
-        }
+        } 
         #endregion
     }
 }
