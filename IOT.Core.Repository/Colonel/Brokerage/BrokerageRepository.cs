@@ -11,6 +11,23 @@ namespace IOT.Core.Repository.Colonel.Brokerage
 {
     public class BrokerageRepository : IBrokerageRepository
     {
+        //private string vkey = "VbrokerageRedis";
+        //private string key = "brokerageRedis";
+        //RedisHelper<ViewColonelAndBrokerage> vrh = new RedisHelper<ViewColonelAndBrokerage>();
+        //RedisHelper<Model.Brokerage> rh = new RedisHelper<Model.Brokerage>();
+        //List<ViewColonelAndBrokerage> Vjoinls = new List<ViewColonelAndBrokerage>();
+        //List<Model.Brokerage> joinls = new List<Model.Brokerage>();
+
+        //RedisHelper<Model.Brokerage> rhadd = new RedisHelper<Model.Brokerage>();
+        //List<Model.Brokerage> brokeragels = new List<Model.Brokerage>();
+
+        //public BrokerageRepository()
+        //{
+        //    Vjoinls = vrh.Get(vkey);
+        //    joinls = rh.Get(key);
+        //    // brokeragels = rhadd.Get(key);
+        //}
+
         /// <summary>
         /// 添加佣金流水
         /// </summary>
@@ -21,11 +38,29 @@ namespace IOT.Core.Repository.Colonel.Brokerage
             try
             {
                 string sql = $" insert into Brokerage values (null,{brokerage.ColonelID},{brokerage.BrokerageType},{brokerage.Income},{brokerage.State},'{brokerage.EndTime}',{brokerage.OrderFormStatus}) ";
-                return DapperHelper.Execute(sql);
+
+                int i = DapperHelper.Execute(sql);
+
+                //if (i > 0)
+                //{
+                //    //重新获取视图数据
+                //    Vjoinls = DapperHelper.GetList<ViewColonelAndBrokerage>(" select * from Brokerage a join colonel b on a.ColonelID=b.ColonelID ");
+                //    Vjoinls.Add(DapperHelper.GetList<Model.ViewColonelAndBrokerage>(" select * from brokerage order by BId desc limit 1 ").FirstOrDefault());
+
+                //    //joinls.Add(brokerage);
+
+                //    rh.Set(key, joinls);
+                //    vrh.Set(vkey, Vjoinls);
+                //}
+                                                
+                //brokeragels.Add(brokerage);
+
+                //rhadd.Set(key, brokeragels);
+
+                return i;
             }
             catch (Exception)
             {
-
                 throw;
             }
 
@@ -94,6 +129,20 @@ namespace IOT.Core.Repository.Colonel.Brokerage
                 throw;
             }
 
+            //if (Vjoinls == null || Vjoinls.Count == 0)
+            //{
+            //    string sql = " select * from Brokerage a join colonel b on a.ColonelID=b.ColonelID where 1=1 ";
+            //    Vjoinls = DapperHelper.GetList<ViewColonelAndBrokerage>(sql);
+            //}
+
+            //if (joinls == null || joinls.Count == 0)
+            //{
+            //    joinls = DapperHelper.GetList<Model.Brokerage>("select * from Brokerage");
+            //}
+
+            //vrh.Set(vkey,Vjoinls);
+
+            //return Vjoinls;
 
         }
 
@@ -112,7 +161,6 @@ namespace IOT.Core.Repository.Colonel.Brokerage
             }
             catch (Exception)
             {
-
                 throw;
             }
 
