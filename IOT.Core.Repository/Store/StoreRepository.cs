@@ -1,5 +1,6 @@
 ﻿using IOT.Core.Common;
 using IOT.Core.IRepository.Store;
+using IOT.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,35 +14,106 @@ namespace IOT.Core.Repository.Store
     /// </summary>
     public class StoreRepository:IStoreRepository
     {
-        
-        //添加
-        int IStoreRepository.AddStore(Model.Store a)
+
+        public int DelCom(int ids)
         {
-            string sql = $"insert into Store values (null,'{a.MName}', '{a.Shopowner}', '{a.Goods}'," +
-                $"'{a.Volume}','{a.Extraction}','{a.StoreType}','{a.State}')";
+            string sql = $"DELETE FROM Commodity WHERE CommodityId=({ids})";
             return DapperHelper.Execute(sql);
         }
 
-        //显示
-        List<Model.Store> IStoreRepository.ShowStore()
+        public int DelStore(int ids)
         {
-            string sql = "select * from Store";
+            string sql = $"delete from Store where Mid in ({ids})";
+            return DapperHelper.Execute(sql);
+        }
+
+        public List<Model.Commodity> GetCommodities()
+        {
+            string sql = "SELECT * FROM Commodity";
+            return DapperHelper.GetList<IOT.Core.Model.Commodity>(sql);
+        }
+
+
+        public List<Model.Store> GetStores()
+        {
+            string sql = $"SELECT * FROM Store ";
             return DapperHelper.GetList<Model.Store>(sql);
         }
 
-        //删除
-        int IStoreRepository.DelStore(string id)
+        /// <summary>
+        /// 显示查询门店
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public List<V_Store> GetStores(string address = "", string key = "")
         {
-            string sql = $"delete from Store where Mid={id}";
+            //获取全部数据
+            List<V_Store> lst = DapperHelper.GetList<V_Store>("select * from V_Store");
+            lst = lst.Where(x => (string.IsNullOrEmpty(address) ? true : x.Address.Contains(address)) && (string.IsNullOrEmpty(key) ? true : (x.UserName.Contains(key) || x.Phone == key))).ToList();
+            return lst;
+        }
+
+        public List<Model.Store> GetStoresFan(int id)
+        {
+            string sql = $"select * from Store where Mid={id}";
+            return DapperHelper.GetList<IOT.Core.Model.Store>(sql);
+        }
+
+        public int InsertStore(Model.Store Model)
+        {
+            string sql = $"INSERT INTO Store VALUES(NULL,'{Model.MName}','{Model.Shopowner}','{Model.Goods}','{Model.Volume}','{Model.StoreType}','{Model.Extraction}','{Model.State}','{Model.StoreNo}','{Model.Pwd}','{Model.Phone}','{Model.Background}','{Model.Logo}','{Model.Approve}')";
+            return DapperHelper.Execute(sql);
+        }
+        /// <summary>
+        /// 修改商品状态
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public int UptCom(int cid)
+        {
+            string sql = $"SELECT * FROM Commodity ";
+
+            List<IOT.Core.Model.Commodity> list = DapperHelper.GetList<IOT.Core.Model.Commodity>(sql);
+
+            IOT.Core.Model.Commodity order = list.FirstOrDefault(x => x.CommodityId.Equals(cid));
+            string sqlq = "";
+            if (order.State == 0)
+            {
+                sqlq = $"UPDATE Commodity SET State=State+1 where CommodityId={cid}";
+            }
+            else
+            {
+                sqlq = $"UPDATE Commodity SET State=State-1 where CommodityId={cid}";
+
+            }
+            return DapperHelper.Execute(sqlq);
+        }
+
+        public int UptStore(Model.Store Model)
+        {
+            string sql = $"UPDATE Store SET MName ='{Model.MName}',Shopowner='{Model.Shopowner}',Goods='{Model.Goods}',Volume='{Model.Volume}',StoreType='{Model.StoreType}',Extraction='{Model.Extraction}',State='{Model.State}',StoreNo='{Model.StoreNo}',Pwd='{Model.Pwd}',Phone='{Model.Phone}',Background='{Model.Background}',Logo='{Model.Logo}',Approve='{Model.Approve}' where Mid='{Model.Mid}'";
             return DapperHelper.Execute(sql);
         }
 
-        //修改
-        int IStoreRepository.UptStore(Model.Store a)
+        public int UptStoreState(int id)
         {
-            string sql = $"Update Store Set MName='{a.MName}', Shopowner='{a.Shopowner}', Goods='{a.Goods}'," +
-                $"Volume='{a.Volume}', Extraction='{a.Extraction}', StoreType='{a.StoreType}', State='{a.State}' where Mid='{a.Mid}' ";
-            return DapperHelper.Execute(sql);
+            string sql = $"SELECT * FROM Store ";
+
+            List<IOT.Core.Model.Store> list = DapperHelper.GetList<IOT.Core.Model.Store>(sql);
+
+            IOT.Core.Model.Store order = list.FirstOrDefault(x => x.Mid.Equals(id));
+            string sqlq = "";
+            if (order.State == 0)
+            {
+                sqlq = $"UPDATE Store SET State=State+1 where Mid={id}";
+            }
+            else
+            {
+                sqlq = $"UPDATE Store SET State=State-1 where Mid={id}";
+
+            }
+            return DapperHelper.Execute(sqlq);
         }
 
     }

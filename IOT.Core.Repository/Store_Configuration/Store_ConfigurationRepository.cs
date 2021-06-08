@@ -14,30 +14,11 @@ namespace IOT.Core.Repository.Store_Configuration
     public class Store_ConfigurationRepository:IStore_ConfigurationRepository
     {
 
-        //添加
-        int IStore_ConfigurationRepository.AddStore_Config(Model.Store_Configuration a)
+        public int InsertPic(Model.Store_Configuration Model)
         {
-            string sql = $"insert into Store_Configuration values (null,'{a.StoreName}', '{a.State}', '{a.CreateTime}')";
+            string sql = $"insert into Store_Configuration values(NULL,'{Model.StorePic}','{Model.StoreName}','{Model.State}','{Model.CreateTime}')";
             return DapperHelper.Execute(sql);
         }
-
-        //显示
-        List<Model.Store_Configuration> IStore_ConfigurationRepository.ShowStore_Config()
-        {
-            string sql = "select * from Store_Configuration";
-            return DapperHelper.GetList<Model.Store_Configuration>(sql);
-        }
-                
-        //修改
-        int IStore_ConfigurationRepository.UptStore_Config(Model.Store_Configuration a)
-        {
-            string sql = $"Update Store_Configuration Set StoreName='{a.StoreName}', " +
-                $"State='{a.State}', CreateTime='{a.CreateTime}' where StoreId='{a.StoreId}' ";
-            return DapperHelper.Execute(sql);
-        }
-
-        // 上传图片
-
 
     }
 }

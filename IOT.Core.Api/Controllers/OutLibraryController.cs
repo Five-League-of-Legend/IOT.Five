@@ -1,6 +1,7 @@
 ﻿using IOT.Core.IRepository.OutLibrary;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,52 +14,87 @@ namespace IOT.Core.Api.Controllers
     public class OutLibraryController : ControllerBase
     {
 
-        // 依赖注入
-        private readonly IOutLibraryRepository _outLibrary;
-        public OutLibraryController(IOutLibraryRepository outLibrary)
+        //实例化log
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        //注入
+        public readonly IOutLibraryRepository _outLibraryRepository;
+        public OutLibraryController(IOutLibraryRepository outLibraryRepository)
         {
-            _outLibrary = outLibrary;
+            _outLibraryRepository = outLibraryRepository;
         }
 
-        // 显示
-        [Route("/api/OutLibraryShow")]
+        //显示
+
         [HttpGet]
-        public IActionResult OutLibraryShow(string wname ="",string outno="",string times="")
+        [Route("/api/ShowOutLibrary")]
+        public IActionResult ShowOutLibrary(string warehousename, string putno, string sdate = "", string zdate = "")
         {
-            string[] arr = times.Split(',');
-            var ls = _outLibrary.ShowOutLibrary();
-            if (!string.IsNullOrEmpty(wname))
-                ls = ls.Where(os => os.WarehouseName.Contains(wname)).ToList();
-            if (!string.IsNullOrEmpty(outno))
-                ls = ls.Where(os => os.OutNO.Contains(outno)).ToList();
-            if (!string.IsNullOrEmpty(times))
-                ls = ls.Where(os => os.OutDate >= Convert.ToDateTime(arr[0]) & os.OutDate <= Convert.ToDateTime(arr[1])).ToList();
-            return Ok(new { msg = "", code = 0, data = ls });
-        }
+            List<IOT.Core.Model.OutLibrary> lp = _outLibraryRepository.Query();
+            if (!string.IsNullOrEmpty(warehousename))
+            {
+                lp = lp.Where(x => x.WarehouseName.Contains(warehousename)).ToList();
+            }
+            if (!string.IsNullOrEmpty(putno))
+            {
+                lp = lp.Where(x => x.OutNO.Contains(putno)).ToList();
+            }
+            if (!string.IsNullOrEmpty(sdate))
+            {
+                lp = lp.Where(x => x.OutDate >= Convert.ToDateTime(sdate)).ToList();
+            }
+            if (!string.IsNullOrEmpty(zdate))
+            {
+                lp = lp.Where(x => x.OutDate <= Convert.ToDateTime(zdate)).ToList();
+            }
 
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = lp
+            });
+        }
         //添加
         [HttpPost]
-        [Route("/api/OutLibraryAdd")]
-        public int OutLibraryAdd(IOT.Core.Model.OutLibrary a)
+        [Route("/api/AddOutLibrary")]
+        public int AddOutLibrary([FromForm] IOT.Core.Model.OutLibrary outLibrary)
         {
-            int i = _outLibrary.AddOutLibrary(a);
+            logger.Debug($"用户添加了出库表信息,添加的单号为:{outLibrary.OutNO}");
+            int i = _outLibraryRepository.Insert(outLibrary);
+            return i;
+        }
+        //删除
+        [HttpDelete]
+        [Route("/api/DelOutLibrary")]
+        public int DelOutLibrary(string ids)
+        {
+            logger.Debug($"用户删除了出库表信息,删除ID为:{ids}");
+            int i = _outLibraryRepository.Delete(ids);
+            return i;
+
+        }
+
+        [HttpPut]
+        [Route("/api/UptOutLibrary")]
+        public int UptOutLibrary([FromForm] IOT.Core.Model.OutLibrary outLibrary)
+        {
+            logger.Debug($"用户修改了出库表信息,修改的单号为:{outLibrary.OutNO}");
+            int i = _outLibraryRepository.Update(outLibrary);
             return i;
         }
 
-        //删除
-        [HttpPost]
-        [Route("/api/OutLibraryDel")]
-        public int OutLibraryDel(string ids)
+        [HttpGet]
+        [Route("/api/FtOutLibrary")]
+        public IActionResult FtOutLibrary(int id)
         {
-            return _outLibrary.DelOutLibrary(ids);
-        }
-
-        //修改
-        [HttpPost]
-        [Route("/api/OutLibraryUpt")]
-        public int OutLibraryUpt(IOT.Core.Model.OutLibrary a)
-        {
-            return _outLibrary.UptOutLibrary(a);
+            List<IOT.Core.Model.OutLibrary> lp = _outLibraryRepository.Query();
+            IOT.Core.Model.OutLibrary outLibrary = lp.FirstOrDefault(x => x.PutLibraryId.Equals(id));
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = outLibrary
+            });
         }
 
     }

@@ -24,5 +24,25 @@ namespace IOT.Core.Repository.RoleManage
             }
             
         }
+
+        public int Delete(string ids)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Insert(Model.PutLibrary Model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Model.PutLibrary> Query()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(Model.PutLibrary Model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

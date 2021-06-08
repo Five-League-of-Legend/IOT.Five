@@ -73,6 +73,10 @@ using IOT.Core.Repository.MiniProgram;
 using IOT.Core.IRepository.NowRep;
 using IOT.Core.Model;
 using IOT.Core.Repository.NowRep;
+using IOT.Core.IRepository.CheckRep;
+using IOT.Core.Repository.CheckRep;
+using IOT.Core.IRepository.OrderInfos;
+using IOT.Core.Repository.OrderInfos;
 
 namespace IOT.Core.Api
 {
@@ -104,6 +108,7 @@ namespace IOT.Core.Api
             services.AddSingleton<IPathRepository, PathRepository>();
             services.AddSingleton<IBrokerageRepository, BrokerageRepository>();
             services.AddSingleton<IOrderInfoRepository, OrderInfoRepository>();
+            services.AddSingleton<IOrderInfosRepository, OrderInfosRepository>();
             services.AddSingleton<IOrderCommentRepository, OrderCommentRepository>();
             services.AddSingleton<IOrderDelivery, OrderDelivery>();
             services.AddSingleton<IMiniProgramRepository, MiniProgramRepository>();
@@ -151,6 +156,8 @@ namespace IOT.Core.Api
             services.AddSingleton<IWarehouseRepository, WarehouseRepository>();
             services.AddSingleton<IWithdrawalRepository, WithdrawalRepository>();
             services.AddSingleton<INowRepRepository, NowRepRepository>();
+            services.AddSingleton<ICheckRepRepository, CheckRepRepository>();
+
             //zx-------------------------------------------------------------------------------------
 
             services.AddCors(options => 

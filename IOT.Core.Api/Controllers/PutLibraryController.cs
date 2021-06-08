@@ -1,6 +1,7 @@
 ﻿using IOT.Core.IRepository.PutLibrary;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,52 +14,83 @@ namespace IOT.Core.Api.Controllers
     public class PutLibraryController : ControllerBase
     {
 
-        // 依赖注入
-        private readonly IPutLibraryRepository _putLibrary;
-        public PutLibraryController(IPutLibraryRepository putLibrary)
+        //实例化log
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        private readonly IPutLibraryRepository _putLibraryRepository;
+
+        public PutLibraryController(IPutLibraryRepository putLibraryRepository)
         {
-            _putLibrary = putLibrary;
+            _putLibraryRepository = putLibraryRepository;
         }
 
-        // 显示
-        [Route("/api/PutLibraryShow")]
         [HttpGet]
-        public IActionResult PutLibraryShow(string wname = "", string outno = "", string times = "")
+        [Route("/api/ShowPutLibrary")]
+        public IActionResult ShowPutLibrary(string warehousename, string putno, string sdate = "", string zdate = "")
         {
-            string[] arr = times.Split(',');
-            var ls = _putLibrary.ShowPutLibrarye();
-            if (!string.IsNullOrEmpty(wname))
-                ls = ls.Where(os => os.WarehouseName.Contains(wname)).ToList();
-            if (!string.IsNullOrEmpty(outno))
-                ls = ls.Where(os => os.PutNO.Contains(outno)).ToList();
-            if (!string.IsNullOrEmpty(times))
-                ls = ls.Where(os => os.PutDate >= Convert.ToDateTime(arr[0]) & os.PutDate <= Convert.ToDateTime(arr[1])).ToList();
-            return Ok(new { msg = "", code = 0, data = ls });
-        }
+            List<IOT.Core.Model.PutLibrary> lp = _putLibraryRepository.Query();
+            if (!string.IsNullOrEmpty(warehousename))
+            {
+                lp = lp.Where(x => x.WarehouseName.Contains(warehousename)).ToList();
+            }
+            if (!string.IsNullOrEmpty(putno))
+            {
+                lp = lp.Where(x => x.PutNO.Contains(putno)).ToList();
+            }
+            if (!string.IsNullOrEmpty(sdate))
+            {
+                lp = lp.Where(x => x.PutDate.Date >= Convert.ToDateTime(sdate)).ToList();
+            }
+            if (!string.IsNullOrEmpty(zdate))
+            {
+                lp = lp.Where(x => x.PutDate.Date <= Convert.ToDateTime(zdate)).ToList();
+            }
 
-        //添加
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = lp
+            });
+        }
         [HttpPost]
-        [Route("/api/PutLibraryAdd")]
-        public int PutLibraryAdd(IOT.Core.Model.PutLibrary a)
+        [Route("/api/AddPutLibrary")]
+        public int AddPutLibrary([FromForm] IOT.Core.Model.PutLibrary putLibrary)
         {
-            int i = _putLibrary.AddPutLibrary(a);
+            logger.Debug($"用户添加了入库表信息,添加入库单号为:{putLibrary.PutNO}");
+            int i = _putLibraryRepository.Insert(putLibrary);
             return i;
         }
 
-        //删除
-        [HttpPost]
-        [Route("/api/PutLibraryDel")]
-        public int PutLibraryDel(string ids)
+        [HttpDelete]
+        [Route("/api/DelPutLibrary")]
+        public int DelPutLibrary(string ids)
         {
-            return _putLibrary.DelPutLibrary(ids);
+            logger.Debug($"用户删除了入库表信息,删除ID为:{ids}");
+            int i = _putLibraryRepository.Delete(ids);
+            return i;
+        }
+        [HttpPut]
+        [Route("/api/UptPutLibrary")]
+        public int UptPutLibrary([FromForm] IOT.Core.Model.PutLibrary putLibrary)
+        {
+            logger.Debug($"用户修改了入库表信息,修改入库单号为:{putLibrary.PutNO}");
+            int i = _putLibraryRepository.Update(putLibrary);
+            return i;
         }
 
-        //修改
-        [HttpPost]
-        [Route("/api/PutLibraryUpt")]
-        public int PutLibraryUpt(IOT.Core.Model.PutLibrary a)
+        [HttpGet]
+        [Route("/api/FtPutLibrary")]
+        public IActionResult FtPutLibrary(int id)
         {
-            return _putLibrary.UptPutLibrary(a);
+            List<IOT.Core.Model.PutLibrary> lp = _putLibraryRepository.Query();
+            IOT.Core.Model.PutLibrary putLibrary = lp.FirstOrDefault(x => x.PutLibraryId.Equals(id));
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = putLibrary
+            });
         }
 
     }

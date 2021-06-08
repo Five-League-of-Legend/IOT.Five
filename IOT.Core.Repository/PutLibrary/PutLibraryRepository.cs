@@ -11,36 +11,30 @@ namespace IOT.Core.Repository.PutLibrary
     public class PutLibraryRepository: IPutLibraryRepository
     {
 
-        // 显示
-        public List<Model.PutLibrary> ShowPutLibrarye()
+        public int Delete(string ids)
         {
-            string sql =
-                "select * from OutLibrary A " +
-                "join PutLibrary B on A.PutLibraryId=B.PutLibraryId " +
-                "join Warehouse C on A.WarehouseId=C.WarehouseId " +
-                "join Commodity D on A.CommodityId=D.CommodityId";
-            return DapperHelper.GetList<Model.PutLibrary>(sql);
-        }
-
-        // 删除
-        public int DelPutLibrary(string id)
-        {
-            string sql = $"delete from PutLibrary where PutLibraryId={id}";
+            string sql = $"DELETE FROM PutLibrary WHERE PutLibraryId in({ids})";
+            DapperHelper.Execute($"INSERT INTO Lognote VALUES(NULL,'删除ID为{ids}的出库信息',NOW(),'出库表')");
             return DapperHelper.Execute(sql);
         }
 
-        // 新增
-        public int AddPutLibrary(Model.PutLibrary a)
+        public int Insert(Model.PutLibrary Model)
         {
-            string sql = $"insert into PutLibrary values (null,'{a.WarehouseId}', '{a.CommodityId}','{a.GoodNum}', '{a.PutDate}', '{a.PutNO}')";
+            string sql = $"INSERT INTO PutLibrary VALUES(NULL,{Model.WarehouseId},{Model.CommodityId},{Model.GoodNum},NOW(),'{Model.PutNO}')";
+            DapperHelper.Execute($"INSERT INTO Lognote VALUES(NULL,'添加单号为{Model.PutNO}的出库信息',NOW(),'出库表')");
             return DapperHelper.Execute(sql);
         }
 
-        // 修改
-        public int UptPutLibrary(Model.PutLibrary a)
+        public List<Model.PutLibrary> Query()
         {
-            string sql = $"Update PutLibrary Set  WarehouseId='{a.WarehouseId}' , CommodityId='{a.CommodityId}', GoodNum='{a.GoodNum}'," +
-                 $"PutDate='{a.PutDate}', PutNO='{a.PutNO}' where PutLibraryId='{a.PutLibraryId}' ";
+            string sql = "SELECT * FROM PutLibrary a JOIN Warehouse b ON a.WarehouseId=b.WarehouseId JOIN Commodity c ON a.CommodityId = c.CommodityId";
+            return DapperHelper.GetList<IOT.Core.Model.PutLibrary>(sql);
+        }
+
+        public int Update(Model.PutLibrary Model)
+        {
+            string sql = $"UPDATE PutLibrary SET WarehouseId={Model.WarehouseId},CommodityId={Model.CommodityId},GoodNum={Model.GoodNum},PutDate=NOW() WHERE PutLibraryId=({Model.PutLibraryId})";
+            DapperHelper.Execute($"INSERT INTO Lognote VALUES(NULL,'修改ID为{Model.PutLibraryId}出库信息',NOW(),'出库表')");
             return DapperHelper.Execute(sql);
         }
 

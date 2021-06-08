@@ -11,25 +11,27 @@ namespace IOT.Core.Repository.Delivery
     public class DeliveryRepository: IDeliveryRepository
     {
 
-        // 显示
-        public List<Model.Delivery> ShowDelivery()
+        public int Delete(string ids)
         {
-            string sql = "select * from Delivery A join Warehouse B on A.DeliveryId=B.WarehouseId ";
-            return DapperHelper.GetList<Model.Delivery>(sql);
-        }
-
-        // 删除
-        public int DelDelivery(string id)
-        {
-            string sql = $"delete from Delivery where DeliveryId={id}";
+            string sql = $"DELETE FROM Delivery WHERE DeliveryId IN({ids})";
             return DapperHelper.Execute(sql);
         }
 
-        // 修改
-        public int UptDelivery(Model.Delivery a)
+        public int Insert(Model.Delivery Model)
         {
-            string sql = $"Update PutLibrary Set  UserId='{a.UserId}' , ColonelID='{a.ColonelID}', DeliveryPath='{a.DeliveryPath}'," +
-                 $"DeliveryName='{a.DeliveryName}' where DeliveryId='{a.DeliveryId}' ";
+            string sql = $"INSERT INTO Delivery VALUES(NULL,{Model.UserId},{Model.ColonelID},'{Model.DeliveryPath}','{Model.DeliveryName}')";
+            return DapperHelper.Execute(sql);
+        }
+
+        public List<Model.Delivery> Query()
+        {
+            string sql = "SELECT * FROM Delivery a JOIN Users b ON a.UserId=b.UserId join Colonel c ON a.ColonelID=c.ColonelID";
+            return DapperHelper.GetList<IOT.Core.Model.Delivery>(sql);
+        }
+
+        public int Update(Model.Delivery Model)
+        {
+            string sql = $"UPDATE Delivery SET DeliveryName='{Model.DeliveryName}',DeliveryPath='{Model.DeliveryPath}' WHERE DeliveryId={Model.DeliveryId}";
             return DapperHelper.Execute(sql);
         }
 
