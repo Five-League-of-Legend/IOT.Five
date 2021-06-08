@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IOT.Core.Common;
 using IOT.Core.IRepository.Users;
 using NLog;
+
 namespace IOT.Core.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -42,6 +43,9 @@ namespace IOT.Core.Api.Controllers
         public IActionResult ShowUsersWhereColonelID(int cid)
         {
             var ls = _usersRepository.ShowUsersWhereColonelID(cid);
+
+            logger.Debug($"显示团长下核销员,团长id为{cid}");
+
             return Ok(ls);
         }
 

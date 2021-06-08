@@ -32,5 +32,21 @@ namespace IOT.Core.Repository.OrderInfo
             }
       
         }
+
+        public int UptOrderPrintStatus(string ids)
+        {
+            ids = ids.TrimEnd(',');
+            try
+            {
+                string sql = $" update OrderInfo set PrintStatus=2 where Orderid in ({ids}); ";
+
+                return DapperHelper.Execute(sql);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

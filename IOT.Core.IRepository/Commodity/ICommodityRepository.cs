@@ -15,5 +15,6 @@ namespace IOT.Core.IRepository.CommodityRepository
         List<Model.Commodity> BindShowCom();
         int Uptstate(int id);
         int Uptsstate(int id);
+        int Upt(Model.Commodity cc);
     }
 }

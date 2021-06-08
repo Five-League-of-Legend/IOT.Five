@@ -22,14 +22,14 @@ namespace IOT.Core.Api.Controllers
         }
         [Route("api/Show")]
         [HttpGet]
-        public IActionResult Show(string tname="", int state=0)
+        public IActionResult Show(string tname="", int state=-1)
         {
             var list = _commTypeRepository.Query(tname,state);
             if (!string.IsNullOrEmpty(tname))
             {
                 list = list.Where(x => x.TName.Contains(tname)).ToList();
             }
-            if (state!=0)
+            if (state!=-1)
             {
                 list = list.Where(x => x.State.Equals(state)).ToList();
             }
@@ -49,15 +49,15 @@ namespace IOT.Core.Api.Controllers
             return _commTypeRepository.Insert(c);
         }
         [Route("api/Del")]
-        [HttpPost]
+        [HttpGet]
         public int Del(string ids)
         {
-            
-            return _commTypeRepository.Delete(ids);
+            int i = _commTypeRepository.Delete(ids);
+            return i;
         }
         [Route("api/UptState")]
         [HttpGet]
-        public List<Model.CommType> Upts(int id)
+        public int Upts(int id)
         {
             return _commTypeRepository.UptState(id);
         }  

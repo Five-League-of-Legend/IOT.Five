@@ -24,11 +24,11 @@ namespace IOT.Core.Api.Controllers
         //添加
         [Route("/api/Login")]
         [HttpPost]
-        public int Login(Model.Users a)
+        public int Login([FromForm]Model.Users a)
         {
-            logger.Debug($"用户登录,用户的名称为:{a.UserName},用户账号{a.LoginName}为密码为{a.LoginPwd}");
-            object i = _loginRepository.Login(a.LoginName,a.LoginPwd);
-            return Convert.ToInt32(i);
+            object obj = _loginRepository.Login(a.LoginName,a.LoginPwd);
+            int i = Convert.ToInt32(obj);
+            return i;
         }
     }
 }
