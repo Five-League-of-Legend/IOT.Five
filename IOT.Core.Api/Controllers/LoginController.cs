@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.Core.IRepository.Login;
-
+using NLog;
 
 namespace IOT.Core.Api.Controllers
 {
@@ -13,6 +13,7 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
         private readonly ILoginRepository _loginRepository;
 
         public LoginController(ILoginRepository loginRepository)
@@ -25,8 +26,9 @@ namespace IOT.Core.Api.Controllers
         [HttpPost]
         public int Login([FromForm]Model.Users a)
         {
-            object i = _loginRepository.Login(a.LoginName,a.LoginPwd);
-            return Convert.ToInt32(i);
+            object obj = _loginRepository.Login(a.LoginName,a.LoginPwd);
+            int i = Convert.ToInt32(obj);
+            return i;
         }
     }
 }

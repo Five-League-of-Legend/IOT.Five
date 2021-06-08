@@ -30,7 +30,7 @@ namespace IOT.Core.Repository.MiniProgram
             string sql = $" update MiniProgram set APPID='{miniProgram.APPID}'," +
                 $"SECRET='{miniProgram.SECRET}',MerchantCode={miniProgram.MerchantCode}," +
                 $"SecretKey='{miniProgram.SecretKey}',CertificateCERT='{miniProgram.CertificateCERT}'," +
-                $"CertificateKEY='{miniProgram.CertificateKEY}',Payment='{miniProgram.Payment}',  where procedureid={miniProgram.procedureid} ";
+                $"CertificateKEY='{miniProgram.CertificateKEY}',Payment='{miniProgram.Payment}'  where procedureid={miniProgram.procedureid} ";
             return DapperHelper.Execute(sql);
         }
 

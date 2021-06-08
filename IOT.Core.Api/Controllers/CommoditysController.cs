@@ -67,7 +67,7 @@ namespace IOT.Core.Api.Controllers
             }
         }
         [Route("/api/Uptstate")] 
-        [HttpPost]
+        [HttpGet]
         public int Uptstate(int id)
         {
             try
@@ -101,6 +101,14 @@ namespace IOT.Core.Api.Controllers
         public int Upt(Model.Commodity cc)
         {
             return _commodityRepository.Upt(cc);
+        }
+        [Route("/api/Deletesss")]
+        [HttpPost]
+        public int Delete(string ids)
+        {
+            return _commodityRepository.Delete(ids);
+
+
         }
 
     }

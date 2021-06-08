@@ -1,6 +1,7 @@
 ﻿using IOT.Core.IRepository.OrderInfo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,9 @@ namespace IOT.Core.Api.Controllers
         private readonly IOrderInfoRepository _orderInfoRepository;
         private readonly IOrderCommentRepository _orderCommentRepository;
         private readonly IOrderDelivery _orderDelivery;
+
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
+
 
         public OrderInfoController(IOrderInfoRepository orderInfoRepository, IOrderCommentRepository orderCommentRepository, IOrderDelivery orderDelivery)
         {
@@ -40,11 +44,11 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/GetShowViewOrderInfo")]
-        public IActionResult GetShowViewOrderInfo(int timeType=-1,string setimeArr="",int searchType = -1, string searchContent = "", string sTime = "", string eTime = "", int refundStatus = -1, int orderState = -1, int userId = -1, string CommodityName = "", int SendWay = -1)
+        public IActionResult GetShowViewOrderInfo(int timeType = -1, string setimeArr = "", int searchType = -1, string searchContent = "", string sTime = "", string eTime = "", int refundStatus = -1, int orderState = -1, int userId = -1, string CommodityName = "", int SendWay = -1)
         {
             var ls = _orderInfoRepository.ShowViewOrderInfo(searchType, searchContent, sTime, eTime, refundStatus, orderState, userId, CommodityName, SendWay);
 
-            if (timeType!=-1&timeType!=0)
+            if (timeType != -1 & timeType != 0)
             {
                 if (setimeArr != "" & setimeArr != null)
                 {
@@ -54,9 +58,10 @@ namespace IOT.Core.Api.Controllers
                             ls = ls.Where(m => m.StartTime == Convert.ToDateTime(setimeArr)).ToList();
                             break;
                     }
-                }              
+                }
             }
-            
+
+            logger.Debug($"显示订单");
 
             return Ok(ls);
         }
@@ -68,7 +73,7 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/UptOrderInfo")]
-        public int UptOrderInfo([FromForm]Model.OrderInfo orderInfo)
+        public int UptOrderInfo([FromForm] Model.OrderInfo orderInfo)
         {
             return _orderInfoRepository.UptOrderInfo(orderInfo);
         }
@@ -93,7 +98,9 @@ namespace IOT.Core.Api.Controllers
             string[] arr = ss[0].Split(',');
             string[] arr1 = ss[1].Split(',');
 
-             Array.Reverse(arr1);
+            Array.Reverse(arr1);
+
+            logger.Debug($"显示订单概述");
 
             return Ok(new
             {
@@ -104,11 +111,11 @@ namespace IOT.Core.Api.Controllers
                 Safeguard = arr[4],
                 Today = arr[5],
                 Figure = arr[6],
-                Num1=arr1[0],
-                Num2=arr1[1],
-                Num3=arr1[2],
-                Num4=arr1[3],
-                Num5=arr1[4]
+                Num1 = arr1[0],
+                Num2 = arr1[1],
+                Num3 = arr1[2],
+                Num4 = arr1[3],
+                Num5 = arr1[4]
             });
         }
 
@@ -123,6 +130,9 @@ namespace IOT.Core.Api.Controllers
         public IActionResult GetShowOrderCom()
         {
             List<Model.ViewOrderComAndCom_Com> ls = _orderCommentRepository.ShowOrderCom();
+
+            logger.Debug($"显示评价管理");
+
             return Ok(ls);
         }
 
@@ -138,6 +148,15 @@ namespace IOT.Core.Api.Controllers
         {
             int i = _orderCommentRepository.DelOrderCom(id);
 
+            if (i > 0)
+            {
+                logger.Debug($"删除评论成功,id为{id}");
+            }
+            else
+            {
+                logger.Debug($"删除评论失败,id为{id}");
+            }
+
             return i;
         }
 
@@ -148,9 +167,18 @@ namespace IOT.Core.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/UptOrderCom")]
-        public int UptOrderCom([FromForm]Model.OrderComment orderComment)
+        public int UptOrderCom([FromForm] Model.OrderComment orderComment)
         {
             int i = _orderCommentRepository.UptOrderCom(orderComment);
+
+            if (i > 0)
+            {
+                logger.Debug($"修改显示状态成功,id为{orderComment.Commentid}");
+            }
+            else
+            {
+                logger.Debug($"修改显示状态失败,id为{orderComment.Commentid}");
+            }
 
             return i;
         }
@@ -159,14 +187,102 @@ namespace IOT.Core.Api.Controllers
         /// <summary>
         /// 订单配送
         /// </summary>
+        /// <param name="SelTimeStatus">搜索时间类型</param>
+        /// <param name="StartTime">时间内容</param>
+        /// <param name="OrderState">订单状态</param>
+        /// <param name="SelCondition">查询条件</param>
+        /// <param name="SelContent">查询内容</param>
+        /// <param name="PrintMode">打印类型</param>
+        /// <param name="PrintStatus">打印状态</param>
         /// <returns></returns>
         [HttpGet]
         [Route("/api/GetShowOrderDelivery")]
-        public IActionResult GetShowOrderDelivery()
+        public IActionResult GetShowOrderDelivery(int SelTimeStatus = 0, string StartTimeOne = "", string StartTimeTwo = "", int OrderState = 0, int SelCondition = 0, string SelContent = "", int PrintMode = 0, int PrintStatus = 0)
         {
             List<Model.ViewOrderUsersCommodity> ls = _orderDelivery.ShowOrderDelivery();
+
+            logger.Debug($"显示订单配送");
+
+            switch (SelTimeStatus)
+            {
+                case 1:
+                    ls = ls.Where(m => m.StartTime >= Convert.ToDateTime(StartTimeOne) && m.StartTime <= Convert.ToDateTime(StartTimeTwo)).ToList();
+                    break;
+                case 2:
+                    ls = ls.Where(m => m.StartTime >= Convert.ToDateTime(StartTimeOne) && m.StartTime <= Convert.ToDateTime(StartTimeTwo)).ToList();
+                    break;
+                case 3:
+                    ls = ls.Where(m => m.StartTime >= Convert.ToDateTime(StartTimeOne) && m.StartTime <= Convert.ToDateTime(StartTimeTwo)).ToList();
+                    break;
+                case 4:
+                    ls = ls.Where(m => m.StartTime >= Convert.ToDateTime(StartTimeOne) && m.StartTime <= Convert.ToDateTime(StartTimeTwo)).ToList();
+                    break;
+                case 5:
+                    ls = ls.Where(m => m.StartTime >= Convert.ToDateTime(StartTimeOne) && m.StartTime <= Convert.ToDateTime(StartTimeTwo)).ToList();
+                    break;
+            }
+
+            if (OrderState != 0)
+            {
+                ls = ls.Where(m => m.OrderState == OrderState).ToList();
+            }
+
+            switch (SelCondition)
+            {
+                case 1:
+                    ls = ls.Where(m => m.CommodityName == SelContent).ToList();
+                    break;
+                case 2:
+                    ls = ls.Where(m => m.Orderid == int.Parse(SelContent)).ToList();
+                    break;
+                case 3:
+                    ls = ls.Where(m => m.Phone == SelContent).ToList();
+                    break;
+                case 4:
+                    ls = ls.Where(m => m.UserName == SelContent).ToList();
+                    break;
+
+            }
+
+            switch (PrintMode)
+            {
+                case 1:
+                    ls = ls.Where(m => m.PrintMode == 2).ToList();
+                    break;
+                case 2:
+                    ls = ls.Where(m => m.PrintMode == 6).ToList();
+                    break;
+            }
+
+            switch (PrintStatus)
+            {
+                case 1:
+                    ls = ls.Where(m => m.PrintStatus == 1).ToList();
+                    break;
+                case 2:
+                    ls = ls.Where(m => m.PrintStatus == 2).ToList();
+                    break;
+            }
+
             return Ok(ls);
         }
 
+        [HttpPost]
+        [Route("/api/UptOrderPrintStatus")]
+        public int UptOrderPrintStatus(string ids)
+        {
+            int i = _orderDelivery.UptOrderPrintStatus(ids);
+
+            if (i > 0)
+            {
+                logger.Debug($"修改打印状态成功,id为{ids}");
+            }
+            else
+            {
+                logger.Debug($"修改打印状态失败,id为{ids}");
+            }
+
+            return i;
+        }
     }
 }

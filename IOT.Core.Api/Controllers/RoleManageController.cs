@@ -25,6 +25,8 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/RoleManageAdd")]
         public int RoleManageAdd(IOT.Core.Model.RoleManage a)
         {
+            
+           
             int i = _roleManageRepository.AddRoleManage(a);
             return i;
         }

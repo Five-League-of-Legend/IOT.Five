@@ -21,6 +21,18 @@ namespace IOT.Core.Api.Controllers
             _liveRepository = liveRepository;
         }
         [HttpGet]
+        [Route("/api/ShowBinds")]
+        public IActionResult ShowBinds()
+        {
+            List<Model.CommType> lt = _liveRepository.Binds();
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = lt
+            });
+        }
+        [HttpGet]
         [Route("/api/ShowLiveList")]
         public IActionResult ShowLiveList(int zt = -1, string keyname = "")
         {

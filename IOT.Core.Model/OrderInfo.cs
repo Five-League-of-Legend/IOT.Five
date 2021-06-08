@@ -23,5 +23,10 @@ namespace IOT.Core.Model
         public float CouponPrice       { get; set; }
         public float AmountPaid        { get; set; }
         public DateTime StartTime         { get; set; }
+        public int PayState { get; set; }
+        public int days { get; set; }
+        public int PrintMode { get; set; }
+        public int PrintStatus { get; set; }
+        public int SelTimeStatus { get; set; }
     }
 }

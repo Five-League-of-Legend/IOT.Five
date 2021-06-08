@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IOT.Core.Common;
 using IOT.Core.IRepository.Users;
+using NLog;
 
 namespace IOT.Core.Api.Controllers
 {
@@ -13,6 +14,7 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
         private readonly IUsersRepository _usersRepository;
         public UsersController(IUsersRepository usersRepository)
         {
@@ -41,6 +43,9 @@ namespace IOT.Core.Api.Controllers
         public IActionResult ShowUsersWhereColonelID(int cid)
         {
             var ls = _usersRepository.ShowUsersWhereColonelID(cid);
+
+            logger.Debug($"显示团长下核销员,团长id为{cid}");
+
             return Ok(ls);
         }
 
@@ -50,6 +55,7 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public int UsersDel(string id)
         {
+            logger.Debug($"用户对员工管理进行删除,删除的ID为:{id}");
             return _usersRepository.DelUsers(id);
         }
 
@@ -61,6 +67,8 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/UsersUpt")]
         public int UsersUpt([FromForm]IOT.Core.Model.Users a)
         {
+
+            logger.Debug($"用户对员工管理进行修改,修改的ID为:{a.UserId}");
             a.Phone = "14712345678";
             a.Address = "河北廊坊";
             a.State = 1;
@@ -73,7 +81,7 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/UsersUptZt")]
         public int UsersUptZt(int cid)
         {
-
+            logger.Debug($"用户对员工管理进行修改状态,修改状态的ID为:{cid}");
             return _usersRepository.UptZt(cid);
         }
 
@@ -83,18 +91,7 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/UsersAdd")]
         public int UsersAdd([FromForm]IOT.Core.Model.Users a)
         {
-            // loginName userName  loginPwd nickName  显示添加信息
-            // int UserId    { get    
-            // string  UserName  {   默认后台
-            // string LoginName { 
-            // string LoginPwd  { 
-            // string Phone     { 
-            // string Address   { 
-            // int State     { get
-            // string NickName  { 
-            // int ColonelID { get
-            // int RoleId { get; s
-            // string RoleName { g
+            logger.Debug($"用户对员工管理进行添加,添加的用户名称为:{a.UserName}");
             a.Phone = "14712345678";
             a.Address = "河北廊坊";
             a.State = 1;

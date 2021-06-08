@@ -1,5 +1,11 @@
 using IOT.Core.IRepository.Login;
 using IOT.Core.Repository.Login;
+using IOT.Core.IRepository.Menu;
+using IOT.Core.Repository.Menu;
+using IOT.Core.IRepository.Role;
+using IOT.Core.Repository.Role;
+using IOT.Core.IRepository.StaffAuthority;
+using IOT.Core.Repository.StaffAuthority;
 using IOT.Core.IRepository.Activity;
 using IOT.Core.IRepository.GroupBooking;
 using IOT.Core.IRepository.Agent;
@@ -30,6 +36,7 @@ using IOT.Core.IRepository.SVIP;
 using IOT.Core.IRepository.Users;
 using IOT.Core.IRepository.Warehouse;
 using IOT.Core.IRepository.Withdrawal;
+using IOT.Core.IRepository.WorkBench;
 using IOT.Core.Repository.Activity;
 using IOT.Core.Repository.GroupBooking;
 using IOT.Core.Repository.Agent;
@@ -53,6 +60,7 @@ using IOT.Core.Repository.SVIP;
 using IOT.Core.Repository.Users;
 using IOT.Core.Repository.Warehouse;
 using IOT.Core.Repository.Withdrawal;
+using IOT.Core.Repository.WorkBench;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -128,6 +136,9 @@ namespace IOT.Core.Api
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IRolesRepository, RolesRepository>();
             services.AddSingleton<ILoginRepository, LoginRepository>();
+            services.AddSingleton<IMenuRepository, MenuRepository>();
+            services.AddSingleton<IRoleRepository, RoleRepository>();
+            services.AddSingleton<IStaffAuthorityRepository, StaffAuthorityRepository>();
             //--------------------------------------------------------------------------------------
 
             //--------------------------------------------------------------------------------------
@@ -137,6 +148,7 @@ namespace IOT.Core.Api
             services.AddScoped<IBargainRepository, BargainRepository>();
             services.AddScoped<ILiveRepository, LiveRepository>();
             services.AddScoped<IGroupBookingRepository, GroupBookingRepository>();
+            services.AddScoped<IWorkBenchRepository, WorkBenchRepository>();
             //--------------------------------------------------------------------------------------
 
             //wpc-----------------------------------------
