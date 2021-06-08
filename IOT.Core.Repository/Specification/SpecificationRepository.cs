@@ -16,7 +16,7 @@ namespace IOT.Core.Repository.Specification
         {
             try
             {
-                string sql = $"delete from Specification where SId={ids}";
+                string sql = $"delete from Specification where SId in ({ids})";
                 return DapperHelper.Execute(sql);
             }
             catch (Exception)
