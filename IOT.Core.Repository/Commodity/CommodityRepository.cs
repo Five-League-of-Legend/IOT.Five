@@ -89,19 +89,19 @@ namespace IOT.Core.Repository.Commodity
                 string sql = "";
                 if (code == 1)
                 {
-                    sql = "select * from Commodity where State =1 and DeleteState=0";
+                    sql = "select * from Commodity a JOIN CommType b on a.Tid=b.TId where a.State =1 and DeleteState=0";
                 }
                 else if (code == 2)
                 {
-                    sql = "select * from Commodity where DeleteState=0";
+                    sql = "select * from Commodity a JOIN CommType b on a.Tid=b.TId where DeleteState=0";
                 }
                 else if (code == 3)
                 {
-                    sql = "select * from Commodity where DeleteState=0 and IsSell=1";
+                    sql = "select * from Commodity a JOIN CommType b on a.Tid=b.TId where DeleteState=0 and IsSell=1";
                 }
                 else if (code == 4)
                 {
-                    sql = "select * from Commodity where DeleteState=1";
+                    sql = "select * from Commodity a JOIN CommType b on a.Tid=b.TId where DeleteState=1";
                 }
                 List<Model.Commodity> mm = DapperHelper.GetList<Model.Commodity>(sql);
                 if (tid != 0)
