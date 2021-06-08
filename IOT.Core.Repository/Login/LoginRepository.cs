@@ -21,6 +21,8 @@ namespace IOT.Core.Repository.Login
             try
             {
                 object result = DapperHelper.Exescalar($"select count(1) from Users where LoginName='{loginName}' and LoginPwd='{pwd}'");
+                string sql1 = $"insert into Lognote values (NULL,'登录用户名{loginName}密码{pwd}',NOW(),'Users用户表');";
+                DapperHelper.Execute(sql1);
                 return result;
             }
             catch (Exception)
