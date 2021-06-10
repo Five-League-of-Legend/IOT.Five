@@ -13,20 +13,39 @@ namespace IOT.Core.Api.Controllers
     public class PayStoreController : ControllerBase
     {
 
-        // 依赖注入
-        private readonly IPayStoreRepository _Pay;
-        public PayStoreController(IPayStoreRepository Pay)
+        private readonly IPayStoreRepository _payStoreRepository;
+
+        public PayStoreController(IPayStoreRepository payStoreRepository)
         {
-            _Pay = Pay;
+            _payStoreRepository = payStoreRepository;
+        }
+        [HttpGet]
+        [Route("/api/ShowPayStore")]
+        public IActionResult ShowPayStore()
+        {
+            List<Model.PayStore> lp = _payStoreRepository.GetPayStores();
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = lp
+            });
         }
 
-        // 显示
-        [Route("/api/PayStoreShow")]
-        [HttpGet]
-        public IActionResult PayStoreShow()
+        [HttpPut]
+        [Route("/api/UptCollection")]
+        public int UptCollection()
         {
-            var ls = _Pay.ShowIPayStore();
-            return Ok(new { msg = "", code = 0, data = ls });
+            int i = _payStoreRepository.UptCollection();
+            return i;
+        }
+
+        [HttpPut]
+        [Route("/api/UptWhether")]
+        public int UptWhether()
+        {
+            int i = _payStoreRepository.UptWhether();
+            return i;
         }
 
     }

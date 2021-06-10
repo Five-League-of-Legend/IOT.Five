@@ -12,17 +12,73 @@ namespace IOT.Core.IRepository.Store
     public interface IStoreRepository
     {
 
-        //添加
-        int AddStore(IOT.Core.Model.Store a);
+        /// <summary>
+        /// 显示门店
+        /// </summary>
+        /// <returns></returns>
+        List<IOT.Core.Model.Store> GetStores();
 
-        //显示
-        List<IOT.Core.Model.Store> ShowStore();
+        /// <summary>
+        /// 显示 查询门店
+        /// </summary>
+        /// <returns></returns>
+        List<IOT.Core.Model.V_Store> GetStores(string address = "", string key = "");
 
-        //删除
-        int DelStore(string id);
+        /// <summary>
+        /// 显示商品
+        /// </summary>
+        /// <returns></returns>
+        List<IOT.Core.Model.Commodity> GetCommodities();
 
-        //修改
-        int UptStore(IOT.Core.Model.Store a);
+        /// <summary>
+        /// 反填
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<IOT.Core.Model.Store> GetStoresFan(int id);
+
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <returns></returns>
+        int InsertStore(Model.Store Model);
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <returns></returns>
+        int UptStore(Model.Store Model);
+
+        /// <summary>
+        /// 修改门店状态
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        int UptStoreState(int id);
+
+        /// <summary>
+        /// 修改商品状态
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        int UptCom(int cid);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        int DelStore(int ids);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        /// 
+        int DelCom(int ids);
 
     }
 }

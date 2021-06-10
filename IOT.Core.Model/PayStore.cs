@@ -11,8 +11,8 @@ namespace IOT.Core.Model
     /// </summary>
     public class PayStore
     {
-        public int Pid        { get; set; }
-        public int Whether    { get; set; }
-        public string Collection { get; set; }
+        public int Pid { get; set; }
+        public int Whether { get; set; }
+        public int Collection { get; set; }
     }
 }

@@ -13,38 +13,75 @@ namespace IOT.Core.Api.Controllers
     public class DeliveryController : ControllerBase
     {
 
-        private readonly IDeliveryRepository _delivery;
+        private readonly IDeliveryRepository _deliveryRepository;
 
-        public DeliveryController(IDeliveryRepository delivery)
+        public DeliveryController(IDeliveryRepository deliveryRepository)
         {
-            _delivery = delivery;
+            _deliveryRepository = deliveryRepository;
         }
 
-        //显示
-        [Route("/api/DeliveryShow")]
         [HttpGet]
-        public IActionResult DeliveryShow(string wname="")
+        [Route("/api/ShowDelivery")]
+        public IActionResult ShowDelivery(int warehouseId)
         {
-            var ls = _delivery.ShowDelivery();
-            if (!string.IsNullOrEmpty(wname))
-                ls = ls.Where(os => os.WarehouseName.Contains(wname)).ToList();
-            return Ok(new { msg = "", code = 0, data = ls });
+            List<IOT.Core.Model.Delivery> ld = _deliveryRepository.Query();
+            //查找
+            if (warehouseId != 0)
+            {
+                ld = ld.Where(x => x.WarehouseId.Equals(warehouseId)).ToList();
+            }
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = ld
+            });
+
+
         }
 
-        //删除
         [HttpPost]
-        [Route("/api/DeliveryDel")]
-        public int DeliveryDel(string ids)
+        [Route("/api/AddDelivery")]
+        public int AddDelivery(IOT.Core.Model.Delivery delivery)
         {
-            return _delivery.DelDelivery(ids);
+            int i = _deliveryRepository.Insert(delivery);
+            return i;
+
         }
 
-        //修改
-        [HttpPost]
-        [Route("/api/DeliveryUpt")]
-        public int DeliveryUpt(IOT.Core.Model.Delivery a)
+        [HttpDelete]
+        [Route("/api/DelDelivery")]
+        public int DelDelivery(string ids)
         {
-            return _delivery.UptDelivery(a);
+            int i = _deliveryRepository.Delete(ids);
+            return i;
+
+        }
+
+
+        [HttpPut]
+        [Route("/api/UptDelivery")]
+        public int UptDelivery([FromForm] IOT.Core.Model.Delivery delivery)
+        {
+            int i = _deliveryRepository.Update(delivery);
+            return i;
+
+        }
+
+
+        [HttpGet]
+        [Route("/api/FtDelivery")]
+        public IActionResult FtWarehouse(int id)
+        {
+            List<IOT.Core.Model.Delivery> ld = _deliveryRepository.Query();
+            IOT.Core.Model.Delivery delivery = ld.FirstOrDefault(x => x.DeliveryId.Equals(id));
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = delivery
+            });
+
         }
 
     }

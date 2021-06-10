@@ -1,5 +1,11 @@
 using IOT.Core.IRepository.Login;
 using IOT.Core.Repository.Login;
+using IOT.Core.IRepository.Menu;
+using IOT.Core.Repository.Menu;
+using IOT.Core.IRepository.Role;
+using IOT.Core.Repository.Role;
+using IOT.Core.IRepository.StaffAuthority;
+using IOT.Core.Repository.StaffAuthority;
 using IOT.Core.IRepository.Activity;
 using IOT.Core.IRepository.GroupBooking;
 using IOT.Core.IRepository.Agent;
@@ -75,6 +81,10 @@ using IOT.Core.Repository.MiniProgram;
 using IOT.Core.IRepository.NowRep;
 using IOT.Core.Model;
 using IOT.Core.Repository.NowRep;
+using IOT.Core.IRepository.CheckRep;
+using IOT.Core.Repository.CheckRep;
+using IOT.Core.IRepository.OrderInfos;
+using IOT.Core.Repository.OrderInfos;
 
 namespace IOT.Core.Api
 {
@@ -106,6 +116,7 @@ namespace IOT.Core.Api
             services.AddSingleton<IPathRepository, PathRepository>();
             services.AddSingleton<IBrokerageRepository, BrokerageRepository>();
             services.AddSingleton<IOrderInfoRepository, OrderInfoRepository>();
+            services.AddSingleton<IOrderInfosRepository, OrderInfosRepository>();
             services.AddSingleton<IOrderCommentRepository, OrderCommentRepository>();
             services.AddSingleton<IOrderDelivery, OrderDelivery>();
             services.AddSingleton<IMiniProgramRepository, MiniProgramRepository>();
@@ -125,6 +136,9 @@ namespace IOT.Core.Api
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IRolesRepository, RolesRepository>();
             services.AddSingleton<ILoginRepository, LoginRepository>();
+            services.AddSingleton<IMenuRepository, MenuRepository>();
+            services.AddSingleton<IRoleRepository, RoleRepository>();
+            services.AddSingleton<IStaffAuthorityRepository, StaffAuthorityRepository>();
             //--------------------------------------------------------------------------------------
 
             //--------------------------------------------------------------------------------------
@@ -154,6 +168,8 @@ namespace IOT.Core.Api
             services.AddSingleton<IWarehouseRepository, WarehouseRepository>();
             services.AddSingleton<IWithdrawalRepository, WithdrawalRepository>();
             services.AddSingleton<INowRepRepository, NowRepRepository>();
+            services.AddSingleton<ICheckRepRepository, CheckRepRepository>();
+
             //zx-------------------------------------------------------------------------------------
 
             services.AddCors(options => 

@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOT.Core.IRepository.Roles;
+using NLog;
 namespace IOT.Core.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class RolesController : ControllerBase
     {
-
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();//实例化
         private readonly IRolesRepository _rolesRepository;
         public RolesController(IRolesRepository rolesRepository)
         {
@@ -33,6 +34,7 @@ namespace IOT.Core.Api.Controllers
         [HttpGet]
         public int RolesDel(string id)
         {
+            logger.Debug($"用户对角色进行删除,删除的ID为:{id}");
             return _rolesRepository.DelRoles(id);
         }
 
@@ -42,6 +44,7 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/RolesUpt")]
         public int AgentUpt(IOT.Core.Model.Roles a)
         {
+            logger.Debug($"用户对角色进行修改,修改的ID为:{a.RoleId}");
             return _rolesRepository.UptRoles(a);
         }
         
@@ -49,6 +52,7 @@ namespace IOT.Core.Api.Controllers
         [Route("/api/RolesAdd")]
         public int RolesAdd([FromForm] IOT.Core.Model.Roles a)
         {
+            logger.Debug($"用户对角色进行添加,添加的名称为:{a.RoleName}");
             int i = _rolesRepository.AddRoles(a);
             return i;
         }

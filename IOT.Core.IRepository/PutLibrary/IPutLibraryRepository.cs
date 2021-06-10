@@ -9,17 +9,10 @@ namespace IOT.Core.IRepository.PutLibrary
     public interface IPutLibraryRepository
     {
 
-        // 显示
-        List<IOT.Core.Model.PutLibrary> ShowPutLibrarye();
-
-        // 删除
-        int DelPutLibrary(string id);
-
-        // 新增
-        int AddPutLibrary(IOT.Core.Model.PutLibrary a);
-
-        // 修改
-        int UptPutLibrary(IOT.Core.Model.PutLibrary a);
+        int Update(IOT.Core.Model.PutLibrary Model);
+        int Delete(string ids);
+        int Insert(IOT.Core.Model.PutLibrary Model);
+        List<IOT.Core.Model.PutLibrary> Query();
 
     }
 }

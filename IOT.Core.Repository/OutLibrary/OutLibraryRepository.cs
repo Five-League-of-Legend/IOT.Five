@@ -11,39 +11,28 @@ namespace IOT.Core.Repository.OutLibrary
     public class OutLibraryRepository: IOutLibraryRepository
     {
 
-        // 显示
-        public List<Model.OutLibrary> ShowOutLibrary()
+        public int Delete(string ids)
         {
-            string sql =
-                "select * from OutLibrary A " +
-                "join PutLibrary B on A.PutLibraryId=B.PutLibraryId " +
-                "join Warehouse C on A.WarehouseId=C.WarehouseId " +
-                "join Commodity D on A.CommodityId=D.CommodityId";
-            return DapperHelper.GetList<Model.OutLibrary>(sql);
-        }
-
-        // 删除
-        public int DelOutLibrary(string id)
-        {
-            string sql = $"delete from OutLibrary where PutLibraryId={id}";
+            string sql = $"DELETE FROM OutLibrary WHERE PutLibraryId in({ids})";
             return DapperHelper.Execute(sql);
         }
 
-        // 新增
-        public int AddOutLibrary(Model.OutLibrary a)
+        public int Insert(Model.OutLibrary Model)
         {
-            string sql = $"insert into Warehouse values (null,'{a.WarehouseId}', '{a.CommodityId}'," +
-                $" '{a.GoodNum}', '{a.OutDate}', '{a.OutNO}')";
+            string sql = $"INSERT INTO OutLibrary VALUES(NULL,{Model.WarehouseId},{Model.CommodityId},{Model.GoodNum},NOW(),'{Model.OutNO}')";
             return DapperHelper.Execute(sql);
         }
 
-        // 修改
-        public int UptOutLibrary(Model.OutLibrary a)
+        public List<Model.OutLibrary> Query()
         {
-            string sql = $"Update Warehouse Set  WarehouseId='{a.WarehouseId}' , CommodityId='{a.CommodityId}', GoodNum='{a.GoodNum}'," +
-                 $"OutDate='{a.OutDate}', OutNO='{a.OutNO}' where PutLibraryId='{a.PutLibraryId}' ";
-            return DapperHelper.Execute(sql);
+            string sql = "SELECT * FROM OutLibrary a JOIN Warehouse b ON a.WarehouseId=b.WarehouseId JOIN Commodity c ON a.CommodityId = c.CommodityId";
+            return DapperHelper.GetList<IOT.Core.Model.OutLibrary>(sql);
         }
 
+        public int Update(Model.OutLibrary Model)
+        {
+            string sql = $"UPDATE OutLibrary SET WarehouseId={Model.WarehouseId},CommodityId={Model.CommodityId},GoodNum={Model.GoodNum},OutDate=NOW() WHERE PutLibraryId=({Model.PutLibraryId})";
+            return DapperHelper.Execute(sql);
+        }
     }
 }

@@ -28,5 +28,6 @@ namespace IOT.Core.Model
         public int PrintMode { get; set; }
         public int PrintStatus { get; set; }
         public int SelTimeStatus { get; set; }
+        public int Taketheir { get; set; }
     }
 }

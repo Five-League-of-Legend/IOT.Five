@@ -12,22 +12,26 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class WithdrawalController : ControllerBase
     {
-
-        // 依赖注入
         private readonly IWithdrawalRepository _withdrawalRepository;
-        public WithdrawalController(IWithdrawalRepository withdrawalRepository)
+        public WithdrawalController(IWithdrawalRepository  withdrawalRepository)
         {
-            _withdrawalRepository=withdrawalRepository;
+            _withdrawalRepository = withdrawalRepository;
         }
-
-        // 显示
-        [Route("/api/WithdrawalShow")]
         [HttpGet]
-        public IActionResult WithdrawalShow()
+        [Route("/api/GetWithdrawals")]
+        public IActionResult GetWithdrawals(string name="")
         {
-            var ls = _withdrawalRepository.ShowIWithdrawal();
-            return Ok(new { msg = "", code = 0, data = ls });
+            List<Model.Withdrawal> list = _withdrawalRepository.Query();
+            if (!string.IsNullOrEmpty(name))
+            {
+                list = list.Where(x => x.Mname.Contains(name)).ToList();
+            }
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = list
+            });
         }
-
     }
 }

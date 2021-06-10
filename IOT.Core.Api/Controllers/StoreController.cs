@@ -1,6 +1,7 @@
 ﻿using IOT.Core.IRepository.Store;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,45 +14,132 @@ namespace IOT.Core.Api.Controllers
     public class StoreController : ControllerBase
     {
 
-        // 依赖注入
-        private readonly IStoreRepository _Store;
-        public StoreController(IStoreRepository Store)
-        {
-            _Store = Store;
-        }
+        //实例化log
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        // 显示
-        [Route("/api/StoreShow")]
+        private readonly IStoreRepository _storeRepository;
+
+        public StoreController(IStoreRepository storeRepository)
+        {
+            _storeRepository = storeRepository;
+        }
+        //显示商品
+        [Route("/api/GetCommodity")]
         [HttpGet]
-        public IActionResult StoreShow()
+        public IActionResult GetCommodity(string ids)
         {
-            var ls = _Store.ShowStore();
-            return Ok(new { msg = "", code = 0, data = ls });
+            var list = _storeRepository.GetCommodities();
+            if (!string.IsNullOrEmpty(ids))
+            {
+                list = list.Where(x => x.CommodityId.ToString().Equals(ids) || x.CommodityName.Contains(ids)).ToList();
+            }
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = list
+            });
         }
 
-        //添加
-        [HttpPost]
-        [Route("/api/StoreAdd")]
-        public int StoreAdd(IOT.Core.Model.Store a)
+
+        //显示门店
+        [Route("/api/GetStores")]
+        [HttpGet]
+        public IActionResult GetStores()
         {
-            int i = _Store.AddStore(a);
+            var list = _storeRepository.GetStores();
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = list
+            });
+        }
+
+        [Route("/api/ShowStores")]
+        [HttpGet]
+        public IActionResult ShowStores(string address = "", string key = "")
+        {
+            var list = _storeRepository.GetStores(address, key);
+            return Ok(list);
+        }
+        [Route("/api/GetStoresFan")]
+        [HttpGet]
+        public IActionResult GetStoresFan(int id)
+        {
+            var list = _storeRepository.GetStoresFan(id);
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = list
+            });
+        }
+        //删除商品
+        [HttpDelete]
+        [Route("/api/DelCom")]
+
+        public int DelCom(int ids)
+        {
+            logger.Debug($"用户删除了商品表信息,删除的商品的ID为:{ids}");
+            int i = _storeRepository.DelCom(ids);
+            return i;
+        }
+        //删除门店
+        [HttpDelete]
+        [Route("/api/DelStore")]
+
+        public int DelStore(int ids)
+        {
+            logger.Debug($"用户删除了门店表信息,删除的门店的ID为:{ids}");
+            int i = _storeRepository.DelStore(ids);
             return i;
         }
 
-        //删除
+
+        //添加门店
         [HttpPost]
-        [Route("/api/StoreDel")]
-        public int StoreDel(string ids)
+        [Route("/api/InsertStore")]
+
+        public int InsertStore([FromForm] Model.Store Model)
         {
-            return _Store.DelStore(ids);
+            logger.Debug($"用户添加了门店表信息,添加的门店的名称为:{Model.MName}");
+            int i = _storeRepository.InsertStore(Model);
+            return i;
         }
 
-        //修改
+        //修改门店
         [HttpPost]
-        [Route("/api/StoreUpt")]
-        public int StoreUpt(IOT.Core.Model.Store a)
+        [Route("/api/UptStore")]
+        public int UptStore([FromForm] Model.Store Model)
         {
-            return _Store.UptStore(a);
+            logger.Debug($"用户修改了门店表信息,修改的门店的名称为:{Model.MName}");
+            int i = _storeRepository.UptStore(Model);
+            return i;
+        }
+
+        /// <summary>
+        /// 修改商品状态
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("/api/UptCom")]
+        public int UptCom(int cid)
+        {
+            logger.Debug($"用户修改了商品表状态,修改的商品的ID为:{cid}");
+            int i = _storeRepository.UptCom(cid);
+            return i;
+        }
+
+        [HttpPost]
+        [Route("/api/UptStoreState")]
+
+        public int UptStoreState(int id)
+        {
+            logger.Debug($"用户修改了门店表状态,修改的门店的ID为:{id}");
+            int i = _storeRepository.UptStoreState(id);
+            return i;
         }
 
     }
