@@ -1,6 +1,7 @@
 ﻿using IOT.Core.IRepository.NowRep;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,31 +13,43 @@ namespace IOT.Core.Api.Controllers
     [ApiController]
     public class NowRepController : ControllerBase
     {
-        // 依赖注入
-        private readonly INowRepRepository _nowrep;
+        //实例化log
+        Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public NowRepController(INowRepRepository nowrep)
+        private readonly INowRepRepository _nowRepRepository;
+        public NowRepController(INowRepRepository nowRepRepository)
         {
-            _nowrep = nowrep;
+            _nowRepRepository = nowRepRepository;
         }
 
-        //显示
-        [Route("/api/NowRepShow")]
         [HttpGet]
-        public IActionResult NowRepShow(string wname = "")
+        [Route("/api/ShowNowRep")]
+        public IActionResult ShowNowRep(string commodityname, string warehousename)
         {
-            var ls = _nowrep.ShowNowRep();
-            if (!string.IsNullOrEmpty(wname))
-                ls = ls.Where(os => os.WarehouseName.Contains(wname)).ToList();
-            return Ok(new { msg = "", code = 0, data = ls });
+            List<IOT.Core.Model.NowRep> ln = _nowRepRepository.Query();
+            if (!string.IsNullOrEmpty(commodityname))
+            {
+                ln = ln.Where(x => x.CommodityName.Contains(commodityname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(warehousename))
+            {
+                ln = ln.Where(x => x.WarehouseName.Contains(warehousename)).ToList();
+            }
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = ln
+            });
         }
 
-        //删除
-        [HttpPost]
-        [Route("/api/NowRepDel")]
-        public int NowRepDel(string ids)
+        [HttpDelete]
+        [Route("/api/DelNowRep")]
+        public int DelNowRep(string ids)
         {
-            return _nowrep.DelNowRep(ids);
+            logger.Debug($"用户删除了现有库存表信息,删除现有库存的ID为:{ids}");
+            int i = _nowRepRepository.Delete(ids);
+            return i;
         }
 
     }

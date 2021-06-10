@@ -12,16 +12,8 @@ namespace IOT.Core.IRepository.Store_Configuration
     public interface IStore_ConfigurationRepository
     {
 
-        //添加
-        int AddStore_Config(IOT.Core.Model.Store_Configuration a);
 
-        //显示
-        List<IOT.Core.Model.Store_Configuration> ShowStore_Config();
-
-        //修改
-        int UptStore_Config(IOT.Core.Model.Store_Configuration a);
-
-        // 上传图片
+        int InsertPic(IOT.Core.Model.Store_Configuration Model);
 
 
     }

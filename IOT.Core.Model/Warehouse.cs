@@ -11,12 +11,12 @@ namespace IOT.Core.Model
     /// </summary>
     public class Warehouse
     {
-        public int WarehouseId         { get; set; }
-        public string  WarehouseName       { get; set; }
-        public string WarehouseSite       { get; set; }
+        public int WarehouseId { get; set; }
+        public string WarehouseName { get; set; }
+        public string WarehouseSite { get; set; }
         public string WarehouseCoordinate { get; set; }
-        public int WarehouseNum        { get; set; }
+        public int WarehouseNum { get; set; }
         public string WarehouseState { get; set; }
-       
+
     }
 }

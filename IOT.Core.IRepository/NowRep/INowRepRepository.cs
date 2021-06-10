@@ -8,10 +8,7 @@ namespace IOT.Core.IRepository.NowRep
 {
     public interface INowRepRepository
     {
-        // 显示
-        List<IOT.Core.Model.NowRep> ShowNowRep();
-
-        // 删除
-        int DelNowRep(string id);
+        int Delete(string ids);
+        List<IOT.Core.Model.NowRep> Query();
     }
 }

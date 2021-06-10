@@ -9,8 +9,9 @@ namespace IOT.Core.IRepository.PayStore
     public interface IPayStoreRepository
     {
 
-        //显示
-        List<IOT.Core.Model.PayStore> ShowIPayStore();
+        int UptWhether();
+        int UptCollection();
+        List<IOT.Core.Model.PayStore> GetPayStores();
 
     }
 }

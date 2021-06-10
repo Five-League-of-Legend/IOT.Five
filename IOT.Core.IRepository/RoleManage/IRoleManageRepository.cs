@@ -8,6 +8,10 @@ namespace IOT.Core.IRepository.RoleManage
 {
     public interface IRoleManageRepository
     {
-        int AddRoleManage(IOT.Core.Model.RoleManage a);
+        int Update(IOT.Core.Model.PutLibrary Model);
+        int Delete(string ids);
+        int Insert(IOT.Core.Model.PutLibrary Model);
+        List<IOT.Core.Model.PutLibrary> Query();
+        int AddRoleManage(Model.RoleManage a);
     }
 }

@@ -13,45 +13,69 @@ namespace IOT.Core.Api.Controllers
     public class WarehouseController : ControllerBase
     {
 
-        // 依赖注入
-        private readonly IWarehouseRepository _warehouse;
-        public WarehouseController(IWarehouseRepository warehouse)
+        private readonly IWarehouseRepository _warehouseRepository;
+
+        public WarehouseController(IWarehouseRepository warehouseRepository)
         {
-            _warehouse = warehouse;
+            _warehouseRepository = warehouseRepository;
         }
 
-        // 显示
-        [Route("/api/WarehouseShow")]
         [HttpGet]
-        public IActionResult WarehouseShow()
+        [Route("/api/ShowWarehouse")]
+        public IActionResult ShowWarehouse()
         {
-            var ls = _warehouse.ShowWarehouse();
-            return Ok(new { msg = "", code = 0, data = ls });
+            List<Model.Warehouse> lw = _warehouseRepository.Query();
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = lw
+            });
         }
 
-        //添加
         [HttpPost]
-        [Route("/api/WarehouseAdd")]
-        public int WarehouseAdd(IOT.Core.Model.Warehouse a)
+        [Route("/api/AddWarehouse")]
+        public int AddWarehouse([FromForm] IOT.Core.Model.Warehouse warehouse)
         {
-            int i = _warehouse.AddWarehouse(a);
+            int i = _warehouseRepository.Insert(warehouse);
+            return i;
+        }
+        [HttpDelete]
+        [Route("/api/DelWarehouse")]
+        public int DelWarehouse(string ids)
+        {
+            int i = _warehouseRepository.Delete(ids);
+            return i;
+        }
+        [HttpPost]
+        [Route("/api/UptWarehouse")]
+        public int UptWarehouse([FromForm] IOT.Core.Model.Warehouse warehouse)
+        {
+            int i = _warehouseRepository.Update(warehouse);
             return i;
         }
 
-        //删除
-        [HttpPost]
-        [Route("/api/WarehouseDel")]
-        public int WarehouseDel(string ids)
+        [HttpPut]
+        [Route("/api/UptWarehouseState")]
+        public int UptWarehouseState(int id)
         {
-            return _warehouse.DelWarehouse(ids);
+            int i = _warehouseRepository.UptState(id);
+            return i;
         }
 
-        //修改
-        [HttpPost]
-        [Route("/api/WarehouseUpt")]
-        public int WarehouseUpt(IOT.Core.Model.Warehouse a)
+        [HttpGet]
+        [Route("/api/FtWarehouse")]
+        public IActionResult FtWarehouse(int id)
         {
-            return _warehouse.UptWarehouse(a);
+            List<IOT.Core.Model.Warehouse> lw = _warehouseRepository.Query();
+            IOT.Core.Model.Warehouse warehouse = lw.FirstOrDefault(x => x.WarehouseId.Equals(id));
+            return Ok(new
+            {
+                msg = "",
+                code = 0,
+                data = warehouse
+            });
+
         }
 
     }

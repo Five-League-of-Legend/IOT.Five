@@ -12,7 +12,7 @@ namespace IOT.Core.Common
     {
         /// <summary>
         /// 获取数据
-        /// </summary>
+        /// MySql.Data.MySqlClient.MySqlException:“Unknown column 'a.WarehouseId' in 'field list'”</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
         /// <returns></returns>

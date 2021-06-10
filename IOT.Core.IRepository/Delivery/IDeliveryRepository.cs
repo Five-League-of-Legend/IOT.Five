@@ -9,14 +9,10 @@ namespace IOT.Core.IRepository.Delivery
     public interface IDeliveryRepository
     {
 
-        // 显示
-        List<IOT.Core.Model.Delivery> ShowDelivery();
-
-        // 删除
-        int DelDelivery(string id);
-
-        // 修改
-        int UptDelivery(IOT.Core.Model.Delivery a);
+        int Update(IOT.Core.Model.Delivery Model);
+        int Delete(string ids);
+        int Insert(IOT.Core.Model.Delivery Model);
+        List<IOT.Core.Model.Delivery> Query();
 
     }
 }
