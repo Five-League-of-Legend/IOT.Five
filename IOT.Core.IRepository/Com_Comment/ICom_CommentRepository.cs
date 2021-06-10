@@ -12,6 +12,6 @@ namespace IOT.Core.IRepository.Com_Comment
         int Delete(string ids);
 
         int Insert(Model.Com_Comment Model);
-        List<Model.Com_Comment> Query(string commentcontent = "", int commodityid = 0, int userid = 0);
+        List<Model.Com_Comment> Query(string commentcontent = "", int commodityid = 0, int userid = 0,int page=1,string sdate="");
     }
 }
