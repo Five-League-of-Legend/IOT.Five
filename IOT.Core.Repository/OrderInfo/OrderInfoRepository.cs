@@ -125,7 +125,7 @@ namespace IOT.Core.Repository.OrderInfo
         {
             try
             {
-                string sql = $" update orderInfo set CommodityId={a.CommodityId},UserId={a.UserId},SendWay={a.SendWay},OrderState={a.OrderState},Remark='{a.Remark}',CommodityPrice={a.CommodityPrice},DistributionCosts={a.DistributionCosts},OrderPrice={a.OrderPrice},CouponPrice={a.CouponPrice},AmountPaid={a.AmountPaid},StartTime='{a.StartTime}' where Orderid = {a.Orderid} ";
+                string sql = $" update orderInfo set CommodityId={a.CommodityId},UserId={a.UserId},SendWay={a.SendWay},OrderState={a.OrderState},Remark='{a.Remark}',CommodityPrice={a.CommodityPrice},DistributionCosts={a.DistributionCosts},OrderPrice={a.OrderPrice},CouponPrice={a.CouponPrice},AmountPaid={a.AmountPaid},StartTime='{a.StartTime}',Taketheir='{a.Taketheir}' where Orderid = {a.Orderid} ";
                 return DapperHelper.Execute(sql);
             }
             catch (Exception)
